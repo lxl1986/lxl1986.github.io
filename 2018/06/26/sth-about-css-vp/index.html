@@ -16,7 +16,7 @@
 <meta property="og:description" content="something about css viewportpage 11.jpg 我还用尺子量了，宽度≈400mm，高度≈250mm；最佳分辨率1440*900；点距≈0.2778mm。然后，设置不同的分辨率，用GetDeviceCaps获得了令人费解的宽度以及高度，单位肯定不是mm了。不知道Windows操作系统搞得什么鬼？（显示器很老了，系统是XP，别打我） page 22.jpg 使用 400">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/pixel1.png">
-<meta property="og:updated_time" content="2018-06-29T09:37:44.794Z">
+<meta property="og:updated_time" content="2018-07-02T00:47:29.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sth-about-css-vp">
 <meta name="twitter:description" content="something about css viewportpage 11.jpg 我还用尺子量了，宽度≈400mm，高度≈250mm；最佳分辨率1440*900；点距≈0.2778mm。然后，设置不同的分辨率，用GetDeviceCaps获得了令人费解的宽度以及高度，单位肯定不是mm了。不知道Windows操作系统搞得什么鬼？（显示器很老了，系统是XP，别打我） page 22.jpg 使用 400">
@@ -158,13 +158,13 @@
 <h3 id="page-9"><a href="#page-9" class="headerlink" title="page 9"></a>page 9</h3><a href="https://github.com/lxl1986/article1/blob/master/images/9.jpg" target="_blank" rel="noopener">9.jpg</a>
 <p>只是一个思路而已，这里说得也不是很清楚。当然也有错误，FF screen.width，Chrome screen.width获得的值，指的就是不同的对象。FF s.w指的是dip（随着缩放，dpr改变，而疯狂改变，当然dpr有上下限）；Chrome s.w指的是Pixel，也就是分辨率中的w。<br>PC端缩放，dpr都会变。而手机端即使缩放，dpr固定不变。（并未验证所有浏览器。不过我自己手头的模型都是这样。不排除其他模型存在。）</p>
 <h3 id="page-10"><a href="#page-10" class="headerlink" title="page 10"></a>page 10</h3><a href="https://github.com/lxl1986/article1/blob/master/images/10.jpg" target="_blank" rel="noopener">10.jpg</a>
-<p><strong>viewport ☞ <acronym title="Initial Containing Block">ICB</acronym> ☞ canvas ☞ viewport</strong><br>这就是我们渲染页面的大概过程。（细节我也不懂，也看不懂浏览器源代码，不知道怎么具体计算，用了什么MapMode……）<br>PC端viewport拉拉扯扯都变了，手机端独占屏幕（除去菜单部分）（反正我是拉不动）。<br>viewport除了看，主要还是为ICB提供初始值。PC端一般尺寸一样大。移动端如果没有 <meta viewport="">，也没有@viewport，vendor会提供一个固定值。<br>（<del>我觉得initial viewport就是看的，actual viewport控制ICB的。</del>）</p>
+<p><strong>viewport ☞ <acronym title="Initial Containing Block">ICB</acronym> ☞ canvas ☞ viewport</strong><br>这就是我们渲染页面的大概过程。（细节我也不懂，也看不懂浏览器源代码，不知道怎么具体计算，用了什么MapMode……）<br>PC端viewport拉拉扯扯都变了，手机端独占屏幕（除去菜单部分）（反正我是拉不动）。<br>viewport除了看，主要还是为ICB提供初始值。PC端一般尺寸一样大。移动端如果没有 &lt;meta viewport&gt;，也没有@viewport，vendor会提供一个固定值。<br>（<del>我觉得initial viewport就是看的，actual viewport控制ICB的。</del>）</p>
 <h3 id="page-11"><a href="#page-11" class="headerlink" title="page 11"></a>page 11</h3><a href="https://github.com/lxl1986/article1/blob/master/images/11.jpg" target="_blank" rel="noopener">11.jpg</a>
 <p>这里的测试，不严谨。结论也有待商榷。<br>不过可以看出来，我们从网页用<em>JavaScript代码</em>获得的单位是 <strong><em>dip</em></strong>。<br>而且我们有viewport，有ICB，有canvas，渲染网页应该足够了。<em>（layout viewport，visual viewport，ideal viewport 不知道干啥的？）</em><br>（<del>PC端IE对viewport的支持，也是测试头疼。</del>）</p>
 <h3 id="page-12"><a href="#page-12" class="headerlink" title="page 12"></a>page 12</h3><a href="https://github.com/lxl1986/article1/blob/master/images/12.jpg" target="_blank" rel="noopener">12.jpg</a>
 <p>我手机测试的情况，我都无法理解。alert出来的d.d.cw，居然和document.write出来的不一样。<br>不过我还是坚持，VP不变，DPR不变，ICB由你通过（@viewport 或者 meta）设置。<br>至于1cm在代码里，在屏幕，在纸上……怎么映射，我也不知道。我想很多年前，你在css中写下<strong>1px</strong>的时候，它就表示显示器上的<strong>1Pixel</strong>吧。</p>
 <h3 id="page-A"><a href="#page-A" class="headerlink" title="page A"></a>page A</h3><a href="https://github.com/lxl1986/article1/blob/master/images/A.jpg" target="_blank" rel="noopener">A.jpg</a>
-<p>显示器(AOC E2270Sw)，windows 7。网上复制代码测试，还是一头雾水。所以自己搞了一堆单位 <em>mm，mm’，mm’’’，mm’’’’</em><br><strong>当然 mm 人家是正统的宇宙单位</strong></p>
+<p>显示器(AOC E2270Sw)，windows 7。网上复制代码测试，还是一头雾水。所以自己搞了一堆单位 <em>mm，mm’，mm’’’，mm’’’’</em><br><strong>当然 mm 人家是正统的宇宙级长度单位</strong></p>
 <h3 id="page-B"><a href="#page-B" class="headerlink" title="page B"></a>page B</h3><a href="https://github.com/lxl1986/article1/blob/master/images/B.jpg" target="_blank" rel="noopener">B.jpg</a>
 <p><a href="https://www.w3.org/TR/CSS2/" target="_blank" rel="noopener">CSS 2.1</a>，<a href="https://www.w3.org/TR/css-device-adapt/" target="_blank" rel="noopener">DAM L1</a> 抄袭而来。</p>
 <h3 id="page-C"><a href="#page-C" class="headerlink" title="page C"></a>page C</h3><a href="https://github.com/lxl1986/article1/blob/master/images/C.jpg" target="_blank" rel="noopener">C.jpg</a>
@@ -181,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjizsbabg00087sv94bzc8z61" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjj3jpka40001mcv9434ijpfd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
