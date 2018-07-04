@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/04/css-selector-thing/dom-tree.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/04/css-selector-thing/Annotated-tree.png">
-<meta property="og:updated_time" content="2018-07-04T09:38:15.867Z">
+<meta property="og:updated_time" content="2018-07-04T09:42:00.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="css-selector-thing">
 <meta name="twitter:description" content="为什么CSS选择器是从右往左解析？，突然看到这个题目。只是觉得，有蹊跷。(有看过浏览器源代码的同学请指教)。下面自己理一理这个问题。 20180704.html123456789101112131415161718192021222324&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;    &amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;">
@@ -103,6 +103,9 @@
 <p>看图，我也不说啥了。</p>
 <h2 id="the-Document-tree"><a href="#the-Document-tree" class="headerlink" title="the Document tree"></a>the Document tree</h2><img src="/2018/07/04/css-selector-thing/dom-tree.png" title="DOM TREE">
 <p>我们看一下 <strong>CSS2.1</strong> <em>2.3 The CSS 2.1 processing model</em> 第4小条， <strong>Annotate</strong>。</p>
+<blockquote>
+<p>Annotate every element of the document tree by assigning a single value to every<br>property that is applicable to the target media type.</p>
+</blockquote>
 <h2 id="the-annotated-document-tree"><a href="#the-annotated-document-tree" class="headerlink" title="the annotated document tree"></a>the annotated document tree</h2><img src="/2018/07/04/css-selector-thing/Annotated-tree.png" title="ANNOTATED TREE">
 <p>好了，就先到这里。（我们只考虑我们自己写的样式）问题是 <strong>怎么得到这 annotated tree</strong></p>
 <h3 id="第一种办法"><a href="#第一种办法" class="headerlink" title="第一种办法"></a>第一种办法</h3><p>从dom中取一个节点，然后拿这个节点去cssRules匹配。举几个栗子。</p>
@@ -141,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjj6udw760002yov9rou01eaw" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjj6xo23d0000esv93ghrngtv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
