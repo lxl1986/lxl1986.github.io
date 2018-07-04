@@ -5,19 +5,22 @@
   
 
   
-  <title>Archives | Just Blog</title>
+  <title>var | Just Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="None">
-<meta name="keywords" content="None">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Just Blog">
-<meta property="og:url" content="https://lxl1986.github.io/archives/index.html">
+  <meta name="description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是 this.var2，（And what is this ?）  再抄点东西吧A">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="var">
+<meta property="og:url" content="https://lxl1986.github.io/2018/07/04/var/index.html">
 <meta property="og:site_name" content="Just Blog">
-<meta property="og:description" content="None">
+<meta property="og:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是 this.var2，（And what is this ?）  再抄点东西吧A">
 <meta property="og:locale" content="zh">
+<meta property="og:image" content="https://lxl1986.github.io/2018/07/04/var/var.png">
+<meta property="og:updated_time" content="2018-07-04T04:18:42.667Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Just Blog">
-<meta name="twitter:description" content="None">
+<meta name="twitter:title" content="var">
+<meta name="twitter:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是 this.var2，（And what is this ?）  再抄点东西吧A">
+<meta name="twitter:image" content="https://lxl1986.github.io/2018/07/04/var/var.png">
   
     <link rel="alternate" href="/atom.xml" title="Just Blog" type="application/atom+xml">
   
@@ -70,97 +73,68 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/07/04/var/" class="archive-article-date">
-  <time datetime="2018-07-04T04:02:12.000Z" itemprop="datePublished">Jul 4</time>
+        <section id="main"><article id="post-var" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/04/var/" class="article-date">
+  <time datetime="2018-07-04T04:02:12.000Z" itemprop="datePublished">2018-07-04</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/04/var/">var</a>
+    <h1 class="article-title" itemprop="name">
+      var
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-false">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/06/27/height-thing/" class="archive-article-date">
-  <time datetime="2018-06-27T01:33:15.000Z" itemprop="datePublished">Jun 27</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/27/height-thing/">height-thing</a>
-    </h1>
-  
+        <h2 id="有没有var有什么区别？"><a href="#有没有var有什么区别？" class="headerlink" title="有没有var有什么区别？"></a>有没有var有什么区别？</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="string">"var1111"</span>;</span><br><span class="line"><span class="keyword">var</span> var2 = <span class="string">"var2222"</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>这是第一个区别</p>
+<img src="/2018/07/04/var/var.png" title="Object.getOwnPropertyDescriptor">
+<p>所以，你可以 delete var1。</p>
+</li>
+<li><p>第二个区别</p>
+</li>
+</ol>
+<ul>
+<li>var1 实际是 Host.var1 (浏览器中，HOST就是<em>window</em>；node中，HOST就是<em>global</em>)</li>
+<li>var2 实际是 this.var2，（And what is <strong>this</strong> ?）</li>
+</ul>
+<p>再抄点东西吧<br><blockquote><p>A <strong><em>var</em></strong> statement declares variables that are scoped to the running execution context’s VariableEnvironment.</p>
+<footer><strong>+,-</strong><cite><a href="http://www.ecma-international.org/ecma-262/9.0/index.html#sec-variable-statement" target="_blank" rel="noopener">13.3.2Variable Statement</a></cite></footer></blockquote></p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/06/26/sth-about-css-vp/" class="archive-article-date">
-  <time datetime="2018-06-26T04:30:50.000Z" itemprop="datePublished">Jun 26</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/26/sth-about-css-vp/">sth-about-css-vp</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/06/25/hello-world/" class="archive-article-date">
-  <time datetime="2018-06-25T10:38:32.902Z" itemprop="datePublished">Jun 25</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6lt8br00059ov91x0zosnq" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/25/hello-world/">Hello World</a>
-    </h1>
-  
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/06/27/height-thing/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">height-thing</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
