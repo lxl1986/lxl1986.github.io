@@ -115,7 +115,7 @@
 </ol>
 <h3 id="第二种办法"><a href="#第二种办法" class="headerlink" title="第二种办法"></a>第二种办法</h3><p>我们拿一个cssRule，去dom中匹配。试一试。</p>
 <ol>
-<li>拿到 <code>p {text-decoration: underline;}</code>，那好，dom那么多 <code>p</code>，全给标记上。</li>
+<li>拿到 <code>p {text-decoration: underline;}</code>，那好，dom中那么多 <code>p</code>，全给标记上。</li>
 <li>拿到 <code>.one [data-weather=&quot;rain&quot;] span {color: brown;}</code>，找到，标记上。</li>
 <li>拿到 <code>.one .two .three {font-size: 250in;}</code>，没找到，对不起。</li>
 </ol>
@@ -136,13 +136,13 @@
 <li>rtl：没有 <code>.three</code>，不存在。</li>
 </ul>
 <p><strong>找到</strong>，我们上面用了这个词。怎么找到？我们的栗子简化多了。一般都是遍历dom返回一组节点。比如找到了一组 <code>span</code>，然后用限制条件，把不合格的剔除出去。这个简单的栗子中，rtl显然比ltr要快，rtl第一步就找到<em>嫌疑节点</em>（不过看看 <code>.three .two .one</code>，ltr第一步就排除，rtl开始还以为找到了。但这仅仅是我们构造的一个不寻常规则。<strong>杠</strong>）。复杂的情况下，节点，cssRules数量很大。rtl会具有更大的优势。</p>
-<p>我们回头再看<code>.one [data-weather=&quot;rain&quot;] span {color: brown;}</code>，<code>.one .two .three {font-size: 250in;}</code>，为什么从右边开始？因为我本来就是要找 <code>span</code>， <code>.three</code>，它们自身就处于右边（当然，还要满足前面的限制条件）。浏览器也是用从右向左这个策略。浏览器还提供了几个常用的API：document.querySelector，document.querySelectorAll。比如<code>document.querySelector(&#39;.one [data-weather=&quot;rain&quot;] span&#39;)</code>我们就能轻易的找到 <code>&lt;span&gt;雨&lt;/span&gt;</code>所代表的节点。</p>
+<p>我们回头再看<code>.one [data-weather=&quot;rain&quot;] span {color: brown;}</code>，<code>.one .two .three {font-size: 250in;}</code>，为什么从右边开始？因为我本来就是要找 <code>span</code>， <code>.three</code>，它们自身就处于右边（当然，还要进行过滤，满足前面的限制条件）。浏览器也是用从右向左这个策略。浏览器还提供了几个常用的API：document.querySelector，document.querySelectorAll。比如<code>document.querySelector(&#39;.one [data-weather=&quot;rain&quot;] span&#39;)</code>我们就能轻易的找到 <code>&lt;span&gt;雨&lt;/span&gt;</code>所代表的节点。</p>
 <p>这也就是用一个selector，怎么找到匹配的节点。<a href="https://sizzlejs.com" target="_blank" rel="noopener">Sizzle</a> 就是干这个事情的（<em>没用过，没看过，听别人说的</em>）。暂时，我觉得document.querySelector，document.querySelectorAll，document.getElement*，够用了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjj6xo23d0000esv93ghrngtv" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjj6xq4v60002a0v98uppv8oc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -195,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6xo23q0005esv98iak41g0" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6xq4vg0008a0v9r1qk7kjo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -234,7 +234,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjj6xo23j0001esv9sbyuoiny" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjj6xq4va0004a0v9dnbkloy7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -354,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjj6xo23p0004esv97af7okxr" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjj6xq4vf0007a0v9pmt0m7kr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -401,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjj6xo23n0003esv9yc866nkc" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjj6xq4vd0006a0v98mhmcbbv" class="article-share-link">Share</a>
       
       
     </footer>
