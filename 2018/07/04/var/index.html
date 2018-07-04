@@ -7,19 +7,19 @@
   
   <title>var | Just Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是 this.var2，（And what is this ?）  再抄点东西吧A">
+  <meta name="description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;; //make sure typeof var1 === &quot;undefined&quot;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="var">
 <meta property="og:url" content="https://lxl1986.github.io/2018/07/04/var/index.html">
 <meta property="og:site_name" content="Just Blog">
-<meta property="og:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是 this.var2，（And what is this ?）  再抄点东西吧A">
+<meta property="og:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;; //make sure typeof var1 === &quot;undefined&quot;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/04/var/var.png">
-<meta property="og:updated_time" content="2018-07-04T04:21:45.562Z">
+<meta property="og:updated_time" content="2018-07-04T07:00:26.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="var">
-<meta name="twitter:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是 this.var2，（And what is this ?）  再抄点东西吧A">
+<meta name="twitter:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;; //make sure typeof var1 === &quot;undefined&quot;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是">
 <meta name="twitter:image" content="https://lxl1986.github.io/2018/07/04/var/var.png">
   
     <link rel="alternate" href="/atom.xml" title="Just Blog" type="application/atom+xml">
@@ -95,7 +95,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="有没有var有什么区别？"><a href="#有没有var有什么区别？" class="headerlink" title="有没有var有什么区别？"></a>有没有var有什么区别？</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="string">"var1111"</span>;</span><br><span class="line"><span class="keyword">var</span> var2 = <span class="string">"var2222"</span>;</span><br></pre></td></tr></table></figure>
+        <h2 id="有没有var有什么区别？"><a href="#有没有var有什么区别？" class="headerlink" title="有没有var有什么区别？"></a>有没有var有什么区别？</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="string">"var1111"</span>; <span class="comment">//make sure typeof var1 === "undefined"</span></span><br><span class="line"><span class="keyword">var</span> var2 = <span class="string">"var2222"</span>;</span><br></pre></td></tr></table></figure>
 <ol>
 <li><p>这是第一个区别</p>
 <img src="/2018/07/04/var/var.png" title="Object.getOwnPropertyDescriptor">
@@ -114,7 +114,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6m8a3l0007dgv9e41xrun7" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6udw7f0006yov980vsa2ou" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -124,6 +124,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/07/04/css-selector-thing/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          css-selector-thing
+        
+      </div>
+    </a>
   
   
     <a href="/2018/06/27/height-thing/" id="article-nav-older" class="article-nav-link-wrap">
@@ -147,7 +156,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
     </div>
   </div>
 
@@ -157,7 +166,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a>
+      <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a>
     </div>
   </div>
 
@@ -177,6 +186,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/07/04/css-selector-thing/">css-selector-thing</a>
+          </li>
         
           <li>
             <a href="/2018/07/04/var/">var</a>
