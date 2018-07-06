@@ -142,7 +142,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjj6xq4v60002a0v98uppv8oc" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjj9c1zrd00025wv9g96ne6po" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -180,22 +180,26 @@
 <ol>
 <li><p>这是第一个区别</p>
 <img src="/2018/07/04/var/var.png" title="Object.getOwnPropertyDescriptor">
-<p>所以，你可以 delete var1。</p>
+<p>所以，你可以 <code>delete var1</code>。</p>
 </li>
 <li><p>第二个区别</p>
 </li>
 </ol>
 <ul>
 <li>var1 实际是 Host.var1 (浏览器中，HOST就是<em>window</em>；node中，HOST就是<em>global</em>)</li>
-<li>var2 实际是 this.var2，（And what is <strong>this</strong> ?）</li>
+<li>var2 实际是 VE.var2，（And what is <strong>VE</strong> ? 一个数据结构，此时是window，我很可能错了。感觉自己在放屁，<strong>TBC</strong>。）</li>
 </ul>
+<h2 id="看看-Object"><a href="#看看-Object" class="headerlink" title="看看 Object"></a>看看 Object</h2><img src="/2018/07/04/var/O.gOPD.png" title="window.Object descriptor">
+<p>（<em>this</em>，这里是 window。）</p>
+<img src="/2018/07/04/var/window.png" title="window properties">
+<p>所以，你可以 <code>delete Object</code>；在window中你也看不到 <code>Object</code>；对不起，我骗了你，在 <code>[default properties]</code>确实有 <code>Object</code>；其实是当我 <code>for (var p in window)</code>时，<code>p</code>不到<code>Object</code>。</p>
 <p>再抄点东西吧<br><blockquote><p>A <strong><em>var</em></strong> statement declares variables that are scoped to the running execution context’s VariableEnvironment.</p>
 <footer><strong>author, source</strong><cite><a href="http://www.ecma-international.org/ecma-262/9.0/index.html#sec-variable-statement" target="_blank" rel="noopener">13.3.2Variable Statement</a></cite></footer></blockquote></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6xq4vg0008a0v9r1qk7kjo" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj9c1zrr00055wv9i5wms8ur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -234,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjj6xq4va0004a0v9dnbkloy7" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjj9c1zqu00005wv9gx5m2cxb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -354,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjj6xq4vf0007a0v9pmt0m7kr" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjj9c1zsv000h5wv9e52q0lk7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -401,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjj6xq4vd0006a0v98mhmcbbv" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjj9c1zs000075wv92cmqfspk" class="article-share-link">Share</a>
       
       
     </footer>

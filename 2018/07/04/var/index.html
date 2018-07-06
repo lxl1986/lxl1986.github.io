@@ -16,7 +16,9 @@
 <meta property="og:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;; //make sure typeof var1 === &quot;undefined&quot;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/04/var/var.png">
-<meta property="og:updated_time" content="2018-07-04T07:00:26.564Z">
+<meta property="og:image" content="https://lxl1986.github.io/2018/07/04/var/O.gOPD.png">
+<meta property="og:image" content="https://lxl1986.github.io/2018/07/04/var/window.png">
+<meta property="og:updated_time" content="2018-07-06T02:20:02.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="var">
 <meta name="twitter:description" content="有没有var有什么区别？12var1 = &quot;var1111&quot;; //make sure typeof var1 === &quot;undefined&quot;var var2 = &quot;var2222&quot;;  这是第一个区别  所以，你可以 delete var1。  第二个区别    var1 实际是 Host.var1 (浏览器中，HOST就是window；node中，HOST就是global) var2 实际是">
@@ -99,22 +101,26 @@
 <ol>
 <li><p>这是第一个区别</p>
 <img src="/2018/07/04/var/var.png" title="Object.getOwnPropertyDescriptor">
-<p>所以，你可以 delete var1。</p>
+<p>所以，你可以 <code>delete var1</code>。</p>
 </li>
 <li><p>第二个区别</p>
 </li>
 </ol>
 <ul>
 <li>var1 实际是 Host.var1 (浏览器中，HOST就是<em>window</em>；node中，HOST就是<em>global</em>)</li>
-<li>var2 实际是 this.var2，（And what is <strong>this</strong> ?）</li>
+<li>var2 实际是 VE.var2，（And what is <strong>VE</strong> ? 一个数据结构，此时是window，我很可能错了。感觉自己在放屁，<strong>TBC</strong>。）</li>
 </ul>
+<h2 id="看看-Object"><a href="#看看-Object" class="headerlink" title="看看 Object"></a>看看 Object</h2><img src="/2018/07/04/var/O.gOPD.png" title="window.Object descriptor">
+<p>（<em>this</em>，这里是 window。）</p>
+<img src="/2018/07/04/var/window.png" title="window properties">
+<p>所以，你可以 <code>delete Object</code>；在window中你也看不到 <code>Object</code>；对不起，我骗了你，在 <code>[default properties]</code>确实有 <code>Object</code>；其实是当我 <code>for (var p in window)</code>时，<code>p</code>不到<code>Object</code>。</p>
 <p>再抄点东西吧<br><blockquote><p>A <strong><em>var</em></strong> statement declares variables that are scoped to the running execution context’s VariableEnvironment.</p>
 <footer><strong>author, source</strong><cite><a href="http://www.ecma-international.org/ecma-262/9.0/index.html#sec-variable-statement" target="_blank" rel="noopener">13.3.2Variable Statement</a></cite></footer></blockquote></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj6xq4vg0008a0v9r1qk7kjo" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjj9c1zrr00055wv9i5wms8ur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
