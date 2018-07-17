@@ -72,6 +72,90 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-JavaScript-prototype" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/17/JavaScript-prototype/" class="article-date">
+  <time datetime="2018-07-17T00:49:01.000Z" itemprop="datePublished">2018-07-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>►<a class="article-category-link" href="/categories/JavaScript/prototype/">prototype</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="先了解一点JavaScript知识"><a href="#先了解一点JavaScript知识" class="headerlink" title="先了解一点JavaScript知识"></a>先了解一点JavaScript知识</h2><ol>
+<li><p>ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).</p>
+</li>
+<li><p>ECMAScript is object-based: basic language and host facilities are provided by objects, and an ECMAScript program is a cluster of communicating objects. In ECMAScript, an object is a collection of zero or more properties each with attributes that determine how each property can be used—for example, when the Writable attribute for a property is set to false, any attempt by executed ECMAScript code to assign a different value to the property fails. Properties are containers that hold other objects, primitive values, or functions. A primitive value is a member of one of the following built-in types: Undefined, Null, Boolean, Number, String, and Symbol; an object is a member of the built-in type Object; and a function is a callable object. A function that is associated with an object via a property is called a method.</p>
+</li>
+<li><p>ECMAScript Language Type</p>
+</li>
+</ol>
+<ul>
+<li>The Undefined Type</li>
+<li>The Null Type</li>
+<li>The Boolean Type</li>
+<li>The String Type</li>
+<li>The Symbol Type</li>
+<li>The Number Type</li>
+<li>The Object Type<br>数据类型就这<em>七种</em>（早些时候没有 The Symbol Type，未来会不会加入其他Type？我说错了你可以来打我）。对我们来说，重要的是值（<strong>Value</strong>），比如undefined，null，true，false，”美女”，{老婆:false}，function 老婆 (many){return “2B”;}。</li>
+</ul>
+<p>举个栗子，<code>var b = &quot;呵呵&quot;; var bb = new String(&quot;别BB&quot;);</code></p>
+<ul>
+<li>b，它的值 <code>&quot;呵呵&quot;</code>，是字符串，The String Type。</li>
+<li>bb，它的值 <code>{...}</code>，是对象，The Object Type；但是呢，bb[0]=”别”，bb[1]=”B”，bb[2]=”B”，也就是说bb中的”别BB”是字符串，The String Type。</li>
+<li>new String中的String仅仅是constructor，和The String Type中的String没毛线关系。</li>
+<li>类型转换不小心就会发生，自己得注意到底是什么Type。</li>
+</ul>
+<h2 id="再说prototype"><a href="#再说prototype" class="headerlink" title="再说prototype"></a>再说prototype</h2><p>网上有张图，很牛逼。 <a href="http://www.mollypages.org/tutorials/js.mp" title="jsobj" target="_blank" rel="noopener">官方网址</a>，里面有大图，可以打印出来。</p>
+<img src="/2018/07/17/JavaScript-prototype/jsobj.jpg" title="jsobj">
+<h2 id="假定我们就运行下面的代码"><a href="#假定我们就运行下面的代码" class="headerlink" title="假定我们就运行下面的代码"></a>假定我们就运行下面的代码</h2><figure class="highlight plain"><figcaption><span>prototype</span><a href="http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html" target="_blank" rel="noopener">就用这位前辈的代码</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">    this.value = 42;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype = &#123;</span><br><span class="line">    method: function() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function Bar() &#123;&#125;</span><br><span class="line"></span><br><span class="line">Bar.prototype = new Foo();</span><br><span class="line">Bar.prototype.foo = &apos;Hello World&apos;;</span><br><span class="line"></span><br><span class="line">Bar.prototype.constructor = Bar;</span><br><span class="line"></span><br><span class="line">var test = new Bar();</span><br></pre></td></tr></table></figure>
+<ol>
+<li>我们处于 <strong>global-EC</strong>，初始化。</li>
+</ol>
+<img src="/2018/07/17/JavaScript-prototype/globalEC.png" title="globalEC">
+<p>图片虽然很丑陋，好歹也是自己画的。有些地方不准确，有些地方有错误。不要在意这些细节（当然也省略了巨多的细节），内存中的对象大概就是这种模样。一般JS引擎都提供了<code>__proto__</code>供大家调试代码。而这形成了一个链条，人称<strong>原型链</strong>。干啥用的？继承。也就是复用代码。</p>
+<ol start="2">
+<li>现在来执行代码。</li>
+</ol>
+<ul>
+<li>那就是执行第6行，改变了Foo.prototype。 没名字那儿，我就用???代替了。</li>
+</ul>
+<img src="/2018/07/17/JavaScript-prototype/globalEC1.png" title="globalEC1">
+<ul>
+<li>再来执行第12行代码。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjp1gjl00002sov9ztixffpo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-abstract-of-JavaScript" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/13/abstract-of-JavaScript/" class="article-date">
@@ -170,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjjo5h1ka000ngsv9ocygjy5e" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjjp1gjmk000usov9ix8bylda" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -211,7 +295,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjjo5h1ji0006gsv9y9x3lijg" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjjp1gjlb0008sov9v6q293zb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -293,7 +377,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjjo5h1j60002gsv97ri17zyu" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjjp1gjl30003sov9xfmizvym" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -350,7 +434,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjjo5h1jl0009gsv9ov7bk8bt" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjjp1gjlh000dsov97u2qlrgi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -389,7 +473,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjjo5h1jb0003gsv986qgid95" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjjp1gjl70005sov9ma8j1568" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -509,7 +593,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjjo5h1jj0007gsv9gnvpy41a" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjjp1gjle000bsov94cyfdqc3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -556,7 +640,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjjo5h1jg0005gsv910kzttog" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjjp1gjl90007sov94idgoi7o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -576,7 +660,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/execution-context/">execution context</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/execution-context/">execution context</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/prototype/">prototype</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -596,7 +680,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 10px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 10px;">不知所云</a>
     </div>
   </div>
 
@@ -618,6 +702,10 @@
       <ul>
         
           <li>
+            <a href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
+          </li>
+        
+          <li>
             <a href="/2018/07/13/abstract-of-JavaScript/">abstract-of-JavaScript-???</a>
           </li>
         
@@ -631,10 +719,6 @@
         
           <li>
             <a href="/2018/07/04/var/">var</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/27/height-thing/">height-thing</a>
           </li>
         
       </ul>
