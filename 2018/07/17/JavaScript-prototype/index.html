@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC3.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC4.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC5.png">
-<meta property="og:updated_time" content="2018-07-18T04:32:58.642Z">
+<meta property="og:updated_time" content="2018-07-18T04:37:26.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript-prototype">
 <meta name="twitter:description" content="先了解一点JavaScript知识（复制粘贴大法） ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language">
@@ -166,12 +166,13 @@
 <img src="/2018/07/17/JavaScript-prototype/globalEC5.png" title="globalEC5">
 <p>此时，<code>test.foo, test.value, test.constructor, test.method, test.hasOwnProperty</code>通过原型链都可以使用了。</p>
 <p>上篇文章<a href="/2018/07/13/abstract-of-JavaScript/" title="abstract">abstract</a>中，那时候我说 <strong>this</strong> 不重要。<strong>this</strong>是一个<em>keyword</em>，在<code>new Foo()</code>中的<code>this</code>和那时候的<strong>this</strong>用法完全不一样，这里的<code>this</code>和<code>Function.prototype.call, Function.prototype.apply</code>中一样，都是特别提供的。</p>
-<p>我们上面的图片，简化，只画出了<strong>global-EC</strong>，其他<strong>EC</strong>没画出来。不过可以看出来，如果我在其他<strong>EC</strong>中定义一个函数，返回此函数。然后我用一个变量接受，那么，虽然此时那个<strong>EC</strong>已经不存在，但是由于我用变量引用了此函数值，那么内存中还是存在这个函数对象，通过它的[[Scopes]]，也能访问消失的<strong>EC</strong>中定义的名字（比如变量名字，函数名字）。很多时候我们用的<br><code>(function shit(shit){...; return function (){...};}())</code><br>它运行产生一个<strong>EC</strong>，完了退出，但是我们如果在外环境引用了返回值，那么虽然此<strong>EC</strong>已退出，但是其中涉及的对象还是存在于内存中。</p>
+<p>我们上面的图片，简化，只画出了<strong>global-EC</strong>，其他<strong>EC</strong>没画出来。不过可以看出来，如果我在其他<strong>EC</strong>中定义一个函数，返回此函数。然后我用一个变量接受，那么，虽然此时那个<strong>EC</strong>已经不存在，但是由于我用变量引用了此函数值，那么内存中还是存在这个函数对象，通过它的[[Scopes]]，也能访问消失的<strong>EC</strong>中定义的名字（比如变量名字，函数名字）。很多时候我们用的<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">shit</span>(<span class="params">shit</span>)</span>&#123;...&#125;(<span class="built_in">window</span>))</span><br></pre></td></tr></table></figure></p>
+<p>它运行产生一个<strong>EC</strong>，完了退出，但是我们如果在外环境引用了返回值（比如传window进去，把新属性挂在上面），那么虽然此<strong>EC</strong>已退出，但是其中涉及的对象还是存在于内存中。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqmmfst0002i0v9nau6gg54" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqmyku700023cv9cr37x37l" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
