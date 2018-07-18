@@ -134,17 +134,32 @@
 <li>现在来执行代码。</li>
 </ol>
 <ul>
-<li>那就是执行第6行，改变了Foo.prototype。 没名字那儿，我就用???代替了。</li>
+<li>那就是执行第<em>5行</em>，改变了Foo.prototype。 没名字那儿，我就用???代替了。</li>
 </ul>
 <img src="/2018/07/17/JavaScript-prototype/globalEC1.png" title="globalEC1">
 <ul>
-<li>再来执行第12行代码。</li>
+<li>再来执行第<em>11行</em>代码。这个<code>new</code>先不考虑，这里会调用特定的方法，当然这里也会产生新的<strong>EC</strong>，并在在里面生成一个新的对象，这个新对象<code>{value: 42, __proto__: Foo.prototype}</code>。当退出这个<strong>EC</strong>后，我们<code>Bar.prototype</code>之前的样子应该是<code>{constructor: Bar, __proto__: Object.prototype}</code>，不过现在换人了；就像第<em>5行</em>那里一样，<code>Foo.prototype</code>的值也换人了。</li>
 </ul>
+<img src="/2018/07/17/JavaScript-prototype/globalEC2.png" title="globalEC2">
+<ul>
+<li>接着执行第<em>12行</em>代码。</li>
+</ul>
+<img src="/2018/07/17/JavaScript-prototype/globalEC3.png" title="globalEC3">
+<ul>
+<li>接着执行第<em>14行</em>代码。</li>
+</ul>
+<img src="/2018/07/17/JavaScript-prototype/globalEC4.png" title="globalEC4">
+<ul>
+<li>最后执行第<em>16行</em>代码。就像第<em>11行</em>，我们还是不考虑<code>new</code>，不考虑这个新的<strong>EC</strong>。现在<code>test</code>就不是<code>undefined</code>了。</li>
+</ul>
+<img src="/2018/07/17/JavaScript-prototype/globalEC5.png" title="globalEC5">
+<p>此时，<code>test.foo, test.value, test.constructor, test.method, test.hasOwnProperty</code>通过原型链都可以使用了。</p>
+<p>上篇文章<a href="/2018/07/13/abstract-of-JavaScript/" title="abstract">abstract</a>中，那时候我说 <strong>this</strong> 不重要。<strong>this</strong>是一个<em>keyword</em>，在<code>new Foo()</code>中的<code>this</code>和那时候的<strong>this</strong>用法完全不一样，这里的<code>this</code>和<code>Function.prototype.call, Function.prototype.apply</code>中一样，都是特别提供的。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjp1gjl00002sov9ztixffpo" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqfdqju0000x4v9bjvs3ght" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -254,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjjp1gjmk000usov9ix8bylda" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjjqfdqm0000tx4v9asjrr3nk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -295,7 +310,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjjp1gjlb0008sov9v6q293zb" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjjqfdqky000bx4v9wc5lggb8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -377,7 +392,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjjp1gjl30003sov9xfmizvym" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjjqfdql4000ex4v9umjtnbo3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -434,7 +449,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjjp1gjlh000dsov97u2qlrgi" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjjqfdqlc000hx4v99ni9ye2w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -473,7 +488,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjjp1gjl70005sov9ma8j1568" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjjqfdqkw0009x4v9rs3ghz9y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -593,7 +608,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjjp1gjle000bsov94cyfdqc3" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjjqfdql8000fx4v9npah5fzq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -640,7 +655,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjjp1gjl90007sov94idgoi7o" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjjqfdql1000dx4v9g7qcn81v" class="article-share-link">Share</a>
       
       
     </footer>
