@@ -7,13 +7,13 @@
   
   <title>JavaScript-prototype | Just Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="先了解一点JavaScript知识 ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language and host">
+  <meta name="description" content="先了解一点JavaScript知识（复制粘贴大法） ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript-prototype">
 <meta property="og:url" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/index.html">
 <meta property="og:site_name" content="Just Blog">
-<meta property="og:description" content="先了解一点JavaScript知识 ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language and host">
+<meta property="og:description" content="先了解一点JavaScript知识（复制粘贴大法） ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/jsobj.jpg">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC.png">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC3.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC4.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC5.png">
-<meta property="og:updated_time" content="2018-07-18T01:35:17.280Z">
+<meta property="og:updated_time" content="2018-07-18T04:32:58.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript-prototype">
-<meta name="twitter:description" content="先了解一点JavaScript知识 ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language and host">
+<meta name="twitter:description" content="先了解一点JavaScript知识（复制粘贴大法） ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language">
 <meta name="twitter:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/jsobj.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Just Blog" type="application/atom+xml">
@@ -105,13 +105,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="先了解一点JavaScript知识"><a href="#先了解一点JavaScript知识" class="headerlink" title="先了解一点JavaScript知识"></a>先了解一点JavaScript知识</h2><ol>
+        <h2 id="先了解一点JavaScript知识（复制粘贴大法）"><a href="#先了解一点JavaScript知识（复制粘贴大法）" class="headerlink" title="先了解一点JavaScript知识（复制粘贴大法）"></a>先了解一点JavaScript知识（复制粘贴大法）</h2><ol>
 <li><p>ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).</p>
 </li>
 <li><p>ECMAScript is object-based: basic language and host facilities are provided by objects, and an ECMAScript program is a cluster of communicating objects. In ECMAScript, an object is a collection of zero or more properties each with attributes that determine how each property can be used—for example, when the Writable attribute for a property is set to false, any attempt by executed ECMAScript code to assign a different value to the property fails. Properties are containers that hold other objects, primitive values, or functions. A primitive value is a member of one of the following built-in types: Undefined, Null, Boolean, Number, String, and Symbol; an object is a member of the built-in type Object; and a function is a callable object. A function that is associated with an object via a property is called a method.</p>
 </li>
-<li><p>ECMAScript Language Type</p>
+<li><p>Even though ECMAScript includes syntax for class definitions, ECMAScript objects are not fundamentally class-based such as those in C++, Smalltalk, or Java. Instead objects may be created in various ways including via a literal notation or via constructors which create objects and then execute code that initializes all or part of them by assigning initial values to their properties. Each constructor is a function that has a property named “prototype” that is used to implement prototype-based inheritance and shared properties. Objects are created by using constructors in new expressions; for example, new Date(2009, 11) creates a new Date object. Invoking a constructor without using new has consequences that depend on the constructor. For example, Date() produces a string representation of the current date and time rather than an object.</p>
 </li>
+</ol>
+<p>Every object created by a constructor has an implicit reference (called the object’s prototype) to the value of its constructor’s “prototype” property. Furthermore, a prototype may have a non-null implicit reference to its prototype, and so on; this is called the prototype chain. When a reference is made to a property in an object, that reference is to the property of that name in the first object in the prototype chain that contains a property of that name. In other words, first the object mentioned directly is examined for such a property; if that object contains the named property, that is the property to which the reference refers; if that object does not contain the named property, the prototype for that object is examined next; and so on.</p>
+<ol start="4">
+<li>ECMAScript Language Type</li>
 </ol>
 <ul>
 <li>The Undefined Type</li>
@@ -162,11 +166,12 @@
 <img src="/2018/07/17/JavaScript-prototype/globalEC5.png" title="globalEC5">
 <p>此时，<code>test.foo, test.value, test.constructor, test.method, test.hasOwnProperty</code>通过原型链都可以使用了。</p>
 <p>上篇文章<a href="/2018/07/13/abstract-of-JavaScript/" title="abstract">abstract</a>中，那时候我说 <strong>this</strong> 不重要。<strong>this</strong>是一个<em>keyword</em>，在<code>new Foo()</code>中的<code>this</code>和那时候的<strong>this</strong>用法完全不一样，这里的<code>this</code>和<code>Function.prototype.call, Function.prototype.apply</code>中一样，都是特别提供的。</p>
+<p>我们上面的图片，简化，只画出了<strong>global-EC</strong>，其他<strong>EC</strong>没画出来。不过可以看出来，如果我在其他<strong>EC</strong>中定义一个函数，返回此函数。然后我用一个变量接受，那么，虽然此时那个<strong>EC</strong>已经不存在，但是由于我用变量引用了此函数值，那么内存中还是存在这个函数对象，通过它的[[Scopes]]，也能访问消失的<strong>EC</strong>中定义的名字（比如变量名字，函数名字）。很多时候我们用的<br><code>(function shit(shit){...; return function (){...};}())</code><br>它运行产生一个<strong>EC</strong>，完了退出，但是我们如果在外环境引用了返回值，那么虽然此<strong>EC</strong>已退出，但是其中涉及的对象还是存在于内存中。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqfdqju0000x4v9bjvs3ght" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqmmfst0002i0v9nau6gg54" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
