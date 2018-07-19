@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC3.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC4.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/globalEC5.png">
-<meta property="og:updated_time" content="2018-07-18T04:37:26.378Z">
+<meta property="og:updated_time" content="2018-07-19T07:48:32.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript-prototype">
 <meta name="twitter:description" content="先了解一点JavaScript知识（复制粘贴大法） ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).  ECMAScript is object-based: basic language">
@@ -135,6 +135,7 @@
 </ul>
 <h2 id="再说prototype"><a href="#再说prototype" class="headerlink" title="再说prototype"></a>再说prototype</h2><p>网上有张图，很牛逼。 <a href="http://www.mollypages.org/tutorials/js.mp" title="jsobj" target="_blank" rel="noopener">官方网址</a>，里面有大图，可以打印出来。</p>
 <img src="/2018/07/17/JavaScript-prototype/jsobj.jpg" title="jsobj">
+<p><strong>为毛是这种关系？ <code>typeof Function.prototype === &quot;function&quot;</code>，这又是为毛？</strong></p>
 <h2 id="假定我们就运行下面的代码"><a href="#假定我们就运行下面的代码" class="headerlink" title="假定我们就运行下面的代码"></a>假定我们就运行下面的代码</h2><figure class="highlight plain"><figcaption><span>prototype</span><a href="http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html" target="_blank" rel="noopener">就用这位前辈的代码</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">    this.value = 42;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype = &#123;</span><br><span class="line">    method: function() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function Bar() &#123;&#125;</span><br><span class="line"></span><br><span class="line">Bar.prototype = new Foo();</span><br><span class="line">Bar.prototype.foo = &apos;Hello World&apos;;</span><br><span class="line"></span><br><span class="line">Bar.prototype.constructor = Bar;</span><br><span class="line"></span><br><span class="line">var test = new Bar();</span><br></pre></td></tr></table></figure>
 <ol>
 <li>我们处于 <strong>global-EC</strong>，初始化。</li>
@@ -172,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqmyku700023cv9cr37x37l" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjs76ohu000ebwv9p9g94z3n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -182,6 +183,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/07/19/runtime-JavaScript/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          runtime-JavaScript
+        
+      </div>
+    </a>
   
   
     <a href="/2018/07/13/abstract-of-JavaScript/" id="article-nav-older" class="article-nav-link-wrap">
@@ -222,7 +232,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 10px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 15px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 10px;">不知所云</a>
     </div>
   </div>
 
@@ -244,6 +254,10 @@
       <ul>
         
           <li>
+            <a href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
+          </li>
+        
+          <li>
             <a href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
           </li>
         
@@ -257,10 +271,6 @@
         
           <li>
             <a href="/2018/07/04/css-selector-thing/">css-selector-thing</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/04/var/">var</a>
           </li>
         
       </ul>

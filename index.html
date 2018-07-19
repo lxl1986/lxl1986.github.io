@@ -72,6 +72,67 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-runtime-JavaScript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/19/runtime-JavaScript/" class="article-date">
+  <time datetime="2018-07-19T06:49:22.000Z" itemprop="datePublished">2018-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="别说话，运行一下"><a href="#别说话，运行一下" class="headerlink" title="别说话，运行一下"></a>别说话，运行一下</h2><figure class="highlight javascript"><figcaption><span>wwWorld</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ILoveU = <span class="string">'are you kidding?'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">helloWorld</span>(<span class="params">argc, argv</span>)</span>&#123;</span><br><span class="line"><span class="meta">	"use strict"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">var</span> BBC = <span class="string">"2B"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">worldCup2018</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> no10 = <span class="string">"Messi"</span>;		</span><br><span class="line">		<span class="keyword">return</span> BBC;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	worldCup2018();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">helloWorld(<span class="number">1</span>, <span class="string">"holy shit!"</span>);</span><br></pre></td></tr></table></figure>
+<p>人狠话不多，直接放狗，噢……放图。想想之前自己的图，也有很多东西不能确定是否准确，但愿你能找到其中正确的，抛弃错误的。欢迎猛喷，只要你更有理，更有证据、实例。</p>
+<ol>
+<li>这张图，我想做一些简化。</li>
+</ol>
+<img src="/2018/07/19/runtime-JavaScript/gEC0.png" title="gEC0">
+<p>但是，这里有些名字，你是访问不到的，是由JS引擎来使用的。比如浏览器中，全局环境，this===window，但是没有Global（我之前用的Chrome调试器，截图出来，有这个东西，人家调试器就是能访问更多的信息；我就是不行，我就只能调用调用函数、API，抄抄代码）。node中，全局环境，this===global，也没有Global。比如全局环境中JS引擎也维护了一个Scope（或者叫其他名字），你是别指望拿到了。定义的函数的[[Scopes]]，除非JS引擎暴露出来，你也别想访问。这个图，我也不知道怎么画才好。比如这篇文章<a href="http://www.cnblogs.com/TomXu/archive/2012/01/16/2309728.html" target="_blank" rel="noopener">变量对象</a>，就认为：</p>
+<blockquote>
+<p>全局上下文变量对象GlobalContextVO，(VO === this === global)</p>
+</blockquote>
+<p>虽然它讲的很多东西都是基于ECMA-262-3的，但是直到现在很多基础的东西还是没变，有的是概念名字变了，猫叫个咪，有的是语法糖，有的的确是发展出了新的东西。同样，全局环境中，<code>Object.getOwnPropertyDescriptor(this, &#39;this&#39;) === undefined</code>，根本没有this这个属性；<strong>this</strong>是keywords，我这图里也不知道把它放哪里！<em>我太心虚了，都不知道在解释什么了。</em></p>
+<img src="/2018/07/19/runtime-JavaScript/gEC01.png" title="gEC01 (gEC0 modified)">
+<p>我想了想觉得还是这张图好点。</p>
+<ol start="2">
+<li>啊，不要停……不要停，继续运行，越过首行，一眨眼，就18岁了，不，就到<em>18行</em>了。停！！！</li>
+</ol>
+<img src="/2018/07/19/runtime-JavaScript/gEC1.png" title="gEC1">
+<p>这是越过首行受到的惩罚。</p>
+<ol start="3">
+<li>尝试越过<em>18行</em>，咦，我擦，怎么跑到第<em>6行</em>咧？</li>
+</ol>
+<img src="/2018/07/19/runtime-JavaScript/gEC2.png" title="gEC2">
+<p>注意，现在我们到了<strong>helloWorld-EC</strong>。<code>this: undefined</code>，如果<em>18行</em>是<code>window.helloWorld(1, &quot;holy shit!&quot;);</code>，<code>this: window</code>，你可以用其他对象也无所谓。<em>Scope</em>是个数组形式，第一个元素是<em>Local</em>，第二个元素是<em>Global</em>。（不知道怎么画数组）。<em>Local</em>中有参数值，变量定义，函数定义，还有arguments（这个对象是一个数组形式，包含实际传入的参数值，参数个数……图中没有画清楚，可以说是错误的。arguments[0]和argc之间又微妙的关系。应该画一个图形来表示这个对象，而且它的原型是Object.prototype）。<em>Scope</em>是由当前环境<em>Local</em>和产生当前环境的函数<em>helloWorld</em>的[[Scopes]]（其中恰好含有一个元素<em>Global</em>）构成。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjjs76oho000cbwv9pwdq6dpd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-JavaScript-prototype" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/17/JavaScript-prototype/" class="article-date">
@@ -128,6 +189,7 @@
 </ul>
 <h2 id="再说prototype"><a href="#再说prototype" class="headerlink" title="再说prototype"></a>再说prototype</h2><p>网上有张图，很牛逼。 <a href="http://www.mollypages.org/tutorials/js.mp" title="jsobj" target="_blank" rel="noopener">官方网址</a>，里面有大图，可以打印出来。</p>
 <img src="/2018/07/17/JavaScript-prototype/jsobj.jpg" title="jsobj">
+<p><strong>为毛是这种关系？ <code>typeof Function.prototype === &quot;function&quot;</code>，这又是为毛？</strong></p>
 <h2 id="假定我们就运行下面的代码"><a href="#假定我们就运行下面的代码" class="headerlink" title="假定我们就运行下面的代码"></a>假定我们就运行下面的代码</h2><figure class="highlight plain"><figcaption><span>prototype</span><a href="http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html" target="_blank" rel="noopener">就用这位前辈的代码</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">    this.value = 42;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype = &#123;</span><br><span class="line">    method: function() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function Bar() &#123;&#125;</span><br><span class="line"></span><br><span class="line">Bar.prototype = new Foo();</span><br><span class="line">Bar.prototype.foo = &apos;Hello World&apos;;</span><br><span class="line"></span><br><span class="line">Bar.prototype.constructor = Bar;</span><br><span class="line"></span><br><span class="line">var test = new Bar();</span><br></pre></td></tr></table></figure>
 <ol>
 <li>我们处于 <strong>global-EC</strong>，初始化。</li>
@@ -165,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjqmyku700023cv9cr37x37l" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjjs76ohu000ebwv9p9g94z3n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -269,13 +331,13 @@
 <img src="/2018/07/13/abstract-of-JavaScript/hWECdie.png" title="helloWorld die">
 <p>退出了<strong>helloWord-EC</strong>。</p>
 <img src="/2018/07/13/abstract-of-JavaScript/gECdie.png" title="global die">
-<p>退出了<strong>global-EC</strong>。</p>
+<p>退出了<strong>global-EC</strong>（<strong>global-EC</strong>应该是程序关闭了才退出。调试器在这里插了一脚，这里应该与调试有关）。</p>
 <p>回家吃饭吧。<br>本来打算几句话讲讲prototype，scope。到现在却感觉<strong>Call Stack</strong>，尤其<strong>EC</strong>都说的很乱。改天补充吧。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjjqmykvj000u3cv90ocvshxy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjjs76oj6000ybwv94x98nh22" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -316,7 +378,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjjqmykuu00093cv9riqujvea" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjjs76oh20005bwv9hm2rw1ru" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -398,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjjqmykua00043cv92f5nn06i" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjjs76ogv0002bwv9odbm73hu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -455,7 +517,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjjqmykuz000e3cv97t4knmpy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjjs76ohh0009bwv9nr1x2jui" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -494,7 +556,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjjqmykug00063cv9euzf0s7w" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjjs76ogg0000bwv9frktgg0w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -614,7 +676,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjjqmykux000c3cv9br8x6pat" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjjs76oh70007bwv9o3pzjsj7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -661,7 +723,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjjqmykup00083cv93zwdeimy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjjs76oh50006bwv9x0w64qhr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -701,7 +763,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 10px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 15px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 10px;">不知所云</a>
     </div>
   </div>
 
@@ -723,6 +785,10 @@
       <ul>
         
           <li>
+            <a href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
+          </li>
+        
+          <li>
             <a href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
           </li>
         
@@ -736,10 +802,6 @@
         
           <li>
             <a href="/2018/07/04/css-selector-thing/">css-selector-thing</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/04/var/">var</a>
           </li>
         
       </ul>
