@@ -21,7 +21,8 @@
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/hWEC0.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/hWEC01.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/hWEC1.png">
-<meta property="og:updated_time" content="2018-07-20T07:38:13.922Z">
+<meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/wCEC0.png">
+<meta property="og:updated_time" content="2018-07-20T09:36:22.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime-JavaScript">
 <meta name="twitter:description" content="别说话，运（wen）行（wo）wwWorld123456789101112131415161718var ILoveU = &apos;are you kidding?&apos;;function helloWorld(argc, argv)&amp;#123;	&quot;use strict&quot;;		var BBC = &quot;2B&quot;;	function worldCup2018 () &amp;#123;		var no10 = &quot;Messi">
@@ -124,17 +125,28 @@
 <img src="/2018/07/19/runtime-JavaScript/hWEC0.png" title="hWEC0">
 <p>注意，现在我们到了<strong>helloWorld-EC</strong>。<code>this: undefined</code>，如果<em>18行</em>是<code>window.helloWorld(1, &quot;holy shit!&quot;);</code>，<code>this: window</code>，你可以用其他对象也无所谓。<em>Scope</em>是个数组形式，第一个元素是<em>Local</em>，第二个元素是<em>Global</em>。（不知道怎么画数组）。<em>Local</em>中有参数值，变量定义，函数定义，还有arguments（这个对象是一个数组形式，包含实际传入的参数值，参数个数……图中没有画清楚，可以说是错误的。arguments[0]和argc之间又微妙的关系。应该画一个图形来表示这个对象，而且它的原型是Object.prototype）。<em>Scope</em>是由当前环境<em>Local</em>和产生当前环境的函数<em>helloWorld</em>的[[Scopes]]（其中恰好含有一个元素<em>Global</em>）构成。</p>
 <img src="/2018/07/19/runtime-JavaScript/hWEC01.png" title="hWEC01 (hWEC01 modified)">
-<p>我又把这图改进了一下，arguments的__proto__，函数对象的__proto__，prototype也都没有画出来。<br>假设我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，如果返回值是worldCup2018这个函数，并且我们用一个变量接受此值，（返回其他对象也可以，不过如果你返回arguments，接受它，你就arguments那么大块内存；返回函数的话，它的[[Scopes]]大的超乎你的想象！嘿嘿）那么可以看到，虽然我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，虽然<strong>helloWorld-EC</strong>走了，但是worldCup2018依然活着，它的[[Scopes]]所引用的对象当然也在（这涉及到<strong>GarbageColletion</strong>），也就是这块内存还在用，也就是可以访问。</p>
+<p>我又把这图改进了一下，arguments的__proto__，函数对象的__proto__，prototype也都没有画出来。<br>假设我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，如果返回值是worldCup2018这个函数，并且我们用一个变量接受此值，（返回其他对象也可以，不过如果你返回arguments，接受它，你就arguments那么大块内存；返回函数的话，它的[[Scopes]]大的超乎你的想象！嘿嘿）那么可以看到，虽然我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，虽然<strong>helloWorld-EC</strong>走了，但是worldCup2018依然活着，它的[[Scopes]]所引用的对象当然也在（这涉及到<strong>GarbageColletion</strong>，我也不懂），也就是这块内存还在用，也就是可以访问。</p>
 <ol start="4">
-<li>运行<em>6行</em>。</li>
+<li>既然来了，那就运行第<em>6行</em>。</li>
 </ol>
 <img src="/2018/07/19/runtime-JavaScript/hWEC1.png" title="hWEC1">
 <p>哎，真详（啰）细（嗦）。</p>
+<ol start="5">
+<li>终于等到你……<em>13</em>多么伟大的数字啊！运行它。又飞到了第<em>9行</em>。</li>
+</ol>
+<img src="/2018/07/19/runtime-JavaScript/wCEC0.png" title="wCEC0">
+<p>注意，现在我们到了<strong>worldCup2018-EC</strong>。<code>this: undefined</code>。<em>Scope</em>是个数组形式。</p>
+<ul>
+<li>本地环境<em>Local</em>，我画出了<code>no10, arguments</code></li>
+<li>另一部分是函数<em>worldCup2018</em>的[[Scopes]]，其中有两个元素。一个是 <strong>helloWorld-EC</strong>的<em>Local</em>环境，一个就是<em>Global</em>。</li>
+<li>可以看到<em>Scope</em>中画出去了<strong>三条线</strong>，我这里的画法，没能体现它们之间的顺序关系，真是抱歉。</li>
+</ul>
+<h2 id="到此为止，往下画也没有意义了。"><a href="#到此为止，往下画也没有意义了。" class="headerlink" title="到此为止，往下画也没有意义了。"></a>到此为止，往下画也没有意义了。</h2><p>至于出栈的时候，一般就是返回到上一层环境合适的位置，比如此被调用函数的下一条语句。（调用函数时，要记得返回的位置。当然这个不是我要考虑的事情。）退到上一层环境时候，内环境中的对象怎么办？如果被引用，就不释放。这些对象，都是在堆上分配的；<strong>Call Stack</strong>也应该是在堆上模拟的。像<strong>C</strong>语言中的函数调用，用栈传参数值，记录返回地址……小弟只能说，干脆直接简洁。因此也没有JS函数很多特性（不能嵌套定义函数啊，啊，啊，啊……）。但是，学好数据结构，照着ECMA-262，就可以用<strong>C</strong>实现JS引擎（这也是小弟努力的目标之一）。就扯到这里吧，太阳都快下山了。下次我们粗解一下<em>立即执行函数</em>。每当调用一个函数，就想想，它的[[Scopes]]是什么，prototype是什么之类的。凡事都有例外，比如<code>new Function(...)</code>产生的函数对象，它的[[Scopes]]只含<em>Global</em>，和产生时所处的环境无关；<code>with</code>语句也会在环境中产生对象，那么此对象的原型是什么？暂时此对象放在哪里？;<code>eval</code>也是很奇特。等有空了，我去网上把答案研究(抄)过来。突然想到克罗地亚没夺冠，不好受。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjjtoozb6000a88v9b0c1x590" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjjtqut9m000678v9okhovatx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
