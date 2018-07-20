@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/hWEC0.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/hWEC01.png">
 <meta property="og:image" content="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/hWEC1.png">
-<meta property="og:updated_time" content="2018-07-20T02:30:05.778Z">
+<meta property="og:updated_time" content="2018-07-20T07:38:13.922Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime-JavaScript">
 <meta name="twitter:description" content="别说话，运（wen）行（wo）wwWorld123456789101112131415161718var ILoveU = &apos;are you kidding?&apos;;function helloWorld(argc, argv)&amp;#123;	&quot;use strict&quot;;		var BBC = &quot;2B&quot;;	function worldCup2018 () &amp;#123;		var no10 = &quot;Messi">
@@ -124,7 +124,7 @@
 <img src="/2018/07/19/runtime-JavaScript/hWEC0.png" title="hWEC0">
 <p>注意，现在我们到了<strong>helloWorld-EC</strong>。<code>this: undefined</code>，如果<em>18行</em>是<code>window.helloWorld(1, &quot;holy shit!&quot;);</code>，<code>this: window</code>，你可以用其他对象也无所谓。<em>Scope</em>是个数组形式，第一个元素是<em>Local</em>，第二个元素是<em>Global</em>。（不知道怎么画数组）。<em>Local</em>中有参数值，变量定义，函数定义，还有arguments（这个对象是一个数组形式，包含实际传入的参数值，参数个数……图中没有画清楚，可以说是错误的。arguments[0]和argc之间又微妙的关系。应该画一个图形来表示这个对象，而且它的原型是Object.prototype）。<em>Scope</em>是由当前环境<em>Local</em>和产生当前环境的函数<em>helloWorld</em>的[[Scopes]]（其中恰好含有一个元素<em>Global</em>）构成。</p>
 <img src="/2018/07/19/runtime-JavaScript/hWEC01.png" title="hWEC01 (hWEC01 modified)">
-<p>我又把这图改进了一下，arguments的<strong>proto</strong>，函数对象的<strong>proto</strong>，prototype也都没有画出来。<br>假设我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，如果返回值是worldCup2018这个函数，并且我们用一个变量接受此值，（返回其他对象也可以，不过如果你返回arguments，接受它，你就arguments那么大块内存；返回函数的话，它的[[Scopes]]大的超乎你的想象！嘿嘿）那么可以看到，虽然我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，虽然<strong>helloWorld-EC</strong>走了，但是worldCup2018依然活着，它的[[Scopes]]所引用的对象当然也在（这涉及到<strong>GarbageColletion</strong>），也就是这块内存还在用，也就是可以访问。</p>
+<p>我又把这图改进了一下，arguments的__proto__，函数对象的__proto__，prototype也都没有画出来。<br>假设我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，如果返回值是worldCup2018这个函数，并且我们用一个变量接受此值，（返回其他对象也可以，不过如果你返回arguments，接受它，你就arguments那么大块内存；返回函数的话，它的[[Scopes]]大的超乎你的想象！嘿嘿）那么可以看到，虽然我们从<strong>helloWorld-EC</strong>返回到了<strong>global-EC</strong>，虽然<strong>helloWorld-EC</strong>走了，但是worldCup2018依然活着，它的[[Scopes]]所引用的对象当然也在（这涉及到<strong>GarbageColletion</strong>），也就是这块内存还在用，也就是可以访问。</p>
 <ol start="4">
 <li>运行<em>6行</em>。</li>
 </ol>
@@ -134,7 +134,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjjtdamtb0006i4v9aq2qw27k" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjjtoas76000e2wv9rcfgy76d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
