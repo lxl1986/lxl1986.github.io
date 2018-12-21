@@ -72,6 +72,126 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sth-about-css-vp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/26/sth-about-css-vp/" class="article-date">
+  <time datetime="2018-06-26T04:30:50.000Z" itemprop="datePublished">2018-06-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/26/sth-about-css-vp/">sth-about-css-vp</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="something-about-css-viewport"><a href="#something-about-css-viewport" class="headerlink" title="something about css viewport"></a>something about css viewport</h2><h3 id="page-1"><a href="#page-1" class="headerlink" title="page 1"></a>page 1</h3><a href="https://github.com/lxl1986/article1/blob/master/images/1.jpg" target="_blank" rel="noopener">1.jpg</a>
+<p>我还用尺子量了，宽度≈400mm，高度≈250mm；最佳分辨率1440*900；点距≈0.2778mm。然后，设置不同的分辨率，用GetDeviceCaps获得了令人费解的<strong>宽度</strong>以及<strong>高度</strong>，单位肯定不是mm了。不知道Windows操作系统搞得什么鬼？<em>（显示器很老了，系统是XP，别打我）</em></p>
+<h3 id="page-2"><a href="#page-2" class="headerlink" title="page 2"></a>page 2</h3><a href="https://github.com/lxl1986/article1/blob/master/images/2.jpg" target="_blank" rel="noopener">2.jpg</a>
+<p>使用 <em>400mm×250mm，1400×900</em>，我们可以计算出 <strong>91.44 Pixels Per Inch</strong>。但是Windows有一个 LOGPIXELSX=96，LOGPIXELSY=96，也就是96px/Inch，继续使用<em>400mm×250mm</em>，可以计算出屏幕为1512×945。</p>
+<p>如果我们认定 <em>400mm×250mm</em>，那么</p>
+<ol>
+<li>1Pixel = 1dd(dot distance)=0.2778mm，1400Pixel × 900 Pixel</li>
+<li>1px = (1/96)Inch=0.2646mm，1512px × 945 px</li>
+</ol>
+<h3 id="page-3"><a href="#page-3" class="headerlink" title="page 3"></a>page 3</h3><a href="https://github.com/lxl1986/article1/blob/master/images/3.jpg" target="_blank" rel="noopener">3.jpg</a>
+<p>假定 <em>400mm×250mm</em>，那么</p>
+<ol>
+<li>1Pixel<sub>1</sub> = 1dd(dot distance)=0.2778mm，1400 Pixel<sub>1</sub> × 900 Pixel<sub>1</sub></li>
+<li>1Pixel<sub>2</sub> = 0.3125mm，1280Pixel<sub>2</sub> × 800 Pixel<sub>2</sub></li>
+<li>1px = (1/96)Inch=0.2646mm，1512px × 945 px<br>单位真是乱的一比，能不带单位尽量不带了。真是不知道叫啥了，Pixel不提，我们直接给Pixel<sub>1</sub>，Pixel<sub>2</sub>长度值。<strong>起名字，确实是个难题。</strong></li>
+</ol>
+<h3 id="page-4"><a href="#page-4" class="headerlink" title="page 4"></a>page 4</h3><a href="https://github.com/lxl1986/article1/blob/master/images/5.jpg" target="_blank" rel="noopener">4.jpg</a>
+<p>一些网上弄到的数据。<br>x1 Pixel<sub>1</sub> / y1 Pixel<sub>1</sub> Per Inch = x2 Pixel<sub>2</sub> / y2 Pixel<sub>2</sub> Per Inch</p>
+<h3 id="page-5"><a href="#page-5" class="headerlink" title="page 5"></a>page 5</h3><a href="https://github.com/lxl1986/article1/blob/master/images/5.jpg" target="_blank" rel="noopener">5.jpg</a>
+<p>我们自己再算几下<br>假定 1chuizi = 0.614mm，锤子嘛，我觉得锤子做单位就不错</p>
+<ul>
+<li>4.7”<ul>
+<li>1Pixel<sub>4.7”</sub> = 0.078mm，1334 Pixel<sub>4.7”</sub> × 750 Pixel<sub>4.7”</sub></li>
+<li>169chuizi × 95chuizi</li>
+</ul>
+</li>
+<li>5.5”<ul>
+<li>1Pixel<sub>5.5”</sub> = 0.0634mm，1920 Pixel<sub>5.5”</sub> × 1080 Pixel<sub>5.5”</sub></li>
+<li>198chuizi × 112chuizi</li>
+</ul>
+</li>
+<li>5”<ul>
+<li>1Pixel<sub>5”</sub> = 0.0865mm，1280 Pixel<sub>5”</sub> × 720 Pixel<sub>5”</sub></li>
+<li>180chuizi × 101chuizi</li>
+</ul>
+</li>
+</ul>
+<h3 id="page-6"><a href="#page-6" class="headerlink" title="page 6"></a>page 6</h3><a href="https://github.com/lxl1986/article1/blob/master/images/6.jpg" target="_blank" rel="noopener">6.jpg</a>
+<p>device-independent-pixel，系统给应用提供的单位，但是算一下，1dip<sub>4.7”</sub>、1dip<sub>5.5”</sub>、1dip<sub>5”</sub>并不是完全相等。dip实际值也是设备相关的。</p>
+<ul>
+<li>iOS UIScreen获取</li>
+<li>Android DisplayMetrics获取</li>
+</ul>
+<p>相关联的参数还有不少，我们只要<em>“宽”，“高”</em></p>
+<h3 id="page-7"><a href="#page-7" class="headerlink" title="page 7"></a>page 7</h3><a href="https://github.com/lxl1986/article1/blob/master/images/7.jpg" target="_blank" rel="noopener">7.jpg</a>
+<p>如何确定合理的dip？<br>Android 1dip = (1/160)Inch = 0.15875mm, 也就是说 160PPI 的时候，1dip = 1Pixel<sub>160ppi</sub>(<strong>我这里Pixel都用长度值了，不说多少个像素</strong>)<br>直接用 1dip = (1/160)Inch 来计算，</p>
+<ol>
+<li>1dip = 2Pixel<sub>320ppi</sub></li>
+<li>1dip = 1.84Pixel<sub>294ppi</sub>（RedMi3S）（好尴尬 1.84）<br>所以，Android给PPI定了区间，294按照DENSITY_XHIGH(320)计算。density = 2（设备像素比）<br>1dip<sub>RedMi3S</sub> = 2Pixel<sub>294ppi</sub>，也就是说 1dip<sub>RedMi3S</sub> = (1/147)Inch</li>
+</ol>
+<ul>
+<li>1280 Pixel<sub>294ppi</sub> × 720 Pixel<sub>294ppi</sub></li>
+<li>697 dip × 392 dip</li>
+<li>640 dip<sub>RedMi3S</sub> × 360 dip<sub>RedMi3S</sub></li>
+</ul>
+<h3 id="page-8"><a href="#page-8" class="headerlink" title="page 8"></a>page 8</h3><a href="https://github.com/lxl1986/article1/blob/master/images/8.jpg" target="_blank" rel="noopener">8.jpg</a>
+<p>iOS的dip叫point。通过UIScreen，能获得 <strong>W</strong>dip × <strong>H</strong>dip，<strong>DPR</strong>(设备像素比)。<br>没事可以算算具体数值，但是<strong>6SP</strong>还搞事情了（假装2208 × 1242？）。</p>
+<blockquote>
+<p>说白了，就是在同一个坐标系中，用不同的单位度量；你也可以认为是不同的坐标系，然后映射一下。</p>
+</blockquote>
+<h3 id="page-9"><a href="#page-9" class="headerlink" title="page 9"></a>page 9</h3><a href="https://github.com/lxl1986/article1/blob/master/images/9.jpg" target="_blank" rel="noopener">9.jpg</a>
+<p>只是一个思路而已，这里说得也不是很清楚。当然也有错误，FF screen.width，Chrome screen.width获得的值，指的就是不同的对象。FF s.w指的是dip（随着缩放，dpr改变，而疯狂改变，当然dpr有上下限）；Chrome s.w指的是Pixel，也就是分辨率中的w。<br>PC端缩放，dpr都会变。而手机端即使缩放，dpr固定不变。（并未验证所有浏览器。不过我自己手头的模型都是这样。不排除其他模型存在。）</p>
+<h3 id="page-10"><a href="#page-10" class="headerlink" title="page 10"></a>page 10</h3><a href="https://github.com/lxl1986/article1/blob/master/images/10.jpg" target="_blank" rel="noopener">10.jpg</a>
+<p><strong>viewport ☞ <acronym title="Initial Containing Block">ICB</acronym> ☞ canvas ☞ viewport</strong><br>这就是我们渲染页面的大概过程。（细节我也不懂，也看不懂浏览器源代码，不知道怎么具体计算，用了什么MapMode……）<br>PC端viewport拉拉扯扯都变了，手机端独占屏幕（除去菜单部分）（反正我是拉不动）。<br>viewport除了看，主要还是为ICB提供初始值。PC端一般尺寸一样大。移动端如果没有 &lt;meta viewport&gt;，也没有@viewport，vendor会提供一个固定值。<br>（<del>我觉得initial viewport就是看的，actual viewport控制ICB的。</del>）</p>
+<h3 id="page-11"><a href="#page-11" class="headerlink" title="page 11"></a>page 11</h3><a href="https://github.com/lxl1986/article1/blob/master/images/11.jpg" target="_blank" rel="noopener">11.jpg</a>
+<p>这里的测试，不严谨。结论也有待商榷。<br>不过可以看出来，我们从网页用<em>JavaScript代码</em>获得的单位是 <strong><em>dip</em></strong>。<br>而且我们有viewport，有ICB，有canvas，渲染网页应该足够了。<em>（layout viewport，visual viewport，ideal viewport 不知道干啥的？）</em><br>（<del>PC端IE对viewport的支持，也是测试头疼。</del>）</p>
+<h3 id="page-12"><a href="#page-12" class="headerlink" title="page 12"></a>page 12</h3><a href="https://github.com/lxl1986/article1/blob/master/images/12.jpg" target="_blank" rel="noopener">12.jpg</a>
+<p>我手机测试的情况，我都无法理解。alert出来的d.d.cw，居然和document.write出来的不一样。<br>不过我还是坚持，VP不变，DPR不变，ICB由你通过（@viewport 或者 meta）设置。<br>至于1cm在代码里，在屏幕，在纸上……怎么映射，我也不知道。我想很多年前，你在css中写下<strong>1px</strong>的时候，它就表示显示器上的<strong>1Pixel</strong>吧。</p>
+<h3 id="page-A"><a href="#page-A" class="headerlink" title="page A"></a>page A</h3><a href="https://github.com/lxl1986/article1/blob/master/images/A.jpg" target="_blank" rel="noopener">A.jpg</a>
+<p>显示器(AOC E2270Sw)，windows 7。网上复制代码测试，还是一头雾水。所以自己搞了一堆单位 <em>mm，mm’，mm’’’，mm’’’’</em><br><strong>当然 mm 人家是正统的宇宙级长度单位</strong></p>
+<h3 id="page-B"><a href="#page-B" class="headerlink" title="page B"></a>page B</h3><a href="https://github.com/lxl1986/article1/blob/master/images/B.jpg" target="_blank" rel="noopener">B.jpg</a>
+<p><a href="https://www.w3.org/TR/CSS2/" target="_blank" rel="noopener">CSS 2.1</a>，<a href="https://www.w3.org/TR/css-device-adapt/" target="_blank" rel="noopener">DAM L1</a> 抄袭而来。</p>
+<h3 id="page-C"><a href="#page-C" class="headerlink" title="page C"></a>page C</h3><a href="https://github.com/lxl1986/article1/blob/master/images/C.jpg" target="_blank" rel="noopener">C.jpg</a>
+<p><a href="https://www.w3.org/TR/css-values-3/#absolute-lengths" target="_blank" rel="noopener">VUM L3</a>具体怎么算，参考这里。</p>
+<blockquote>
+<p>For print media and similar high-resolution devices, the anchor unit should be one of the standard physical units (inches, centimeters, etc). For lower-resolution devices, and devices with unusual viewing distances, it is recommended instead that the anchor unit be the pixel unit. For such devices it is recommended that the pixel unit refer to the whole number of device pixels that best approximates the reference pixel.</p>
+</blockquote>
+<img src="/2018/06/26/sth-about-css-vp/pixel1.png" title="https://www.w3.org/TR/css-values-3/images/pixel1.png">
+<p>显示器(AOC E2270Sw)，windows 7。 1dev_pixel = 0.2485mm，1ref_pixel = 0.26mm。 css 1px = 1dev_pixel ?</p>
+<p>高ppi手机上难道 css 1px = （1/96）inch？ 不，（注意用词should，recommended）；根据我们前面几页应该是 1px ☞ 1dip，系统知道dip和Pixel，映射一下就好，然后有缩放就缩放到VP。 </p>
+<p><strong>px</strong> is their <strong>canonical unit</strong>， css 1cm？ 1cm=96px/25.4。所以都转化成px计算。</p>
+<h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><p>PC要的是自适应，Mobile要的是适配（至多自适应一下<em>Landscape</em>/<em>Portrait</em>）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjpxq2x3b000hhcv9hyy63vhq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/06/25/hello-world/" class="article-date">
@@ -107,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjpxf8fqr0007l4v92oy2q4i2" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjpxq2x2z0008hcv98lg87dls" class="article-share-link">Share</a>
       
       
     </footer>
@@ -174,7 +294,11 @@
       <ul>
         
           <li>
-            <a href="/2018/12/21/ssh-login/">ssh</a>
+            <a href="/2018/12/21/sync-and-async/">sync-and-async</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/21/ssh/">ssh</a>
           </li>
         
           <li>
@@ -187,10 +311,6 @@
         
           <li>
             <a href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/13/abstract-of-JavaScript/">abstract-of-JavaScript-???</a>
           </li>
         
       </ul>
