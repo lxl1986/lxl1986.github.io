@@ -145,12 +145,12 @@
 <li>new Promise，首先setTimeout执行了，返回一个 <strong>pending</strong> 状态的 Promise 对象。（五秒后Timer线程会放 <code>()=&gt;r(&#39;呵呵&#39;)</code> 进入事件队列；当主线程执行了这个，Promise对象就会<strong>resolved</strong>，值就是 “呵呵”。）</li>
 <li>我想问的是，new Promise这个构造执行完，返回 <strong>pending</strong> 状态的 Promise 对象，然后呢？然后干什么？（离开这里，往下执行？将来再回来？）那后面的then也不能不管吧？既然是 <strong>pending</strong>，那也不能把后面 then 中的两个任务某一个放入 microtask queue 吧？应该是其他线程接管了。这个先放一放。</li>
 </ul>
-<h1 id="我又来装逼了"><a href="#我又来装逼了" class="headerlink" title="我又来装逼了"></a>我又来装逼了</h1><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">老阮的文章</a>，其中还有<strong>朴灵</strong>的批注。啥也不说，看了看评论。只是觉得太浮躁了。细思极恐。披着各种外衣的。打着追求真理的幌子。所谓的概念不是自己的理解吗？不断提升吗？就一下子想得到正确的概念，正确的答案？真能一下子得到<em>正确</em>的概念，这个世界就简单了，还要学习吗？或者，哪有什么真理，你真的想过？写操作系统，写v8的那些人，代码还在不断更新。在哥德尔手里，数字能推翻公理化；在我手里也只能加加减减卡里剰几毛钱了。</p>
+<h1 id="我又来装逼了"><a href="#我又来装逼了" class="headerlink" title="我又来装逼了"></a>我又来装逼了</h1><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">老阮的文章</a>，其中还有<strong>朴灵</strong>的批注。啥也不说，看了看评论。只是觉得太浮躁了。细思极恐。披着各种外衣的。打着追求真理的幌子。所谓的概念不是自己的理解吗？不断提升吗？就一下子想得到正确的概念，正确的答案？真能一下子得到<em>正确</em>的概念，这个世界就简单了，还要学习吗？或者，哪有什么真理，你真的想过？写操作系统，写v8的那些人，代码还在不断更新，为啥不是一出来就是完美的？哪些可是真的大神啊。在哥德尔手里，数字能推翻公理化；在我手里也只能加加减减卡里剰几毛钱了。什么是“横看成岭侧成峰”，成天背几个概念，顶个毛用。线程咋咋，进程咋咋，背那么清楚还不如踢足球？</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq3kszqk000z2cv9pvpdc5ix" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq3ky0h2000yc0v9od8xv7fz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -221,7 +221,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq3kszph000g2cv91e217r32" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq3ky0h80011c0v96s5zxouw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -303,7 +303,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq3kszpb000c2cv9hd6sbxr1" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq3ky0fo0007c0v9urs4i29t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -348,7 +348,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq3kszqo00122cv9cua0e97u" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq3ky0hb0014c0v9q3tkgz3w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -427,7 +427,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq3kszp7000a2cv9x937qrpx" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq3ky0fj0005c0v9htpn4fgq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -533,7 +533,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq3kszoe00012cv9rx2fon3n" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq3ky0g0000cc0v9w1kepkxg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -643,7 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq3kszqh000x2cv960xfhq41" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq3ky0gz000wc0v9dzycajvj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -684,7 +684,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq3kszp100072cv9gspbcnwt" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq3ky0ff0004c0v9tuu2s43d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -766,7 +766,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq3kszoj00022cv91jb6ji14" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq3ky0ey0000c0v9guyaahvi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -823,7 +823,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjq3kszqr00152cv9gascnv0q" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjq3ky0hd0016c0v9qqiclzz8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
