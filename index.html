@@ -72,6 +72,82 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-notes-on-async-await" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/24/notes-on-async-await/" class="article-date">
+  <time datetime="2018-12-24T03:06:57.000Z" itemprop="datePublished">2018-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>大家好，又到了新一期“扯蛋”时间了。</p>
+<p>我几乎没怎么用过 <code>callbacks</code>，<code>promise</code>，<code>generator</code>，<code>yield</code> 这些听起来牛逼哄哄的东西。我直接来看 <code>async/await</code>。有这么多前辈高人，我这小菜就捡了便宜，越过了这一系列发展过程中的酸甜苦辣，直接去偷取“果实”。还有我看<em>CSS</em>的时候，是无视了<strong>IE6</strong>这个可怕时代，直接看<em>CSS3</em>的知识。这也就是大家所说的<strong>速成</strong>，没什么内力，没经历过，就不明白现在为啥是这个样子，不扯了，去吃完<em>扯面</em>再说。</p>
+<p>我先是看了<strong>边城</strong>的<a href="https://segmentfault.com/a/1190000007535316" target="_blank" rel="noopener">理解 JavaScript 的 async/await</a>，受益匪浅；接着又找到了<strong>allen_he</strong>的<a href="https://segmentfault.com/a/1190000011296839" target="_blank" rel="noopener">async/await 执行顺序详解</a>，这篇文章就是我想要的，看下面的评论，不管测试结果，我要的就是这篇的解释和这个思路。我瞅了一眼<strong>阮一峰</strong>的<a href="http://www.ruanyifeng.com/blog/2018/02/node-event-loop.html" target="_blank" rel="noopener">Node 定时器详解</a>，这和浏览器中的Event loop还是有很多不同之处，尤其每一轮事件循环中要干的活是大大的不同。</p>
+<p>此篇仅仅是一个开始，还需投入精力加深理解。</p>
+<ol>
+<li>让我们测试几个代码，<strong>学习研究之用</strong>。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"script start..."</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span><span class="built_in">console</span>.log(<span class="string">"next loop, obviously!"</span>));</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ss</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"I'm ss"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"ss"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"test start..."</span>);</span><br><span class="line">	<span class="keyword">const</span> r = <span class="keyword">await</span> ss();</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`r: <span class="subst">$&#123;r&#125;</span>`</span>);	</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"test end..."</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test();</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.resolve(<span class="string">'how to put a promise to the microtask queue?'</span>).then(<span class="built_in">console</span>.log, <span class="built_in">console</span>.error);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"script end..."</span>);</span><br></pre></td></tr></table></figure>
+<p>结果在此，请不要偷看，O(∩_∩)O</p>
+<blockquote>
+<p>script start…<br>test start…<br>I’m ss<br>script end…<br>r: ss<br>test end…<br>how to put a promise to the microtask queue?<br>next loop, obviously!</p>
+</blockquote>
+<ol start="2">
+<li>略微改动。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"script start..."</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span><span class="built_in">console</span>.log(<span class="string">"next loop, obviously!"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">ss</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"I'm ss"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"ss"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"test start..."</span>);</span><br><span class="line">	<span class="keyword">const</span> r = <span class="keyword">await</span> ss();</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`r: <span class="subst">$&#123;r&#125;</span>`</span>);	</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"test end..."</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test();</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.resolve(<span class="string">'how to put a promise to the microtask queue?'</span>).then(<span class="built_in">console</span>.log, <span class="built_in">console</span>.error);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"script end..."</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>script start…<br>test start…<br>I’m ss<br>script end…<br>how to put a promise to the microtask queue?<br>r: ss<br>test end…<br>next loop, obviously!</p>
+</blockquote>
+<h2 id="分析一下"><a href="#分析一下" class="headerlink" title="分析一下"></a>分析一下</h2><p>这两段代码几乎一毛一样。仅仅是 await 那里，第一次等了个 Function call，第二次等了 AsyncFunction call。说白了，第一次等待返回的不是Promise的值 “ss”；第二次等待返回的是一个Promise的值 #value:”ss”, status:”resolved”#。（这里用词不是很准确，比如 Promise的值，你懂得就好。至于第二个值，只是意思意思表示一下，大概就那样子，没有字面量表示法。）</p>
+<p>这个 await 还是很骚的。</p>
+<ul>
+<li><p>第一次，哎呀，是个字符串，不是Promise的值，舍不得交出去，等等吧。跳出了test的执行（注意是跳出去了，暂停了，执行的现场还是保存了）。执行完后面的几句代码，然后搂不住了，await 只好把东西交出来，也就是继续执行。完事，没码可执行，就把 microtask queue 清空了。最后到下一轮task了。</p>
+</li>
+<li><p>第二次，这货更加过分，因为是个Promise，这货就是不肯交出来。直到 microtask queue 清空了，才知道大势已去，也只能返回这个Promise的值，赶紧执行剩余代码。新的一轮工作又开始了。</p>
+</li>
+</ul>
+<p>简单说就是在 AsyncFunction call 中 await expression, expression的值算出来以后（这里也很讲究，expression的计算，如果放在主线程，还是要卡住，像ajax比较适合，反正不在主线程计算，马上能返回，最后给个结果就行），await 拿到值，现在是不会交出来的；<br>而且还要对别人说：“滚，离我远点。”，没办法，只能暂时跳出这个 AsyncFunction 了。执行后面的代码。完事后，这里也是一个关键点。如果 await 拿的不是一个 Promise的值，那它就要交出来，AsynFunction call得以继续执行，接着清 microtask queue；但如果 await 手里拿的是一个 Promise的值，不管是pending状态还是完蛋状态，都会先清 mircotask queue，它会死皮赖脸的，要等 Promise 计算完后（非pending状态） ，才肯交出那个值，继续从暂停的地方执行。 </p>
+<p>当然，这个流程不是 await 控制的，只是把 await 拿到第一人称比较形象。这货就是个拖啊，先拖住再说。 await expression，expression计算出来以后，会有一跳，这就改变了代码的执行流程；待后来，它王者归来，返回胜利的果实。所以，它有自己的适用范围。你确实什么都可以给它 await 一下，但你从这个执行流程也可以看出来，你 await 的任务，如果要在主线程执行，也是没啥卵用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">**含有伪代码</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">jobs();<span class="comment">//简单任务</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">B2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> p = <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">r</span>=&gt;</span>&#123;</span><br><span class="line">		sleep(一天);</span><br><span class="line">		setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">			sleep(一天);</span><br><span class="line">			r(<span class="string">"呵呵"</span>)</span><br><span class="line">		&#125;,一天)；</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"p: "</span> +p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">B2();</span><br><span class="line"></span><br><span class="line">Steve_Jobs();<span class="comment">//复杂计算</span></span><br><span class="line"><span class="comment">/**/</span></span><br></pre></td></tr></table></figure>
+<p>看吧，await 后面的先要睡一天，setTimout就几毫秒吧，await拿到Promise（是pending状态）。出去算完 Steve_Jobs。 一天后，setTimeout任务来了，它又睡了一天，然后 Promise就resolved了。此时 p值才得以打印。流程就是这样。或许浏览器会直接让你滚蛋，他么的什么破代码，想卡死我？。nodejs上我也没有试过。</p>
+<p>当然，小弟的栗子不好吃，不太恰当。</p>
+<p><em>在下</em>在上篇文章中，也说了，不爱提什么同步异步的。如下片段，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r1 = <span class="keyword">await</span> job1();</span><br><span class="line">r2 = <span class="keyword">await</span> job2(r1);</span><br><span class="line">r3 = <span class="keyword">await</span> job3(r2, r1);</span><br></pre></td></tr></table></figure>
+<p>异不异步我不管，你口中的异步任务，还是按次序来。重要的是次序。</p>
+<p>不过，<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> r = <span class="keyword">await</span> ajax(some-url); </span><br><span class="line">callback(r);</span><br><span class="line"><span class="comment">//...</span></span><br></pre></td></tr></table></figure></p>
+<p>确实比<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ajax(some-url, callback);</span><br><span class="line"><span class="comment">//...</span></span><br></pre></td></tr></table></figure></p>
+<p>看起来舒服多了。尤其是你安排很多后续任务，才会有真正的优势。本篇的重点是刻画一下 await 这个货。具体怎么使用，我也不会。拜拜，我们下期再见。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq232cpg000qa8v95g95e92v" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sync-and-async" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/21/sync-and-async/" class="article-date">
@@ -114,24 +190,24 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job1</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="string">"job1"</span>;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job2</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="string">"job2"</span>;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job3</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="string">"job3"</span>;&#125;</span><br><span class="line"></span><br><span class="line">job1();<span class="comment">//1</span></span><br><span class="line">setTimeout(job2, <span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span>*<span class="number">1000</span>);<span class="comment">//2</span></span><br><span class="line">job3();<span class="comment">//3</span></span><br></pre></td></tr></table></figure>
 <p>这段代码的执行，有次序，1=&gt;2=&gt;3。 job1执行；然后setTimeout执行，这里发生了一件事，它郑重的把job2和86400000交给了Timer线程，然后立马返回一个timeoutID（定时器编号，可使用clearTimeout清除），不过我们没保存这个值；然后job3执行。对吗？线程内还是按次序执行，一步一步来嘛（同步这个词实在让人困惑）。job1=&gt;setTimeout=&gt;job3，不费吹灰之力。大概在第二天的此刻却发生了一个可怕的事情，job2冒了出来（异步这个词也实在让人困惑）。在我看来他们完全是按照次序，即使你把job2放到事件队列，那还是按次序来，job2它自己内部的代码也是按次序在主线程执行。a=&gt;b=&gt;c是次序, b=&gt;a=&gt;c也是次序。job1，job2，job3每个里面都可以再加任务。</p>
 <ol>
-<li>就算你把第二句换成 <code>ajax(&quot;some-url&quot;, job2)</code>，还是job1=&gt;ajax=&gt;job3这个次序，（ajax把”some-url”, job2交给其他线程，立马返回。那个线程干完活，就把job2加到队列）不知啥时候job2会给你来一下。</li>
+<li>就算你把第二句换成 <code>ajax(some-url, job2)</code>，还是job1=&gt;ajax=&gt;job3这个次序，（ajax把some-url, job2交给其他线程，立马返回。那个线程干完活，就把job2加到队列）不知啥时候job2会给你来一下。</li>
 <li>如果ajax不是立马返回，（浏览器应该是废弃这种用法了），次序就是job1=&gt;ajax-job2=&gt;job3。(ajax-job2, ajax执行，调用job2，ajax返回)</li>
 </ol>
-<p>如果不是立马返回，还有啥意思，难道要<code>setTimeout(job2, 24*60*60*1000);</code>一直等？不管在现实生活中还是在计算机系统中，都是不合理的！就是要把job2扔到队列中。他们把这种叫异步编程。如今，你可以想办法把它扔到task queue，或者microtask queue。但是话又说回来，如何你懂了次序，你也会明白，啥都往队列中塞，也是不好的做法；举个栗子：</p>
+<p>如果不是立马返回，还有啥意思，难道要<code>setTimeout(job2, 24*60*60*1000);</code>一直等？不管在现实生活中还是在计算机系统中，都是不合理的！就是要把job2扔到队列中。他们把这种叫异步编程。如今，你可以想办法把它扔到task queue，或者microtask queue。但是话又说回来，当你明白了次序，你也会明白，啥都往队列中塞，也是不好的做法；举个栗子：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job1</span>(<span class="params"></span>) </span>&#123;<span class="keyword">return</span> <span class="string">"job1"</span>;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> i=<span class="number">0</span>; </span><br><span class="line">	<span class="keyword">while</span>(i&lt;<span class="built_in">Number</span>.MAX_SAFE_INTEGER)&#123;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"job2"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job3</span>(<span class="params"></span>) </span>&#123;<span class="keyword">return</span> <span class="string">"job3"</span>;&#125;</span><br><span class="line"></span><br><span class="line">job1();<span class="comment">//1</span></span><br><span class="line">setTimeout(job2, <span class="number">1000</span>);<span class="comment">//2</span></span><br><span class="line">job3();<span class="comment">//3</span></span><br></pre></td></tr></table></figure>
 <p>你把job2扔到队列中也是没用的。到头来，它还是会回到主线程执行，说不定卡死。这种应该新开个Woker线程。</p>
-<h2 id="瞎扯事件"><a href="#瞎扯事件" class="headerlink" title="瞎扯事件"></a>瞎扯事件</h2><p>什么是事件。你对着浏览器大喊，“你个2B”，浏览器显示，“滚蛋”。这就是声音事件和浏览器对事件的处理。可惜的是，浏览器不是你实现的，要是你实现的，你想加什么事件都行，你还可以完全不处理鼠标事件。不过，估计也没有人会用你的浏览器了。</p>
-<p>浏览器中有很多预定于的事件。你点一下鼠标，按一下键盘，都会出事。浏览器这个应用程序也真是复杂啊，操作系统GUI有一套消息机制，浏览器拿到这些消息，又在内部实现了自己的事件机制。一般的应用程序，处理下操作系统的消息就不错了，像win32中的 WM_QUIT……。Windows中的消息，有的消息是不进队列的，有的消息有时候也不进。那看看浏览器。</p>
+<h2 id="瞎扯事件"><a href="#瞎扯事件" class="headerlink" title="瞎扯事件"></a>瞎扯事件</h2><p>什么是事件。你对着浏览器大喊，“你个2B”，浏览器显示，“滚蛋”。这就是声音事件和浏览器对事件的处理。可惜的是，浏览器不是你实现的，要是你实现的，你想加什么事件都行，你还可以完全不处理鼠标事件。不过，估计也没有什么人会用你的浏览器了。</p>
+<p>浏览器中有很多预定义的事件。你点一下鼠标，按一下键盘，都会出事。浏览器这个应用程序也真是复杂啊，操作系统GUI有一套消息机制，浏览器拿到这些消息，又在内部实现了自己的事件机制。一般的应用程序，处理下操作系统的消息就不错了，像win32中的 WM_QUIT……。Windows中的消息，有的消息是不进队列的，有的消息有时候不进有时候进。那看看浏览器。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_2b</span>(<span class="params">z</span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">'2B'</span>);&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'click'</span>, _2b)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	some jobs</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">document</span>.body.click();</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	some tasks</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 <p>一般用户都是用鼠标点击页面，_2b入队列。 代码中click函数触发，直接调用 _2b，不入队列。</p>
 <p>我现在也没想好下面说啥。但我不怎么喜欢在这里用同步、异步。就是Script执行完，掏空microtask，然后UI善后；再拿一个task，完了掏空microtask，UI善后；……</p>
-<p>谁和谁同步，谁和谁异步？晕。把job2放到队列叫异步？那拿到job2执行的时候，不就是同步了？同步的任务，里面没有异步代码？异步的任务，里面没有一句同步代码？我觉得不需要这些伪概念。我觉得JS运行时这个层面，没啥同步、异步。只有Event Loop。</p>
+<p>谁和谁同步，谁和谁异步？晕。把job2放到队列叫异步？那拿到job2执行的时候，不就是同步了？同步的任务，里面没有异步代码？异步的任务，里面没有一句同步代码？两个语句什么关系？两个函数什么关系？两个任务什么关系？两个模块什么关系？你把馒头吃到嘴里，再到胃里。若说这两个是同步任务，那吃到嘴里细分，切牙咬和磨牙磨这小任务是什么关系？我觉得不需要这些伪概念。我觉得JS运行时这个层面，没啥同步、异步，只有Event Loop。所有的任务都遵守着看不见的秩序。</p>
 <p><em>未完待续</em></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjpxq2x34000chcv99y7w64i1" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq232cp1000na8v98avc7c5z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -213,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjpxq2x3z0011hcv9ramhk7ix" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq232cpm000ua8v9kjzv1off" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -258,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjpxq2x39000ehcv9287gpis7" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq232cpp000ya8v90b1ad216" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -337,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjpxq2x32000bhcv94u390t41" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq232cpd000oa8v98mcbqnyv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -443,7 +519,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjpxq2x2r0006hcv915ui5l8o" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq232cnq0004a8v9it327ee1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -553,7 +629,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjpxq2x400012hcv9c64n1lls" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq232cqa0015a8v9a5z4urdi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -594,7 +670,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjpxq2x2w0007hcv9cpukdncg" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq232cou000ia8v9q5h7l9uf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -676,7 +752,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjpxq2x280001hcv94lx6nmuo" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq232cnj0001a8v9ftyhgbx4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -733,49 +809,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjpxq2x430014hcv9518v5jxz" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjq232cpo000xa8v9kkgt1wy3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="false-height-thing" class="article article-type-false" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/27/height-thing/" class="article-date">
-  <time datetime="2018-06-27T01:33:15.000Z" itemprop="datePublished">2018-06-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/27/height-thing/">height-thing</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看到 <code>{height: 100%}</code> 就感觉很奇怪，很少用这种高度值。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjpxq2x2i0003hcv9q3314pu5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
 
     </footer>
   </div>
@@ -841,6 +878,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/21/sync-and-async/">sync-and-async</a>
           </li>
         
@@ -854,10 +895,6 @@
         
           <li>
             <a href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
           </li>
         
       </ul>
