@@ -101,12 +101,12 @@
 <h1 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h1><p>比如我访问 <a href="https://www.aliyun.com/xx" target="_blank" rel="noopener">https://www.aliyun.com/xx</a> 和 <a href="https://www.aliyun.com/oo" target="_blank" rel="noopener">https://www.aliyun.com/oo</a> （本故事纯属虚构，如有雷同，纯属巧合！）。我本以为是这样的 <strong>C</strong> <-> <strong>S</strong>。但是实际情况可能是 <strong>C</strong> <-> <strong>P</strong> <-> <strong>S1(xx)</strong>， <strong>C</strong> <-> <strong>P</strong> <-> <strong>S2(oo)</strong> 。其实我访问的是 <strong>P</strong>，它把不同种类的请求分发给了后面不同的服务器。在 <strong>C</strong> <-> <strong>P</strong> 中, 这个 <strong>P</strong> 作为一个反向代理，糊弄了 <strong>C</strong> ，让整个流程变成 <strong>C</strong> <-> <strong>P</strong> <--><strong>Ss</strong>。单看反向代理，就是 <strong>P</strong> 的事情，它会把请求分发到一堆 <strong>Ss</strong>；而 <strong>C</strong> 是不知道的，除非 <strong>P</strong> 愿意泄露点啥。</--></-></-></-></-></-></-></-></p>
 <h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><p>然后就变成了 <strong>C</strong> <-> <strong>P<sub>forward</sub></strong> <-> <strong>P<sub>reverse</sub></strong> <-> <strong>Ss</strong>。 <strong>C</strong> 通过 <strong>P<sub>forward</sub></strong> 糊弄 <strong>P<sub>reverse</sub></strong> ，<strong>P<sub>reverse</sub></strong> 用了一堆 <strong>Ss</strong> 反过来也在糊弄 <strong>P<sub>forward</sub></strong>。 <strong>C</strong> 通过 <strong>P<sub>forward</sub></strong> 以为自己访问了 <strong>P<sub>reverse</sub></strong>，实际 <strong>P<sub>reverse</sub></strong> 却把请求给了 <strong>Ss</strong>。</-></-></-></p>
 <h1 id="悲伤"><a href="#悲伤" class="headerlink" title="悲伤"></a>悲伤</h1><p>总想表达更清楚点，奈何几乎能<em>一年无话</em>，撞了南墙也不回头。写东西也是把自己绕进去。</p>
-<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><p>我在 aliyun ECS，开了 nginx 监听 80 端口，其中 /hw proxy_pass <a href="http://127.0.0.1/3456" target="_blank" rel="noopener">http://127.0.0.1/3456</a> ，/danteng proxy_pass <a href="http://127.0.0.1/6543" target="_blank" rel="noopener">http://127.0.0.1/6543</a> ；开了两个 node 应用，一个监听 3456，一个监听 6543。然后 访问 */hw 和 */danteng，就访问了不同的应用，也就是服务吧。</p>
+<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><p>我在 aliyun ECS，开了 nginx 监听 80 端口，其中 location /hw { proxy_pass <a href="http://127.0.0.1/3456" target="_blank" rel="noopener">http://127.0.0.1/3456</a>; } ，location /danteng { proxy_pass <a href="http://127.0.0.1/6543" target="_blank" rel="noopener">http://127.0.0.1/6543</a>; } ；开了两个 node 应用，一个监听 3456，一个监听 6543。然后 访问 */hw 和 */danteng，就访问了不同的应用，也就是服务吧。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjq7tkgd300078wv96wphhyil" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjq7tqw8z0007g0v9lcy3h405" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -198,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq7tkgei000w8wv9p64qhcrz" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq7tqwam0010g0v9wlg72ng0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -269,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq7tkgeo00128wv9wdnipmul" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq7tqwap0013g0v96bc0p8cm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -351,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq7tkgdg000e8wv9ngdjuqa2" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq7tqw9c000eg0v9ycwtusrr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -396,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq7tkgeq00148wv9thkc49no" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq7tqwas0016g0v9ac9n51z4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -475,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq7tkgde000c8wv9jit1ytad" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq7tqw9a000cg0v9kuljfl9h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -581,7 +581,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq7tkgck00018wv93gkjpgw5" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq7tqw8f0001g0v9c6haxhso" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -691,7 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq7tkgef000u8wv9po49dhn7" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq7tqwaj000yg0v959c790bz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -732,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq7tkgd9000a8wv9rtzcdlta" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq7tqw96000ag0v9vrnah5vc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -814,7 +814,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq7tkgcn00028wv9owja6aud" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq7tqw8i0002g0v9q667q7i1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
