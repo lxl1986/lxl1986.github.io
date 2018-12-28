@@ -72,6 +72,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-nginx-proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/28/nginx-proxy/" class="article-date">
+  <time datetime="2018-12-28T06:26:06.000Z" itemprop="datePublished">2018-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/28/nginx-proxy/">nginx proxy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天玩弄 aliyun ECS 的时候，在远程机上抄了一个 koa 的例子，哈哈，太不专业了。却不知道如何跑起来。就在网上乱搜一通。简单了解了下nginx 代理，下面谈点我的理解，仅仅是自己思考，没什么全面性和系统性。</p>
+<h1 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h1><p>网上的例子。 就拿web访问来说，上谷歌上不去，弄个代理；有时候想隐藏自己的ip，弄个代理。</p>
+<p>大概就是 <strong>client</strong> <-> <strong>proxy</strong> <-> <strong>server</strong>，（不管什么路由器，经过了多少网络节点……，只考虑这个三节点）。单看正向代理，第一是关于 <strong>client</strong> 的事情，不管它能不能直接访问 <strong>server</strong>，它都可以选择使用 <strong>proxy</strong>，比如上谷歌，能不能直连，不影响你是否能使用 <strong>proxy</strong>，或许你仅仅是想隐藏什么。第二关于 <strong>proxy</strong> ，它的确需要两头都能连通，它要提供功能，当 <strong>client</strong> 使用了它的时候，发出一个对 <strong>server</strong> 的请求，这时候你使用的 <strong>proxy</strong> 就接管了这个请求；至于是否隐藏 <strong>client</strong> 的IP等信息，就看 <strong>proxy</strong> 是如何实现的，它是可以把 <strong>client</strong> 的IP信息发给 <strong>server</strong> 的。整个流程看起来就是 <strong>client</strong> 访问了 <strong>server</strong>。然而，实际，<strong>client</strong> 只是访问了 <strong>proxy</strong> 而已；或者 <strong>client</strong> 对 <strong>proxy</strong> 说，请帮我访问下 <strong>server</strong>。</-></-></p>
+<p>再说一句，连不上谷歌，使用代理服务器，只是正向代理的一个场景。而能连上谷歌，你也可以使用代理服务器，因为你可能想做些私人的事。<strong>client</strong> 在某种程度上糊弄了 <strong>server</strong>。</p>
+<h1 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h1><p>比如我访问 <a href="https://www.aliyun.com/xx" target="_blank" rel="noopener">https://www.aliyun.com/xx</a> 和 <a href="https://www.aliyun.com/oo" target="_blank" rel="noopener">https://www.aliyun.com/oo</a> （本故事纯属虚构，如有雷同，纯属巧合！）。我本以为是这样的 <strong>C</strong> <-> <strong>S</strong>。但是实际情况可能是 <strong>C</strong> <-> <strong>P</strong> <-> <strong>S1(xx)</strong>， <strong>C</strong> <-> <strong>P</strong> <-> <strong>S2(oo)</strong> 。其实我访问的是 <strong>P</strong>，它把不同种类的请求分发给了后面不同的服务器。在 <strong>C</strong> <-> <strong>P</strong> 中, 这个 <strong>P</strong> 作为一个反向代理，糊弄了 <strong>C</strong> ，让整个流程变成 <strong>C</strong> <-> <strong>P</strong> <--><strong>Ss</strong>。单看反向代理，就是 <strong>P</strong> 的事情，它会把请求分发到一堆 <strong>Ss</strong>；而 <strong>C</strong> 是不知道的，除非 <strong>P</strong> 愿意泄露点啥。</--></-></-></-></-></-></-></-></p>
+<h1 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h1><p>然后就变成了 <strong>C</strong> <-> <strong>P<sub>forward</sub></strong> <-> <strong>P<sub>reverse</sub></strong> <-> <strong>Ss</strong>。 <strong>C</strong> 通过 <strong>P<sub>forward</sub></strong> 糊弄 <strong>P<sub>reverse</sub></strong> ，<strong>P<sub>reverse</sub></strong> 用了一堆 <strong>Ss</strong> 反过来也在糊弄 <strong>P<sub>forward</sub></strong>。 <strong>C</strong> 通过 <strong>P<sub>forward</sub></strong> 以为自己访问了 <strong>P<sub>reverse</sub></strong>，实际 <strong>P<sub>reverse</sub></strong> 却把请求给了 <strong>Ss</strong>。</-></-></-></p>
+<h1 id="悲伤"><a href="#悲伤" class="headerlink" title="悲伤"></a>悲伤</h1><p>总想表达更清楚点，奈何几乎能<em>一年无话</em>。写东西也是把自己绕进去。</p>
+<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><p>我在 aliyun ECS，开了 nginx 监听 80 端口，其中 /hw proxy_pass <a href="http://127.0.0.1/3456" target="_blank" rel="noopener">http://127.0.0.1/3456</a> ，/danteng proxy_pass <a href="http://127.0.0.1/6543" target="_blank" rel="noopener">http://127.0.0.1/6543</a> ；开了两个 node 应用，一个监听 3456，一个监听 6543。然后 访问 */hw 和 */danteng，就访问了不同的应用，也就是服务吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjq7savvg0003n0v9cdp1l1au" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-notes-on-async-await" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/12/24/notes-on-async-await/" class="article-date">
@@ -145,13 +191,14 @@
 <li>new Promise，首先setTimeout执行了，返回一个 <strong>pending</strong> 状态的 Promise 对象。（五秒后Timer线程会放 <code>()=&gt;r(&#39;呵呵&#39;)</code> 进入事件队列；当主线程执行了这个，Promise对象就会<strong>resolved</strong>，值就是 “呵呵”。）</li>
 <li>我想问的是，new Promise这个构造执行完，返回 <strong>pending</strong> 状态的 Promise 对象，然后呢？然后干什么？（离开这里，往下执行？将来再回来？）那后面的then也不能不管吧？既然是 <strong>pending</strong>，那也不能把后面 then 中的两个任务某一个放入 microtask queue 吧？应该是其他线程接管了。这个先放一放。</li>
 </ul>
-<h1 id="我又来装逼了"><a href="#我又来装逼了" class="headerlink" title="我又来装逼了"></a>我又来装逼了</h1><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">老阮的文章</a>，其中还有<strong>朴灵</strong>的批注。啥也不说，看了看评论。只是觉得太浮躁了。细思极恐。披着各种外衣的。打着追求真理的幌子。所谓的概念不是自己的理解吗？不断提升吗？就一下子想得到正确的概念，正确的答案？真能一下子得到<em>正确</em>的概念，这个世界就简单了，还要学习吗？或者，哪有什么真理，你真的想过？写操作系统，写v8的那些人，代码还在不断更新，为啥不是一出来就是完美的？哪些可是真的大神啊。在哥德尔手里，数字能推翻公理化；在我手里也只能加加减减卡里剰几毛钱了。什么是“横看成岭侧成峰”，成天背几个概念，顶个毛用。线程咋咋，进程咋咋，背那么清楚还不如踢足球？</p>
+<h1 id="我又来装逼了"><a href="#我又来装逼了" class="headerlink" title="我又来装逼了"></a>我又来装逼了</h1><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">老阮的文章</a>，其中还有<strong>朴灵</strong>的批注。啥也不说，看了看评论。只是觉得太浮躁了。细思极恐。披着各种外衣的。打着追求真理的幌子。所谓的概念不是自己的理解吗？不断提升吗？就一下子想得到正确的概念，正确的答案？真能一下子得到<em>正确</em>的概念，这个世界就简单了，还要学习吗？或者，哪有什么真理，你真的想过？写操作系统，写v8的那些人，代码还在不断更新，为啥不是一出来就是完美的？哪些可是真的大神啊。在哥德尔手里，数字能推翻公理化；在我手里也只能加加减减卡里剰几毛钱了。什么是“横看成岭侧成峰”，成天背几个概念，顶个毛用。线程咋咋，进程咋咋，你知道线程怎么表示？数据结构有多少字段？（sorry，我不知道）背那么清楚还不如踢足球？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.isNaN(<span class="built_in">Object</span>)</span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="built_in">Object</span>)</span><br><span class="line"><span class="number">2</span>**<span class="number">53</span> === <span class="number">2</span>**<span class="number">53</span> + <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>talk is cheap，show me the code。哈哈。</p>
-
+<h1 id="书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。"><a href="#书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。" class="headerlink" title="书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。"></a>书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq3kz8ce00173wv9ln09scjl" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq7savx10017n0v9pt9f8ecu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -222,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq3kz8bg000p3wv9w5hyr5gj" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjq7savw5000en0v9uqk3yfcb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -304,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq3kz8bk000s3wv9wunph9mn" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjq7savw20009n0v968hznvpw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -349,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq3kz8bo000z3wv9wrwfobmh" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjq7savw8000hn0v9690slapp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -428,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq3kz8b5000k3wv9mwyyw9az" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjq7savw4000cn0v9nrkmvoui" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -534,7 +581,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq3kz89d00013wv926ifgqsc" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjq7savv70001n0v93my0cju8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -644,7 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq3kz8aw000d3wv9s6nahyiv" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjq7savx00015n0v9uv08q973" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -685,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq3kz8b7000m3wv9eq1e0xle" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjq7savvy0008n0v9v4h8bhmj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -767,67 +814,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq3kz89g00023wv9saldjqxl" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjq7savvl0004n0v91yf3x5nd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-var" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/04/var/" class="article-date">
-  <time datetime="2018-07-04T04:02:12.000Z" itemprop="datePublished">2018-07-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/04/var/">var</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="有没有var有什么区别？"><a href="#有没有var有什么区别？" class="headerlink" title="有没有var有什么区别？"></a>有没有var有什么区别？</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="string">"var1111"</span>; <span class="comment">//make sure typeof var1 === "undefined"</span></span><br><span class="line"><span class="keyword">var</span> var2 = <span class="string">"var2222"</span>;</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>这是第一个区别</p>
-<img src="/2018/07/04/var/var.png" title="Object.getOwnPropertyDescriptor">
-<p>所以，你可以 <code>delete var1</code>。</p>
-</li>
-<li><p>第二个区别</p>
-</li>
-</ol>
-<ul>
-<li>var1 实际是 Host.var1 (浏览器中，HOST就是<em>window</em>；node中，HOST就是<em>global</em>)</li>
-<li>var2 实际是 VE.var2，（And what is <strong>VE</strong> ? 一个数据结构，此时是window，我很可能错了。感觉自己在放屁，<strong>TBC</strong>。）</li>
-</ul>
-<h2 id="看看-Object"><a href="#看看-Object" class="headerlink" title="看看 Object"></a>看看 Object</h2><img src="/2018/07/04/var/O.gOPD.png" title="window.Object descriptor">
-<p>（<em>this</em>，这里是 window。）</p>
-<img src="/2018/07/04/var/window.png" title="window properties">
-<p>所以，你可以 <code>delete Object</code>；在window中你也看不到 <code>Object</code>；对不起，我骗了你，在 <code>[default properties]</code>确实有 <code>Object</code>；其实是当我 <code>for (var p in window)</code>时，<code>p</code>不到<code>Object</code>。</p>
-<p>再抄点东西吧<br><blockquote><p>A <strong><em>var</em></strong> statement declares variables that are scoped to the running execution context’s VariableEnvironment.</p>
-<footer><strong>author, source</strong><cite><a href="http://www.ecma-international.org/ecma-262/9.0/index.html#sec-variable-statement" target="_blank" rel="noopener">13.3.2Variable Statement</a></cite></footer></blockquote></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjq3kz8bl000v3wv99b3ub8xs" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 
     </footer>
   </div>
@@ -861,7 +851,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
     </div>
   </div>
 
@@ -871,7 +861,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -893,6 +883,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/28/nginx-proxy/">nginx proxy</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
           </li>
         
@@ -906,10 +900,6 @@
         
           <li>
             <a href="/2018/08/02/the-coming-plan/">the-coming-plan</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
           </li>
         
       </ul>

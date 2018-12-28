@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Just Blog">
 <meta property="og:description" content="大家好，又到了新一期“扯蛋”时间了。 我几乎没怎么用过 callbacks，promise，generator，yield 这些听起来牛逼哄哄的东西。我直接来看 async/await。有这么多前辈高人，我这小菜就捡了便宜，越过了这一系列发展过程中的酸甜苦辣，直接去偷取“果实”。还有我看CSS的时候，是无视了IE6这个可怕时代，直接看CSS3的知识。这也就是大家所说的速成，没什么内力，没经历过，就">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2018-12-25T10:01:14.599Z">
+<meta property="og:updated_time" content="2018-12-26T03:11:34.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="notes on async&#x2F;await">
 <meta name="twitter:description" content="大家好，又到了新一期“扯蛋”时间了。 我几乎没怎么用过 callbacks，promise，generator，yield 这些听起来牛逼哄哄的东西。我直接来看 async/await。有这么多前辈高人，我这小菜就捡了便宜，越过了这一系列发展过程中的酸甜苦辣，直接去偷取“果实”。还有我看CSS的时候，是无视了IE6这个可怕时代，直接看CSS3的知识。这也就是大家所说的速成，没什么内力，没经历过，就">
@@ -144,13 +144,14 @@
 <li>new Promise，首先setTimeout执行了，返回一个 <strong>pending</strong> 状态的 Promise 对象。（五秒后Timer线程会放 <code>()=&gt;r(&#39;呵呵&#39;)</code> 进入事件队列；当主线程执行了这个，Promise对象就会<strong>resolved</strong>，值就是 “呵呵”。）</li>
 <li>我想问的是，new Promise这个构造执行完，返回 <strong>pending</strong> 状态的 Promise 对象，然后呢？然后干什么？（离开这里，往下执行？将来再回来？）那后面的then也不能不管吧？既然是 <strong>pending</strong>，那也不能把后面 then 中的两个任务某一个放入 microtask queue 吧？应该是其他线程接管了。这个先放一放。</li>
 </ul>
-<h1 id="我又来装逼了"><a href="#我又来装逼了" class="headerlink" title="我又来装逼了"></a>我又来装逼了</h1><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">老阮的文章</a>，其中还有<strong>朴灵</strong>的批注。啥也不说，看了看评论。只是觉得太浮躁了。细思极恐。披着各种外衣的。打着追求真理的幌子。所谓的概念不是自己的理解吗？不断提升吗？就一下子想得到正确的概念，正确的答案？真能一下子得到<em>正确</em>的概念，这个世界就简单了，还要学习吗？或者，哪有什么真理，你真的想过？写操作系统，写v8的那些人，代码还在不断更新，为啥不是一出来就是完美的？哪些可是真的大神啊。在哥德尔手里，数字能推翻公理化；在我手里也只能加加减减卡里剰几毛钱了。什么是“横看成岭侧成峰”，成天背几个概念，顶个毛用。线程咋咋，进程咋咋，背那么清楚还不如踢足球？</p>
+<h1 id="我又来装逼了"><a href="#我又来装逼了" class="headerlink" title="我又来装逼了"></a>我又来装逼了</h1><p><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">老阮的文章</a>，其中还有<strong>朴灵</strong>的批注。啥也不说，看了看评论。只是觉得太浮躁了。细思极恐。披着各种外衣的。打着追求真理的幌子。所谓的概念不是自己的理解吗？不断提升吗？就一下子想得到正确的概念，正确的答案？真能一下子得到<em>正确</em>的概念，这个世界就简单了，还要学习吗？或者，哪有什么真理，你真的想过？写操作系统，写v8的那些人，代码还在不断更新，为啥不是一出来就是完美的？哪些可是真的大神啊。在哥德尔手里，数字能推翻公理化；在我手里也只能加加减减卡里剰几毛钱了。什么是“横看成岭侧成峰”，成天背几个概念，顶个毛用。线程咋咋，进程咋咋，你知道线程怎么表示？数据结构有多少字段？（sorry，我不知道）背那么清楚还不如踢足球？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.isNaN(<span class="built_in">Object</span>)</span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="built_in">Object</span>)</span><br><span class="line"><span class="number">2</span>**<span class="number">53</span> === <span class="number">2</span>**<span class="number">53</span> + <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>talk is cheap，show me the code。哈哈。</p>
-
+<h1 id="书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。"><a href="#书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。" class="headerlink" title="书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。"></a>书是看不完的，得有自己的理解，思维。偷偷打基础，来日可与群雄一战。技术，知识将来才是真正的战场。</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq3kz8ce00173wv9ln09scjl" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjq7savx10017n0v9pt9f8ecu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -160,6 +161,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/12/28/nginx-proxy/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          nginx proxy
+        
+      </div>
+    </a>
   
   
     <a href="/2018/12/21/sync-and-async/" id="article-nav-older" class="article-nav-link-wrap">
@@ -190,7 +200,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
     </div>
   </div>
 
@@ -200,7 +210,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -222,6 +232,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/28/nginx-proxy/">nginx proxy</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
           </li>
         
@@ -235,10 +249,6 @@
         
           <li>
             <a href="/2018/08/02/the-coming-plan/">the-coming-plan</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
           </li>
         
       </ul>

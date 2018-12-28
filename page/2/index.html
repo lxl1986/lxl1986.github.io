@@ -72,6 +72,63 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-var" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/04/var/" class="article-date">
+  <time datetime="2018-07-04T04:02:12.000Z" itemprop="datePublished">2018-07-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/04/var/">var</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="有没有var有什么区别？"><a href="#有没有var有什么区别？" class="headerlink" title="有没有var有什么区别？"></a>有没有var有什么区别？</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="string">"var1111"</span>; <span class="comment">//make sure typeof var1 === "undefined"</span></span><br><span class="line"><span class="keyword">var</span> var2 = <span class="string">"var2222"</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>这是第一个区别</p>
+<img src="/2018/07/04/var/var.png" title="Object.getOwnPropertyDescriptor">
+<p>所以，你可以 <code>delete var1</code>。</p>
+</li>
+<li><p>第二个区别</p>
+</li>
+</ol>
+<ul>
+<li>var1 实际是 Host.var1 (浏览器中，HOST就是<em>window</em>；node中，HOST就是<em>global</em>)</li>
+<li>var2 实际是 VE.var2，（And what is <strong>VE</strong> ? 一个数据结构，此时是window，我很可能错了。感觉自己在放屁，<strong>TBC</strong>。）</li>
+</ul>
+<h2 id="看看-Object"><a href="#看看-Object" class="headerlink" title="看看 Object"></a>看看 Object</h2><img src="/2018/07/04/var/O.gOPD.png" title="window.Object descriptor">
+<p>（<em>this</em>，这里是 window。）</p>
+<img src="/2018/07/04/var/window.png" title="window properties">
+<p>所以，你可以 <code>delete Object</code>；在window中你也看不到 <code>Object</code>；对不起，我骗了你，在 <code>[default properties]</code>确实有 <code>Object</code>；其实是当我 <code>for (var p in window)</code>时，<code>p</code>不到<code>Object</code>。</p>
+<p>再抄点东西吧<br><blockquote><p>A <strong><em>var</em></strong> statement declares variables that are scoped to the running execution context’s VariableEnvironment.</p>
+<footer><strong>author, source</strong><cite><a href="http://www.ecma-international.org/ecma-262/9.0/index.html#sec-variable-statement" target="_blank" rel="noopener">13.3.2Variable Statement</a></cite></footer></blockquote></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjq7savwb000mn0v9kfilkxsc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="false-height-thing" class="article article-type-false" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/06/27/height-thing/" class="article-date">
@@ -99,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjq3kz8b3000i3wv9gznz4z2v" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjq7savuz0000n0v96rjmodnq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -219,7 +276,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjq3kz8ba000o3wv94iiiiksz" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjq7savwa000jn0v91f7ggvht" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -266,7 +323,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjq3kz8az000f3wv9q31a8evu" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjq7savvu0006n0v986k4ohkd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -301,7 +358,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
     </div>
   </div>
 
@@ -311,7 +368,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -333,6 +390,10 @@
       <ul>
         
           <li>
+            <a href="/2018/12/28/nginx-proxy/">nginx proxy</a>
+          </li>
+        
+          <li>
             <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
           </li>
         
@@ -346,10 +407,6 @@
         
           <li>
             <a href="/2018/08/02/the-coming-plan/">the-coming-plan</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/19/runtime-JavaScript/">runtime-JavaScript</a>
           </li>
         
       </ul>
