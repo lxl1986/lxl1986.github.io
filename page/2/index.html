@@ -72,6 +72,88 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-css-selector-thing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/04/css-selector-thing/" class="article-date">
+  <time datetime="2018-07-04T07:50:57.000Z" itemprop="datePublished">2018-07-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/04/css-selector-thing/">css-selector-thing</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>为什么CSS选择器是从右往左解析？</strong>，突然看到这个题目。只是觉得，有蹊跷。(有看过浏览器源代码的同学请指教)。下面自己理一理这个问题。</p>
+<h3 id="20180704-html"><a href="#20180704-html" class="headerlink" title="20180704.html"></a>20180704.html</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"20180704.css"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>S<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"one"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">article</span> <span class="attr">class</span>=<span class="string">"little"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">header</span>&gt;</span>little<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"time"</span>&gt;</span>下午<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>下雨<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">article</span> <span class="attr">id</span>=<span class="string">"more"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">header</span>&gt;</span>not little<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"time"</span>&gt;</span>晚上<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">data-weather</span>=<span class="string">"rain"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span>&gt;</span>雨<span class="tag">&lt;/<span class="name">span</span>&gt;</span>停了</span><br><span class="line">            <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="20180704-css"><a href="#20180704-css" class="headerlink" title="20180704.css"></a>20180704.css</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">charset</span> <span class="string">"utf-8"</span>;</span><br><span class="line"><span class="selector-tag">p</span> &#123;<span class="attribute">text-decoration</span>: underline;&#125;</span><br><span class="line"><span class="selector-class">.one</span> &#123;<span class="attribute">border-top</span>: <span class="number">3px</span> solid <span class="number">#123456</span>;&#125;</span><br><span class="line"><span class="selector-class">.one</span> <span class="selector-tag">header</span> &#123;<span class="attribute">font-size</span>: <span class="number">32px</span>;&#125;</span><br><span class="line"><span class="selector-class">.little</span> <span class="selector-class">.time</span> &#123;<span class="attribute">color</span>: cyan;&#125;</span><br><span class="line"><span class="selector-class">.one</span> <span class="selector-attr">[data-weather="rain"]</span> <span class="selector-tag">span</span> &#123;<span class="attribute">color</span>: brown;&#125;</span><br><span class="line"><span class="selector-class">.one</span> <span class="selector-class">.two</span> <span class="selector-class">.three</span> &#123;<span class="attribute">font-size</span>: <span class="number">250in</span>;&#125;</span><br><span class="line"><span class="selector-class">.three</span> <span class="selector-class">.two</span> <span class="selector-class">.one</span> &#123;<span class="attribute">font-size</span>: <span class="number">250in</span>;&#125;</span><br></pre></td></tr></table></figure>
+<p>~测试用的代码，不用在意细节~</p>
+<p>看图，我也不说啥了。</p>
+<h2 id="the-Document-tree"><a href="#the-Document-tree" class="headerlink" title="the Document tree"></a>the Document tree</h2><img src="/2018/07/04/css-selector-thing/dom-tree.png" title="DOM TREE">
+<p>我们看一下 <strong>CSS2.1</strong> <em>2.3 The CSS 2.1 processing model</em> 第4小条， <strong>Annotate</strong>。</p>
+<blockquote>
+<p>Annotate every element of the document tree by assigning a single value to every<br>property that is applicable to the target media type.</p>
+</blockquote>
+<h2 id="the-annotated-document-tree"><a href="#the-annotated-document-tree" class="headerlink" title="the annotated document tree"></a>the annotated document tree</h2><img src="/2018/07/04/css-selector-thing/Annotated-tree.png" title="ANNOTATED TREE">
+<p>好了，就先到这里。（我们只考虑我们自己写的样式）问题是 <strong>怎么得到这 annotated tree</strong></p>
+<h3 id="第一种办法"><a href="#第一种办法" class="headerlink" title="第一种办法"></a>第一种办法</h3><p>从dom中取一个节点，然后拿这个节点去cssRules匹配。举几个栗子。</p>
+<ol>
+<li>拿到 <code>html</code>，啥也没干。（只考虑自己写的样式）</li>
+<li>拿到 <code>div(class=&quot;one&quot;)</code>，正好有 <code>.one {border-top: 3px solid #123456;}</code>，标记上去。</li>
+<li>拿到 <code>p(class=&quot;time&quot;)</code>, 哎，有 <code>p {text-decoration: underline;}</code>，标记上去；再往下看，有 <code>.little .time {color: cyan;}</code>，查看一下它的先祖，有 <code>.little</code>存在，标记上去。</li>
+<li>……</li>
+</ol>
+<h3 id="第二种办法"><a href="#第二种办法" class="headerlink" title="第二种办法"></a>第二种办法</h3><p>我们拿一个cssRule，去dom中匹配。试一试。</p>
+<ol>
+<li>拿到 <code>p {text-decoration: underline;}</code>，那好，dom中那么多 <code>p</code>，全给标记上。</li>
+<li>拿到 <code>.one [data-weather=&quot;rain&quot;] span {color: brown;}</code>，找到，标记上。</li>
+<li>拿到 <code>.one .two .three {font-size: 250in;}</code>，没找到，对不起。</li>
+</ol>
+<p>仔细看第一种方法，拿一个节点，去匹配所有cssRules。也就是说我拿所有的cssRules去测试一个节点，然后下一个节点……。这黄花菜都凉了。</p>
+<p>我们看第二种方法。我们就有了从左开始还是从右开始匹配的问题。</p>
+<ol>
+<li><code>.one [data-weather=&quot;rain&quot;] span {color: brown;}</code></li>
+</ol>
+<ul>
+<li>ltr：找到 <code>.one</code>，ok；然后再找子孙 <code>[data-weather=&quot;rain&quot;]</code>，ok；然后再找子孙 <code>span</code>，ok。</li>
+<li>rtl：找到 <code>span</code>，查看先祖条件<code>.one [data-weather=&quot;rain&quot;]</code>，没问题。</li>
+</ul>
+<ol start="2">
+<li><code>.one .two .three {font-size: 250in;}</code></li>
+</ol>
+<ul>
+<li>ltr：找到 <code>.one</code>，ok；然后再找 <code>.two</code>，不存在。</li>
+<li>rtl：没有 <code>.three</code>，不存在。</li>
+</ul>
+<p><strong>找到</strong>，我们上面用了这个词。怎么找到？我们的栗子简化多了。一般都是遍历dom返回一组节点。比如找到了一组 <code>span</code>，然后用限制条件，把不合格的剔除出去。这个简单的栗子中，rtl显然比ltr要快，rtl第一步就找到<em>嫌疑节点</em>（不过看看 <code>.three .two .one</code>，ltr第一步就排除，rtl开始还以为找到了。但这仅仅是我们构造的一个不寻常规则。<strong>杠</strong>）。复杂的情况下，节点，cssRules数量很大。rtl会具有更大的优势。</p>
+<p>我们回头再看<code>.one [data-weather=&quot;rain&quot;] span {color: brown;}</code>，<code>.one .two .three {font-size: 250in;}</code>，为什么从右边开始？因为我本来就是要找 <code>span</code>， <code>.three</code>，它们自身就处于右边（当然，还要进行过滤，满足前面的限制条件）。浏览器也是用从右向左这个策略。浏览器还提供了几个常用的API：document.querySelector，document.querySelectorAll。比如<code>document.querySelector(&#39;.one [data-weather=&quot;rain&quot;] span&#39;)</code>我们就能轻易的找到 <code>&lt;span&gt;雨&lt;/span&gt;</code>所代表的节点。</p>
+<p>这也就是用一个selector，怎么找到匹配的节点。<a href="https://sizzlejs.com" target="_blank" rel="noopener">Sizzle</a> 就是干这个事情的（<em>没用过，没看过，听别人说的</em>）。暂时，我觉得document.querySelector，document.querySelectorAll，document.getElement*，够用了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjqg0wvpf0007xcv9vo39myne" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-var" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/04/var/" class="article-date">
@@ -117,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjq7tqwau0018g0v9wdlnv6ax" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjqg0wvq4000oxcv9nyyioy99" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -156,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjq7tqw8o0004g0v90jjf8mfc" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjqg0wvp30004xcv991yrm4f5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -276,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjq7tqw9d000gg0v97aad38a3" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjqg0wvpt000excv9smfkmknx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -323,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjq7tqw8u0006g0v99tz6sv7w" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjqg0wvq7000txcv9y08o4213" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,7 +440,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cryptography/">cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
     </div>
   </div>
 
@@ -368,7 +450,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -377,7 +459,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li></ul>
     </div>
   </div>
 
@@ -388,6 +470,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/01/03/key-key/">key? key!</a>
+          </li>
         
           <li>
             <a href="/2018/12/28/nginx-proxy/">nginx proxy</a>
@@ -405,10 +491,6 @@
             <a href="/2018/12/21/ssh/">ssh</a>
           </li>
         
-          <li>
-            <a href="/2018/08/02/the-coming-plan/">the-coming-plan</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -421,7 +503,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 李小利<br>
+      &copy; 2019 李小利<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
