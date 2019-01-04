@@ -97,12 +97,12 @@
         <p>偷偷摸摸看了阮一峰的<a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="noopener">数字签名是什么？</a>，评论也都很精彩。小弟也来凑凑热闹，蹭蹭热度。说一下自己的理解，各位尽情可喷。</p>
 <p>心中纵有千般疑问，也只能埋在心里。（搞不定数学啊！这里不谈数学，数学太他么难了。）</p>
 <p>我觉得要一个一个问题来说。</p>
-<h2 id="私钥与公钥"><a href="#私钥与公钥" class="headerlink" title="私钥与公钥"></a>私钥与公钥</h2><p>这个我也不懂，我又不懂数学，我只会用程序生成。不过不要紧，只需记得<strong>它俩天生一对</strong>就行了。啥意思？假设有 【私钥A、公钥A】 和 【私钥B、公钥B】，还有一个字节串（文本文件，二进制文件都是字节串），如果我用 <em>私钥A</em> 加密一下，那么就只能用 <em>公钥A</em> 解密；用 <em>公钥A</em> 加密一下，也只能用 <em>私钥A</em> 解密。不关B什么鸟事。</p>
+<h2 id="私钥与公钥"><a href="#私钥与公钥" class="headerlink" title="私钥与公钥"></a>私钥与公钥</h2><p>这个我也不懂，我又不懂数学，我只会用程序生成。不过不要紧，只需记得<strong>它俩天生一对</strong>就行了。啥意思？假设有 【私钥A、公钥A】 和 【私钥B、公钥B】，还有一个字节串（文本文件，二进制文件都是字节串），如果我用 <em>私钥A</em> 加密一下，那么就只能用 <em>公钥A</em> 解密；用 <em>公钥A</em> 加密一下，也只能用 <em>私钥A</em> 解密。不关B什么鸟事。也不知道RSA钥匙空间是个啥情况？我就假设 钥匙对 的唯一性，只有配对才能互解；而这也是为啥可以加密，为啥可以签名的基石。</p>
 <p>这里，还有几点说下。</p>
 <ul>
 <li>什么叫加密，解密？</li>
 </ul>
-<p>加密就是换了一个形式，解密就是还原。举个栗子，伪代码，<code>RSA_encrypt(bytes, 私钥A) ==&gt; bytes&#39;, RSA_decrypt(bytes&#39;, 公钥A) ==&gt; bytes</code> 。注意，这里加密解密都是用 RSA 相关函数。特别注意 <code>RSA_encrypt(bytes&#39;, 公钥B)</code> 会出错（据说是满足不了一个数学条件）。还有，某些人会用 <code>XXX_decrypt(bytes&#39;, 钥匙C) ==&gt; bytes&#39;&#39;</code> 这个嘛，大哥，我们用的是 RSA，你这个 <code>bytes&#39;&#39;</code>还不如我手动打开 <code>bytes&#39;</code> 在后面添加字节 <code>xxoo</code>，我这是手动解密啊，哈哈，新的 <code>bytes&#39;&#39;&#39;</code>。不知道说清楚没有？就是说我用RSA的算法加密了一个文件，你却用凯撒算法<strong>“解密”</strong>了一个新文件，说：“我解密了”。字节串变换字节串嘛。我上去就是一脚。</p>
+<p>加密就是换了一个形式，解密就是还原。举个栗子，伪代码，<code>RSA_encrypt(bytes, 私钥A) ==&gt; bytes&#39;, RSA_decrypt(bytes&#39;, 公钥A) ==&gt; bytes</code> 。注意，这里加密解密都是用 RSA 相关函数。特别注意 <code>RSA_decrypt(bytes&#39;, 公钥B)</code> 会出错（据说是满足不了一个数学条件）。还有，某些人会用 <code>XXX_decrypt(bytes&#39;, 钥匙C) ==&gt; bytes&#39;&#39;</code> 这个嘛，大哥，我们用的是 RSA，你这个 <code>bytes&#39;&#39;</code>还不如我手动打开 <code>bytes&#39;</code> 在后面添加字节 <code>xxoo</code>，就好像是 <code>decrypt(byptes&#39;, &#39;xxoo&#39;) ==&gt; bytes&#39;&#39;&#39;</code>，我这是手动解密啊，哈哈。不知道说清楚没有？就是说我用RSA的算法加密了一个文件，你却用凯撒算法<strong>“解密”</strong>了一个新文件，说：“我解密了”。字节串变换字节串嘛。我上去就是一脚。</p>
 <ul>
 <li>公私有何区别？</li>
 </ul>
@@ -120,7 +120,7 @@
 <li><p>完整性，这里也提一提，毕竟还是容易混淆。想象这样一个场景，我发了 [str, hash(str)]，你收到了，然后自己对str进行了hash，发现没错，那么str就是完整的；即使哪个2B截获了，改成[str’, hash(str’)]，再发给你，你收到了，然后自己对str’进行了hash，还是没错，那么str’就是完整的。哈哈，这就是完整性。但是，情况不是这样的，坏就坏在，我像个傻逼一样，不该把 hash值发给你。我就发个 str给你，你算完hash，打电话（假定电话安全）和我核对一下。这里你可能要问，为啥不加密？因为我仅仅想说一下完整性这个概念，不想谈及安全。就比如，你昨天写了点字符串，你就可以算一个hash值，记在纸上；今天你想看看是不是完整的，有没有被改动，就再对它hash一下，和昨天的纸上记载的对比一下。当在网络上传输的时候，情况就开始复杂了。完整性本来是需要保存正本，然后副本来和正本一一对比；不过那样代价太大了，而hash，比如sha1提供了足够的可靠性，并且效率高啊，所以就用hash值来比较。</p>
 </li>
 </ul>
-<p>可以完全不提人，就画很多的钥匙对，概念可能更准确。但是实际这都是个人或者机构使用的，所以就说成了谁的私钥，谁的公钥。</p>
+<p>可以完全不提人，就画很多的钥匙对，概念可能更准确。但是实际钥匙都是个人或者机构持有的，所以就说成了谁的私钥，谁的公钥。比如 私钥<sub>小明</sub> 和 公钥<sub>小明</sub> 是一对的，如果某天 私钥<sub>小明</sub> 落入到了 大锤 手里，大家可能还不知道。 钥匙确实是配对的，但所属变了。对于签名来说，用 公钥<sub>小明</sub>，解开的一定是 私钥<sub>小明</sub>，我们就认为这个是消息是小明的，没想到却是大锤发的。严谨来说，我们可以说这个消息是 私钥<sub>小明</sub> 持有者发的。不客气的说，公钥<sub>小明</sub> 解开的，就是 私钥<sub>小明</sub> 签名的。具体谁人做的，无法保证，但一般就认为是小明，不排除小明给她老婆共享了 私钥<sub>小明</sub>。</p>
 <p>上面简介了三个概念，不过都很理想；当进入到现实的时候，很多问题就要考虑了。首要考虑安全，安全第一嘛！私钥的安全就要靠你自己了。别人要是把刀驾到你的脖子上，那也保不住了。我们只考虑公钥的安全。</p>
 <h2 id="理想与现实"><a href="#理想与现实" class="headerlink" title="理想与现实"></a>理想与现实</h2><p>我们也只考虑网络传输（你驱车万里送一个文件，或者通过安全电话一个字节一个字节口读1G的文件给对方，也当我啥也没说）。</p>
 <p>我们假设老王是不敢威胁他老婆的，她老婆的私钥是安全的，只有她自己持有。也就是假设每个人的私钥是安全的（如果你被控制人身自由，电脑被控制，身不由己，就当我啥也没说，你也别往下看了；凡事都要满足一定的条件才能成立）。</p>
@@ -130,7 +130,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqg0wvou0002xcv9w39w4qqz" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqhh5ou20003fwv9eug0w2mg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -176,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqg0wvpb0006xcv9rh2sh5sn" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqhh5oul0008fwv9ek0d10y7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -268,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqg0wvqr001bxcv9fbqd0t7n" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqhh5ow4001bfwv97jubla7s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -339,7 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqg0wvpv000gxcv9fdbch8fk" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqhh5ov8000jfwv9aao0owxa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -421,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqg0wvpy000jxcv9am0mo1hk" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqhh5ovj000qfwv9zqm66zbl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -466,7 +466,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqg0wvq2000lxcv9wqwz2ga8" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqhh5ov7000hfwv9val7xpa8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -545,7 +545,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqg0wvpr000cxcv90xmsc053" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqhh5ovg000ofwv9spz1e6qz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -651,7 +651,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqg0wvoc0000xcv97o42h8lq" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqhh5oud0006fwv9hidwmss1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -761,7 +761,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqg0wvqq001axcv9qlpmkm39" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqhh5ow2001afwv9uud9g5tq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -802,7 +802,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjqg0wvpj000axcv97ecs0nro" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjqhh5oup000cfwv98hef0nlv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
