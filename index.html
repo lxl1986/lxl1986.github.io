@@ -135,19 +135,21 @@
 </ol>
 <p>rg 执行到了 yield 那里，就会计算后面的表达式，然后吐出一个这样的对象 <code>{value: 值, done: false}</code>，rg 就休息了（我也感觉困了）；当 xhr load 以后，执行语句 rg.next(xhr.response)，就会再次唤醒 rg ，并且 yield 返回值就是此时传进去的参数，也就是说把 xhr.response 给了 r1；下次遇到 yield ，rg 又歇菜了。 （至于 rg.throw，rg.return 是干嘛的，我还没用过呢。）</p>
 <p>简单说，yield 先要吐出来一个值；再次使用 next 启动时，yield 还要返回一个值，这货还脚踩两只船。吐出来的值（吐一个promise也行，吐一个函数也行），我们这里没用到；我们这里就只利用了 yield 返回值，也就是我们再次启动时，传进去的值，这样才能把结果给 r1、r2。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> url1 = <span class="string">"https://yesno.wtf/api"</span>;</span><br><span class="line"><span class="keyword">const</span> url2 = <span class="string">"https://yesno.wtf/api"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestP</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">s, f</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest();	</span><br><span class="line">		xhr.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">			s(xhr.response);</span><br><span class="line">		&#125;);		</span><br><span class="line">		xhr.responseType = <span class="string">"json"</span>;</span><br><span class="line">		xhr.open(<span class="string">'get'</span>, url);</span><br><span class="line">		xhr.send();</span><br><span class="line">	&#125;);	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">requestG</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> r1 = <span class="keyword">yield</span> requestP(url1);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"1st: %o"</span>, r1);</span><br><span class="line">	<span class="keyword">let</span> r2 = <span class="keyword">yield</span> requestP(url2);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"2nd: %o"</span>, r2);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	let r3 = yield requestP(url3);</span></span><br><span class="line"><span class="comment">	console.log("3rd: %o", r3);</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rg = requestG();</span><br><span class="line"><span class="keyword">let</span> p = rg.next(); <span class="comment">// 启动</span></span><br><span class="line"></span><br><span class="line">p.value <span class="comment">// p 是 yield 吐出来的 &#123;value: promise, done: false&#125;，我们取 promise。</span></span><br><span class="line">	.then(<span class="function"><span class="params">v</span>=&gt;</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"give result to r1"</span>);</span><br><span class="line">		<span class="keyword">let</span> p = rg.next(v);</span><br><span class="line">		<span class="keyword">return</span> p.value;</span><br><span class="line">	&#125;)</span><br><span class="line">	.then(<span class="function"><span class="params">v</span>=&gt;</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">"give result to r2"</span>);</span><br><span class="line">		<span class="keyword">let</span> p = rg.next(v);</span><br><span class="line">		<span class="keyword">return</span> p.value;</span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure>
+<p>代码写的虽然和狗屎一样，但是这次 yield 吐出了一个 promise 的值，（上此吐出来的值，我们并未在意）。我们在 then 中 调用了 next 方法，再次启动 generator，启动的时机不同。</p>
 <ol start="4">
 <li>async/await<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> url1 = <span class="string">"https://yesno.wtf/api"</span>;</span><br><span class="line"><span class="keyword">const</span> url2 = <span class="string">"https://yesno.wtf/api"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">requestP</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">s, f</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">let</span> xhr = <span class="keyword">new</span> XMLHttpRequest();	</span><br><span class="line">		xhr.addEventListener(<span class="string">'load'</span>, () =&gt; &#123;</span><br><span class="line">			s(xhr.response);</span><br><span class="line">		&#125;);		</span><br><span class="line">		xhr.responseType = <span class="string">"json"</span>;</span><br><span class="line">		xhr.open(<span class="string">'get'</span>, url);</span><br><span class="line">		xhr.send();</span><br><span class="line">	&#125;);	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">requestA</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> r1 = <span class="keyword">await</span> requestP(url1);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"1st: %o"</span>, r1);</span><br><span class="line">	<span class="keyword">let</span> r2 = <span class="keyword">await</span> requestP(url2);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"2nd: %o"</span>, r2);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	let r3 = await requestP(url3);</span></span><br><span class="line"><span class="comment">	console.log("3rd: %o", r3);</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">requestA();</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>await 和 yield 很像，不过更过分。 await “等到”了完成了的 Promise，就会再次启动，并把值返回。</p>
-<p>这四个功能基本相同，但写法却有很大不同，主要是越来越简洁清晰。</p>
+<p>这四个功能基本相同，但写法却有很大不同，主要是越来越简洁清晰，爽快。</p>
 <h2 id="yield；-next"><a href="#yield；-next" class="headerlink" title="yield； next"></a>yield； next</h2><p>看看它们的嘴脸。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="built_in">Function</span>; <span class="comment">// Don't worry, be happy!</span></span><br><span class="line"><span class="built_in">Function</span> = <span class="built_in">Object</span>.getPrototypeOf(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;).constructor; <span class="comment">//这些内置对象，不在三界无形之中。你看它的“定义域”就知道了。</span></span><br><span class="line">GeneratorFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>)</span>&#123;&#125;).constructor;</span><br><span class="line">AsyncFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;).constructor;</span><br><span class="line">AsyncGeneratorFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;&#125;).constructor;</span><br></pre></td></tr></table></figure></p>
 <p>关于generator的自动执行。 yield 吐出来的那个值，在这个值完成了相关任务后，调用 next(result) 再返回结果。具体参考 <strong>co</strong> 库（听别人说的）。如今还是连字符串操作都不熟练，没心思吹了，打基础去了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjqnd9s9c0003u0v9e4azf1jj" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjqngp4e5001d3kv9pwf3fds0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -217,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqnd9s9t0009u0v9xryzb7a8" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqngp4ch000d3kv9ebuj5b0s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -263,7 +265,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqnd9s9y000bu0v9vwbumcqy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqngp4cm000e3kv90wvuuega" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -355,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqnd9scs001hu0v9rjidvekh" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqngp4e9001f3kv9ck4cn0qh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -426,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqnd9sbv0013u0v9jpgfn3wv" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqngp4cu000m3kv9ux85k15z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -508,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqnd9sbf0010u0v9ks5zro21" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqngp4cr000i3kv9hu8w9juj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -553,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqnd9sby0016u0v9qhlg6xgc" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqngp4cv000o3kv9ugdlda8t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -632,7 +634,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqnd9sb9000xu0v9k9yd944h" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqngp4cs000j3kv9wh79lgva" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -738,7 +740,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqnd9s900000u0v9kx9nwhyb" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqngp4ba00013kv978cgdzb2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -848,7 +850,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqnd9sb3000su0v9z30rmuyb" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqngp4bh00033kv9x9m5svf6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
