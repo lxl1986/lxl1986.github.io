@@ -97,10 +97,10 @@
         <p>一路走来。很多东西都是随性而写。很多问题，并未能理解的深刻。问题就像递归一下，要解释这个问题，不得不去解释另一个问题；也怪自己不能很合适的抽象。</p>
 <p>今天又是一个乱炖。</p>
 <h2 id="function-arguments"><a href="#function-arguments" class="headerlink" title="function arguments"></a>function arguments</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">yes</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">no</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">yesno</span>(<span class="params">no, yes</span>)</span>&#123; <span class="keyword">return</span> yes;&#125;</span><br><span class="line"></span><br><span class="line">yesno(yes, no);</span><br></pre></td></tr></table></figure>
-<p>函数就是一个值，可以做参数，也可以当返回值。也因此，在JavaScript中，函数参数大行其道，尤其是 callback，无处不在。 </p>
+<p>函数就是一个值，可以做参数，也可以当返回值。也因此，在JavaScript中，<strong>函数参数</strong>大行其道，尤其是 callback，无处不在。 </p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"window was clicked!"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>再举一个栗子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job1</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">"job1 !!!"</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job2</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">"job2 !!!"</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job3</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">"job3 !!!"</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jobs</span>(<span class="params">job</span>) </span>&#123;	</span><br><span class="line">	job();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jobs(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	job1();</span><br><span class="line">	jobs(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		job2();</span><br><span class="line">		jobs(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">			job3();</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job1</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">"job1 !!!"</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job2</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">"job2 !!!"</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">job3</span>(<span class="params"></span>) </span>&#123;<span class="built_in">console</span>.log(<span class="string">"job3 !!!"</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jobs</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"jobs ..."</span>);	</span><br><span class="line">	cb();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">jobs(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	job1();</span><br><span class="line">	jobs(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		job2();</span><br><span class="line">		jobs(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">			job3();</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>我也不知道为啥举了这个栗子，哎。人家都说回调多了，就进了地狱，我就是尝试一下地狱。</p>
 <h2 id="复制粘贴大法好"><a href="#复制粘贴大法好" class="headerlink" title="复制粘贴大法好"></a>复制粘贴大法好</h2><p><a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function" target="_blank" rel="noopener">Callback function</a> A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.</p>
 <h3 id="粘贴一些小的知识点"><a href="#粘贴一些小的知识点" class="headerlink" title="粘贴一些小的知识点"></a>粘贴一些小的知识点</h3><p>打开 谷歌浏览器的 console。我们来看点东西。我这里是<strong>一句一句执行</strong>的。 </p>
@@ -140,11 +140,14 @@
 </li>
 </ol>
 <p>await 和 yield 很像，不过更过分。 await “等到”了完成了的 Promise，就会再次启动，并把值返回。</p>
+<p>这四个功能基本相同，但写法却有很大不同，主要是越来越简洁清晰。</p>
+<h2 id="yield；-next"><a href="#yield；-next" class="headerlink" title="yield； next"></a>yield； next</h2><p>看看它们的嘴脸。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="built_in">Function</span>; <span class="comment">// Don't worry, be happy!</span></span><br><span class="line"><span class="built_in">Function</span> = <span class="built_in">Object</span>.getPrototypeOf(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;).constructor; <span class="comment">//这些内置对象，不在三界无形之中。你看它的“定义域”就知道了。</span></span><br><span class="line">GeneratorFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>)</span>&#123;&#125;).constructor;</span><br><span class="line">AsyncFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;).constructor;</span><br><span class="line">AsyncGeneratorFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;&#125;).constructor;</span><br></pre></td></tr></table></figure></p>
+<p>关于generator的自动执行。 yield 吐出来的那个值，在这个值完成了相关任务后，调用 next(result) 再返回结果。具体参考 <strong>co</strong> 库（听别人说的）。如今还是连字符串操作都不熟练，没心思吹了，打基础去了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjqloi9jy00018gv9k8j8yezg" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjqn2rini00038sv9p7f0lw7w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -214,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqloi9kh00068gv99a79elsf" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqn2riny00088sv9821dczhr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -260,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqloi9lu000n8gv9ydxlcjk0" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqn2rio6000c8sv9s8arl8vr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -352,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqloi9n6001h8gv9uts7574e" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqn2ripp001e8sv9pv9ee6ot" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -423,7 +426,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqloi9m5000x8gv9opk1ol8z" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqn2rios000o8sv9oo93bfra" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -505,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqloi9m3000u8gv9xi9us008" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqn2rion000j8sv9matqsd4g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -550,7 +553,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqloi9m7000z8gv9t4u8lcse" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqn2riow000q8sv9ksb27bok" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -629,7 +632,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqloi9m2000t8gv9cd0b8ov6" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqn2rioq000l8sv9wmesv751" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -735,7 +738,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqloi9jc00008gv980ocsb5s" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqn2rins00068sv9imsz7x1k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -845,7 +848,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqloi9mf00198gv95bilh8vb" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqn2ripo001d8sv92yq58w68" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
