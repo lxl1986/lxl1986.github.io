@@ -145,11 +145,14 @@
 <p>这四个功能基本相同，但写法却有很大不同，主要是越来越简洁清晰，爽快。</p>
 <h2 id="yield；-next"><a href="#yield；-next" class="headerlink" title="yield； next"></a>yield； next</h2><p>看看它们的嘴脸。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="built_in">Function</span>; <span class="comment">// Don't worry, be happy!</span></span><br><span class="line"><span class="built_in">Function</span> = <span class="built_in">Object</span>.getPrototypeOf(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;).constructor; <span class="comment">//这些内置对象，不在三界无形之中。你看它的“定义域”就知道了。</span></span><br><span class="line">GeneratorFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>)</span>&#123;&#125;).constructor;</span><br><span class="line">AsyncFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;).constructor;</span><br><span class="line">AsyncGeneratorFunction = <span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;&#125;).constructor;</span><br></pre></td></tr></table></figure></p>
 <p>关于generator的自动执行。 yield 吐出来的那个值，在这个值完成了相关任务后，调用 next(result) 再返回结果。具体参考 <strong>co</strong> 库（听别人说的）。如今还是连字符串操作都不熟练，没心思吹了，打基础去了。</p>
+<p>突然想到了这几个 request 函数，比如第一个。request执行了，内部 xhr 去哪里了？虽然上面挂着 load 事件。惊出了我一身冷汗，我再仔细想想。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">url, f</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();	</span><br><span class="line">	xhr.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123; <span class="comment">// 这个函数定义时候，引用了 xhr。 内存是否会泄露？</span></span><br><span class="line">		f(xhr.response);</span><br><span class="line">		xhr = <span class="literal">null</span>; <span class="comment">// 这样是否会好点？</span></span><br><span class="line">	&#125;);</span><br><span class="line">	xhr.responseType = <span class="string">"json"</span>;</span><br><span class="line">	xhr.open(<span class="string">'get'</span>, url);</span><br><span class="line">	xhr.send();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>成天就知道玩弄概念。还是该多练。熟能生巧。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjqngp4e5001d3kv9pwf3fds0" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjqnibx7u001b28v997oiires" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -219,7 +222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqngp4ch000d3kv9ebuj5b0s" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjqnibx6p000928v9eno4d32p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -265,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqngp4cm000e3kv90wvuuega" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjqnibx6t000c28v90ik0et5r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -357,7 +360,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqngp4e9001f3kv9ck4cn0qh" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjqnibx7x001d28v9pl8gr08d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -428,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqngp4cu000m3kv9ux85k15z" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjqnibx72000m28v98j4tf10c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -510,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqngp4cr000i3kv9hu8w9juj" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjqnibx6y000h28v92pee71mk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -555,7 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqngp4cv000o3kv9ugdlda8t" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjqnibx74000q28v9yo1zkasf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -634,7 +637,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqngp4cs000j3kv9wh79lgva" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjqnibx6x000g28v906969h0a" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -740,7 +743,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqngp4ba00013kv978cgdzb2" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjqnibx5v000228v9dxepbq7c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -850,7 +853,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqngp4bh00033kv9x9m5svf6" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjqnibx7s001a28v9psnchxdw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
