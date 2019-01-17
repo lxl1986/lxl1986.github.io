@@ -72,6 +72,116 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-abstract-of-JavaScript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/13/abstract-of-JavaScript/" class="article-date">
+  <time datetime="2018-07-13T00:51:12.000Z" itemprop="datePublished">2018-07-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>►<a class="article-category-link" href="/categories/JavaScript/execution-context/">execution context</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/13/abstract-of-JavaScript/">abstract-of-JavaScript-???</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote><p>一天不装逼，就难受。本来还想装一下，但是打开 <strong>ecma-262</strong> 自己就绝望了；没有猴年马月不可能看一遍。只好自己举栗子来说明一下<strong>JavaScript</strong>中的原型，作用域……</p>
+</blockquote>
+<h2 id="栗子（一）"><a href="#栗子（一）" class="headerlink" title="栗子（一）"></a>栗子（一）</h2><figure class="highlight javascript"><figcaption><span>example 1</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ILoveU = <span class="string">'are you kidding?'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">helloWorld</span>(<span class="params">argc, argv</span>)</span>&#123;</span><br><span class="line"><span class="meta">	"use strict"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">var</span> BBC = <span class="string">"2B"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">worldCup2018</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> no10 = <span class="string">"Messi"</span>;</span><br><span class="line">		<span class="keyword">debugger</span>; <span class="comment">//停在这里，我们随便看看；你用其他方法调试也可以。</span></span><br><span class="line">		<span class="keyword">return</span> BBC;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	worldCup2018();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">null</span>;<span class="comment">//不小心把这句删除了，后面截图注意这里，无大碍。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">helloWorld(<span class="number">1</span>, <span class="string">"holy shit!"</span>);</span><br></pre></td></tr></table></figure>
+<p>这里不会用什么奇技淫巧，注重基本概念的理解。我不会定义一个这个的函数 <code>function shit(shit){var shit; return shit;}</code>。这<strong>ecma-262</strong>发展太快了。不断有新的特性加入，还有概念上的改名。先有个简单的理解，以后再慢慢细化。</p>
+<p>我们让<strong>栗子（一）</strong>跑起来，用Chrome <em>【版本 67.0.3396.99（正式版本） （64 位）】</em>吧，我觉得灰常好用（我搞不懂，IE11在win7上跑，反正很难用，我也不想截图了）。</p>
+<p>先粗略的过一遍，直观的感受一下。</p>
+<ol>
+<li>我们第一个要看的就是 Call Stack<img src="/2018/07/13/abstract-of-JavaScript/Call%20Stack.png" title="Call Stack">
+</li>
+</ol>
+<p>在 <strong>Call Stack</strong> 中，最底下的(anonymous)就是大伙说的 global Execution Context，我们的源代码就在这里面运行。其中定义一个变量，一个函数，然后到了 <em>19行</em>，调用了helloWorld，就产生了新的 helloWord-EC；里面定义了一个”2B”变量，一个函数，再到<em>14行</em>调用了worldCup2018，产生了worldCup2018-EC。</p>
+<p>这种Stack数据结构哪里都有它的身影，什么push，pop……</p>
+<p>瞅了一眼<strong>ecma-262</strong>，哎，真是复杂……你只要记住，调用函数就会产生一个新的数据结构<strong>EC</strong>就得了（至于第一个global-EC怎么产生的？还有没有其他方法产生？我们后面会有所涉及）。</p>
+<blockquote>
+<p>爱因斯坦：「如果你无法向6岁小孩解释它，那代表你自己也不明白。」<br>对这句话，我是深表怀疑。老爱真的说过？鸡汤喝多了，不好。该下功夫的地方还是自己出力，我还想一个月让小孩长到20岁那么大呢。谈不上什么对错，<strong>看山是山，看山不是山，看山还是山</strong>，不多说了。 </p>
+</blockquote>
+<ol start="2">
+<li>假设，我们让代码停在第一行（怎么停？踩刹车啊！自己去改改）。我有句话不知当讲不当讲？这个点，其实挺重要的。此时已经进入了global-EC。但是在进入之前，V8（或者其他引擎）会创建好 <strong>global object</strong>（到底怎么弄的？我也不知道，或许我说的就是错的，但是 global object 得有）。这是什么东东？<br>简单说，<strong>global object</strong>上面挂了很多东西，比如 <code>Infinity，NaN，parseInt，Number，Object，Map，Promise……</code>。记住，是在执行代码之前创建的<strong>global object</strong>。管你有没有代码，都有这东西。浏览器执行你的代码，产生<strong>global-EC</strong>，上面说了这是一个重要的数据结构，要存很多值。情况没有我们想的那么简单，但是复杂的情况我们不考虑，呵呵（不管你我理解对错，你我的代码都能运行，或许还很完美。你没养过猪，但是会吃红烧肉啊！）。</li>
+</ol>
+<p><del>3. <em>fuck <em>ecma-262</em></em>。我们还是来说<strong>global-EC</strong>，我们只看<em>Realm</em>部分。</del><br><del>&gt; Before it is evaluated, all ECMAScript code must be associated with a realm. Conceptually, a realm consists of a set of intrinsic objects, an ECMAScript global environment, all of the ECMAScript code that is loaded within the scope of that global environment, and other associated state and resources.</del><br><del>把 <strong>global object</strong>挂上去， <strong>global Environment Record</strong>也挂上去。</del><br>我他妈还以为自己在实现<strong>ecma-262</strong>呢！</p>
+<ol start="3">
+<li>看着我们的代码，我们还是来说<strong>global-EC</strong>，（我不知道<strong>EC</strong>这个数据结构各个部分该叫什么名字，网上有叫VariableObject/ActiveObject，ScopeChain，thisValue的）。我也不打算起什么名字了。放个图，看吧。<img src="/2018/07/13/abstract-of-JavaScript/gEC1.png" title="gEC1">
+</li>
+</ol>
+<img src="/2018/07/13/abstract-of-JavaScript/gEC2.png" title="gEC2">
+<img src="/2018/07/13/abstract-of-JavaScript/gEC3.png" title="gEC3">
+<p>此时Scope里面就一个Global，Global上挂了<strong>global object</strong>，还有各种乱七八糟的属性；注意<code>ILoveU: undefined</code> 和 <code>helloWorld: f helloWorld(argc, argv)</code>。此时我们的代码还在第一行。这也就是进入EC的时候，初始化阶段；然后才是执行代码。（明白这两个阶段，你就能明白什么时候一个名字绑定了你所期望的值。）</p>
+<ul>
+<li>初始化阶段，把var，FD都存入当前环境，也就是Scope的Global中。var的变量<code>ILoveU</code>，名字存进去，值是undefined。FD <code>helloWorld</code>名字也存进去，值就是一个函数对象。（FD、FE、NFE、FS自便查找）（注意：Scope，GLobal是当前我用的调试器中的。不必在意这些名字。只需记住有个数据结构存储环境即可。就是你一眼看过全局代码，有些名字需要存起来。）<code>this</code>被设置为 Global，此时就是window。</li>
+</ul>
+<p>Scope，这个词，我不知道为什么很多地方都叫作用域。我还是觉得环境更准确。任何程序的运行，都必须有外界提供一个初始环境。硬件给操作系统提供，操作系统给各种游戏、浏览器提供，浏览器给JS代码提供。不管是外环境还是内环境，都是事物发展所必须的。你说个人名“王麻子”，你的小伙伴就知道你在说“隔壁老王”，而不是说公元前666年的老王；小伙伴们都默认了一个小环境；如果没有环境，什么都说不清。当然，如果你隔壁两边都住的“王麻子”，就需要提供更多的信息，才能区分你说的左隔壁还是右隔壁老王。</p>
+<img src="/2018/07/13/abstract-of-JavaScript/hW.png" title="helloWorld function">
+<p>还有一点很重要，我们点击看到<code>helloWorld</code>，能看到[[Scopes]]。这个是干啥用的？先不管干啥用的，它的值，记录了定义时环境。<code>helloWord</code>哪里定义的，<strong>global-EC</strong>中啊，所以它的[[Scopes]]值就是<strong>global-EC</strong>的Scope，这里是含有一个元素的数组的形式，也就是[Global]。</p>
+<ul>
+<li>执行阶段，好的，那我就一步一步执行即可。第一行代码，执行完毕。<code>ILoveU: &quot;are you kidding?&quot;</code>；然后就到了<em>17行</em> <code>helloWorld(1, &quot;holy shit!&quot;);</code> ，那么我们继续执行。欧，我们进入<strong>helloWord-EC</strong>了。</li>
+</ul>
+<img src="/2018/07/13/abstract-of-JavaScript/gEC4.png" title="gEC4">
+<h2 id="我们不扯乱七八糟的名称了。直接撸代码。"><a href="#我们不扯乱七八糟的名称了。直接撸代码。" class="headerlink" title="我们不扯乱七八糟的名称了。直接撸代码。"></a>我们不扯乱七八糟的名称了。直接撸代码。</h2><ol start="4">
+<li>那我们就来看看<strong>helloWord-EC</strong>。</li>
+</ol>
+<img src="/2018/07/13/abstract-of-JavaScript/hWEC.png" title="helloWorldEC">
+<img src="/2018/07/13/abstract-of-JavaScript/hWEC1.png" title="helloWorldEC1">
+<ul>
+<li><p>初始化阶段，这个是函数调用产生的EC，比<strong>global-EC</strong>多了参数，但还是要构建环境。在局部环境Local里存<code>argc: 1, argv: &quot;holy shit!&quot;, BBC: undefined, worldCup2018: f worldCup2018(), this: undefined</code>，实际应该还有arguments对象，不过Chrome浏览器显示的数据应该都是优化过的。（后面会稍稍提及。）<code>helloWord</code>产生了Local，再加<code>helloWord</code>的[[Scopes]]共同构成了此时的Scope。注意，我用了<code>&quot;use strict&quot;;</code>，就是不想过多涉及<code>this</code>，我觉得 <strong>this</strong> is not important, at least for now, it’s irrelevant. 如果没有strict，this会被设置为window。 <code>worldCup2018</code>的[[Scopes]]就是<strong>helloWord-EC</strong>的Scope，也就是[Closure (helloWorld), Global]。</p>
+</li>
+<li><p>执行阶段，走一步瞧瞧，<code>BBC: &quot;2B&quot;</code>，我们又来到了<em>14行</em><code>worldCup2018();</code>，没啥可说的，继续走起。</p>
+</li>
+</ul>
+<img src="/2018/07/13/abstract-of-JavaScript/hWEC2.png" title="helloWorldEC2">
+<ol start="5">
+<li>那我们就来看看<strong>worldCup2018-EC</strong>。</li>
+</ol>
+<img src="/2018/07/13/abstract-of-JavaScript/wCEC.png" title="worldCup2018EC">
+<ul>
+<li><p>初始化阶段，初始化局部环境Local，外加它自己（<code>worldCup2018</code>）的[[Scopes]]，构成此时的Scope。你或许很纳闷，<code>Closure (helloWorld)</code>里面只有一个<code>BBC: &quot;2B&quot;</code>，其实这里应该是最少显示了，显示多余的没卵用。worldCup2018有一句<code>return BBC</code>，仅仅用到了<code>Closure (helloWorld)</code>中的<code>BBC</code>，如果用到了 helloWorld的argc，这里也会显示；如果连<code>BBC</code>也没有用到，Chrome这里就不会有<code>Closure (helloWorld)</code>，直接优化掉了。因为此时，<code>Closure (helloWorld)</code>对worldCup2018来说就是多余的，但是挂在那里也是可以的。（比如你在worldCup2018里面再定义一个函数并且此函数用到了BBC，再调用一下此函数，那么<code>Closure (helloWorld)</code>对worldCup2018就不能优化掉。）</p>
+</li>
+<li><p>执行阶段，没什么可说的。</p>
+</li>
+</ul>
+<img src="/2018/07/13/abstract-of-JavaScript/wCEC1.png" title="worldCup2018EC1">
+<img src="/2018/07/13/abstract-of-JavaScript/wCreturn.png" title="worldCup return">
+<h2 id="我们该回去了。没必要再定义66层函数了。三层，我都感觉多了。我脑子不够用。"><a href="#我们该回去了。没必要再定义66层函数了。三层，我都感觉多了。我脑子不够用。" class="headerlink" title="我们该回去了。没必要再定义66层函数了。三层，我都感觉多了。我脑子不够用。"></a>我们该回去了。没必要再定义66层函数了。三层，我都感觉多了。我脑子不够用。</h2><p>注意看 Call Stack。<br><img src="/2018/07/13/abstract-of-JavaScript/wCECdie.png" title="worldCup die"></p>
+<p>Look，我们退出了<strong>worldCup2018-EC</strong>。时间不早了，继续走。</p>
+<img src="/2018/07/13/abstract-of-JavaScript/hWECdie.png" title="helloWorld die">
+<p>退出了<strong>helloWord-EC</strong>。</p>
+<img src="/2018/07/13/abstract-of-JavaScript/gECdie.png" title="global die">
+<p>退出了<strong>global-EC</strong>（<strong>global-EC</strong>应该是程序关闭了才退出。调试器在这里插了一脚，这里应该与调试有关）。</p>
+<p>回家吃饭吧。<br>本来打算几句话讲讲prototype，scope。到现在却感觉<strong>Call Stack</strong>，尤其<strong>EC</strong>都说的很乱。改天补充吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjr03i5i2001ds8v90o62njei" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-register" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/07/10/register/" class="article-date">
@@ -101,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjqyz6ptf000c6gv9d8iet2s0" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjr03i5h4000fs8v9khl13d55" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -183,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjqyz6psu00026gv9uqo0yuei" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjr03i5gd0005s8v90ykak4me" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -240,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjqyz6pv100176gv923wu6us1" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjr03i5hf000us8v9eu4n6i1i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -279,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjqyz6pt200046gv9l4xnwbvd" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjr03i5gj0007s8v9sw1pde4u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -399,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjqyz6pti000f6gv9fg26ua89" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjr03i5h8000ks8v9l3da4v70" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -446,7 +556,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjqyz6pt700066gv9k4wah9pj" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjr03i5gs0008s8v9krcmko3u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,7 +591,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cryptography/">cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cryptography/">cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events/">events</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
     </div>
   </div>
 
@@ -491,7 +601,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 10px;">events</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -513,6 +623,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/17/checkbox-notes/">checkbox notes</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/07/funargs/">funargs</a>
           </li>
         
@@ -526,10 +640,6 @@
         
           <li>
             <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/21/sync-and-async/">sync-and-async</a>
           </li>
         
       </ul>
