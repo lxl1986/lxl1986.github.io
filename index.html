@@ -72,6 +72,82 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-event-fired" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/18/event-fired/" class="article-date">
+  <time datetime="2019-01-18T00:31:06.000Z" itemprop="datePublished">2019-01-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/18/event-fired/">event fired?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于事件的产生。就拿鼠标相关事件搞一搞。</p>
+<h2 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h2><p>当移动鼠标，点击鼠标的时候，OS 是会分发消息的（就说 win32 GUI 吧，或许有其他特例）。至于怎么处理就是应用的事情。（当然 OS 自身作为一个大应用也处理自己该处理的消息。）</p>
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><p>假如我在浏览器中晃动、点击鼠标，那么 OS 就会把鼠标消息派发给浏览器。此时，关于浏览器中鼠标相关事件（一个事件就是一个JS中的对象，就像这样 <code>{target: xxoo, bubbles: true, type: &#39;click&#39;, cancelable:true, path: ooxx, /* ... */}</code>，不同事件对象含有不同信息；一个数据结构而已）的产生我产生了以下的疑问。</p>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events/click" target="_blank" rel="noopener">click</a><br>The <em>click</em> event fires when a pointing device button (e.g., a mouse’s primary button) is pressed and released on a single element. If the button is pressed on one element and released on a different one, the event is fired on the most specific ancestor element that contained both.</li>
+</ol>
+<p>click fires after the mousedown and mouseup events, in that order.</p>
+<p>我的理解就是：我点了鼠标，浏览器就生成了 click事件，管它有没有谁监听，即使没人理，也要传递一遍。</p>
+<ol start="2">
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events/mouseover" target="_blank" rel="noopener">mouseover</a><br>The <em>mouseover</em> event is fired when a pointing device is moved onto the element that has the listener attached or onto one of its children.</li>
+</ol>
+<p>移动鼠标，浏览器不一定产生 mouseover事件；只有相关元素监听了 <code>mouseover</code>这类事件，你再去 over，浏览器才会产生 mousemove事件。（这和 click就不一样了；得监听了才有）</p>
+<ol start="3">
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events/mouseenter" target="_blank" rel="noopener">mouseenter</a><br>The <em>mouseenter</em> event is fired when a pointing device (usually a mouse) is moved over the element that has the listener attached.</li>
+</ol>
+<p>Though similar to mouseover, it differs in that it doesn’t bubble and that it isn’t sent to any descendants when the pointer is moved from one of its descendants’ physical space to its own physical space.</p>
+<p>下面的图，和图下面的话，我不敢苟同。图中左边和右边情况都不明了，有啥可比性？左边四层div都挂了 mouseenter？还是右边最外层div挂了一个mouseover？</p>
+<p>假设左边四层div都挂了 mouseenter，右边最外层div挂了 mouseover。 （默认排版，不加多余样式。）</p>
+<ul>
+<li>如果 Text 所处的位置在 他们内部，左边进去到Text上就依次产生了四个 mouseenter事件；右边进去也产生了四个 mouseover事件，每个还冒泡。</li>
+<li>如果 Text 所处的位置在 他们外部（比如 fixed 设定位置），那么移动到Text上，左边依次产生了4个事件。右边产生一个事件，冒泡上去。</li>
+</ul>
+<ol start="4">
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events/mousemove" target="_blank" rel="noopener">mousemove</a><br>The <em>mousemove</em> event is fired when a pointing device (usually a mouse) is moved while over an element.</li>
+</ol>
+<p>这……我在一个元素上晃鼠标，就产生 mousemove事件吗？ <em>over</em>和<em>enter</em>至少说了需要<em>listener</em>，这个，居然啥也没说？</p>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><p>就抄这么多了。</p>
+<ol>
+<li>事件的产生<br>我 click, over, enter, move 时，产生事件有啥条件？</li>
+</ol>
+<p>上面抄的来看，click，就会产生 click事件。这个事件对象的产生没啥要求？即使没有注册一个监听函数？那么这个 click事件 就是打酱油？啥也不干？那要它有何用？当页面单独放一个 checkbox 的时候，点击它，有反应，说明浏览器内部还是有监听的。</p>
+<ol start="2">
+<li>事件的传播<br>这个三阶段模型也怪怪的。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span></span><br><span class="line">        gg</span><br><span class="line">    <span class="tag">&lt;/<span class="name">title</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"test"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">id</span>=<span class="string">"cb"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    	<span class="comment">// C capture, B bubble.</span></span></span><br><span class="line"><span class="javascript">        cb.addEventListener(<span class="string">'click'</span>, e=&gt;&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">'cb '</span>, e.eventPhase, e.path);</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        test.addEventListener(<span class="string">'click'</span>, e=&gt;&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">'test C '</span>, e.eventPhase, e.path)</span></span><br><span class="line"><span class="javascript">        &#125;, <span class="literal">true</span>);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        test.addEventListener(<span class="string">'click'</span>, e=&gt;&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">'test B '</span>, e.eventPhase, e.path);</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.addEventListener(<span class="string">'click'</span>, e=&gt;&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">'w C '</span>, e.eventPhase, e.path);</span></span><br><span class="line"><span class="javascript">        &#125;, <span class="literal">true</span>);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.addEventListener(<span class="string">'click'</span>, e=&gt;&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">'w B '</span>, e.eventPhase, e.path);</span></span><br><span class="line"><span class="undefined">        &#125;);</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>任意一个都可以加 <code>e.stopPropagation()</code>，不影响 checkbox 能否选中，影响click事件传播；如果有一个加了 <code>e.preventDefault()</code>，就会影响 checkbox 选中对号，<code>cb.checked === false</code>，也就是不能选中，但不影响click事件传播。</p>
+<p>事件非要从window一路下来，一个不拉到达目标？我如果一个事件都不注册，点击 checkbox，click事件还真的会千辛万苦<br><code>window-&gt;document-&gt;html-&gt;body-&gt;div#test-&gt;input#cb-&gt;div#test-&gt;body-&gt;html-&gt;document-&gt;window</code> 走一圈？何必呢？一个事件的生命周期有多久？走到头或者stop就消散了吗？</p>
+<p>未完待续。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjr1i108z0001fov9odby3z3z" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-checkbox-notes" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/17/checkbox-notes/" class="article-date">
@@ -106,12 +182,15 @@
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;body style=&quot;height:1000cm; width:250cm;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>这两种情况下，document.documentElement.clientHeight, document.documentElement.clientWidth 值是不一样的。我只是想拿到 viewport 的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype htmlxxoo&gt;</span><br><span class="line">&lt;body style=&quot;height:1000cm; width:250cm;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>这几种情况下，document.documentElement.clientHeight 值是不一样的, document.documentElement.clientWidth 却是一样的。我只是想拿到 viewport 的值。我自己的感觉不知道说啥了。这都啥和啥啊？</p>
+<p>备忘：<br>screen.width 在 FF 和 Chrome 指的就不一样；缩放一下页面，就看出来了。</p>
+<p>不要提物理像素点了。 操作系统的 <strong>分辨率</strong> 也是一层抽象，应用程序就当是 OS 给你提供的 <em>物理像素</em>数据 吧。 还有css单位啥的。将这些东西都放在不同的坐标空间中，关系一目了然。莫再被 devicePixelRatio 等概念糊弄了。莫再提，莫再讲。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjr03i5g40002s8v9vsydv8fa" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjr1i10990003fov92ofc2h0e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -205,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjr03i5i3001es8v9jwao769t" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjr1i10bt001hfov9byimqr8e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -275,7 +354,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjr03i5gw000bs8v9inyi2gcr" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjr1i109x000bfov9aj6yhlxf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -321,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjr03i5h1000ds8v9wed2kwx1" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjr1i10a4000dfov91j7umm9b" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -413,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjr03i5i4001gs8v9gzpy37dy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjr1i10by001jfov916hybnx1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -484,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjr03i5h7000js8v91dlja9sg" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjr1i10a8000hfov9cofst5wx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -566,7 +645,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjr03i5h5000hs8v9mu2xk5os" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjr1i10ar000nfov9eaggfkzz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -611,7 +690,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjr03i5hd000rs8v96jbg2kgy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjr1i10b0000pfov94uq6zxv6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -690,113 +769,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjr03i5ha000os8v9tzdsa4sc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-JavaScript-prototype" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/17/JavaScript-prototype/" class="article-date">
-  <time datetime="2018-07-17T00:49:01.000Z" itemprop="datePublished">2018-07-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>►<a class="article-category-link" href="/categories/JavaScript/prototype/">prototype</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/17/JavaScript-prototype/">JavaScript-prototype</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="先了解一点JavaScript知识（复制粘贴大法）"><a href="#先了解一点JavaScript知识（复制粘贴大法）" class="headerlink" title="先了解一点JavaScript知识（复制粘贴大法）"></a>先了解一点JavaScript知识（复制粘贴大法）</h2><ol>
-<li><p>ECMAScript is based on several originating technologies, the most well-known being JavaScript (Netscape) and JScript (Microsoft).</p>
-</li>
-<li><p>ECMAScript is object-based: basic language and host facilities are provided by objects, and an ECMAScript program is a cluster of communicating objects. In ECMAScript, an object is a collection of zero or more properties each with attributes that determine how each property can be used—for example, when the Writable attribute for a property is set to false, any attempt by executed ECMAScript code to assign a different value to the property fails. Properties are containers that hold other objects, primitive values, or functions. A primitive value is a member of one of the following built-in types: Undefined, Null, Boolean, Number, String, and Symbol; an object is a member of the built-in type Object; and a function is a callable object. A function that is associated with an object via a property is called a method.</p>
-</li>
-<li><p>Even though ECMAScript includes syntax for class definitions, ECMAScript objects are not fundamentally class-based such as those in C++, Smalltalk, or Java. Instead objects may be created in various ways including via a literal notation or via constructors which create objects and then execute code that initializes all or part of them by assigning initial values to their properties. Each constructor is a function that has a property named “prototype” that is used to implement prototype-based inheritance and shared properties. Objects are created by using constructors in new expressions; for example, new Date(2009, 11) creates a new Date object. Invoking a constructor without using new has consequences that depend on the constructor. For example, Date() produces a string representation of the current date and time rather than an object.</p>
-</li>
-</ol>
-<p>Every object created by a constructor has an implicit reference (called the object’s prototype) to the value of its constructor’s “prototype” property. Furthermore, a prototype may have a non-null implicit reference to its prototype, and so on; this is called the prototype chain. When a reference is made to a property in an object, that reference is to the property of that name in the first object in the prototype chain that contains a property of that name. In other words, first the object mentioned directly is examined for such a property; if that object contains the named property, that is the property to which the reference refers; if that object does not contain the named property, the prototype for that object is examined next; and so on.</p>
-<ol start="4">
-<li>ECMAScript Language Type</li>
-</ol>
-<ul>
-<li>The Undefined Type</li>
-<li>The Null Type</li>
-<li>The Boolean Type</li>
-<li>The String Type</li>
-<li>The Symbol Type</li>
-<li>The Number Type</li>
-<li>The Object Type<br>数据类型就这<em>七种</em>（早些时候没有 The Symbol Type，未来会不会加入其他Type？我说错了你可以来打我）。对我们来说，重要的是值（<strong>Value</strong>），比如undefined，null，true，false，”美女”，{老婆:false}，function 老婆 (many){return “2B”;}。</li>
-</ul>
-<p>举个栗子，<code>var b = &quot;呵呵&quot;; var bb = new String(&quot;别BB&quot;);</code></p>
-<ul>
-<li>b，它的值 <code>&quot;呵呵&quot;</code>，是字符串，The String Type。</li>
-<li>bb，它的值 <code>{...}</code>，是对象，The Object Type；但是呢，bb[0]=”别”，bb[1]=”B”，bb[2]=”B”，也就是说bb中的”别BB”是字符串，The String Type。</li>
-<li>new String中的String仅仅是constructor，和The String Type中的String没毛线关系。</li>
-<li>类型转换不小心就会发生，自己得注意到底是什么Type。</li>
-</ul>
-<h2 id="再说prototype"><a href="#再说prototype" class="headerlink" title="再说prototype"></a>再说prototype</h2><p>网上有张图，很牛逼。 <a href="http://www.mollypages.org/tutorials/js.mp" title="jsobj" target="_blank" rel="noopener">官方网址</a>，里面有大图，可以打印出来。</p>
-<img src="/2018/07/17/JavaScript-prototype/jsobj.jpg" title="jsobj">
-<p><strong>为毛是这种关系？ <code>typeof Function.prototype === &quot;function&quot;</code>，这又是为毛？</strong></p>
-<h2 id="假定我们就运行下面的代码"><a href="#假定我们就运行下面的代码" class="headerlink" title="假定我们就运行下面的代码"></a>假定我们就运行下面的代码</h2><figure class="highlight plain"><figcaption><span>prototype</span><a href="http://www.cnblogs.com/TomXu/archive/2012/01/05/2305453.html" target="_blank" rel="noopener">就用这位前辈的代码</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">    this.value = 42;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype = &#123;</span><br><span class="line">    method: function() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function Bar() &#123;&#125;</span><br><span class="line"></span><br><span class="line">Bar.prototype = new Foo();</span><br><span class="line">Bar.prototype.foo = &apos;Hello World&apos;;</span><br><span class="line"></span><br><span class="line">Bar.prototype.constructor = Bar;</span><br><span class="line"></span><br><span class="line">var test = new Bar();</span><br></pre></td></tr></table></figure>
-<ol>
-<li>我们处于 <strong>global-EC</strong>，初始化。</li>
-</ol>
-<img src="/2018/07/17/JavaScript-prototype/globalEC.png" title="globalEC">
-<p>图片虽然很丑陋，好歹也是自己画的。有些地方不准确，有些地方有错误。不要在意这些细节（当然也省略了巨多的细节），内存中的对象大概就是这种模样。一般JS引擎都提供了<code>__proto__</code>供大家调试代码。而这形成了一个链条，人称<strong>原型链</strong>。干啥用的？继承。也就是复用代码。</p>
-<ol start="2">
-<li>现在来执行代码。</li>
-</ol>
-<ul>
-<li>那就是执行第<em>5行</em>，改变了Foo.prototype。 没名字那儿，我就用???代替了。</li>
-</ul>
-<img src="/2018/07/17/JavaScript-prototype/globalEC1.png" title="globalEC1">
-<ul>
-<li>再来执行第<em>11行</em>代码。这个<code>new</code>先不考虑，这里会调用特定的方法，当然这里也会产生新的<strong>EC</strong>，并在在里面生成一个新的对象，这个新对象<code>{value: 42, __proto__: Foo.prototype}</code>。当退出这个<strong>EC</strong>后，我们<code>Bar.prototype</code>之前的样子应该是<code>{constructor: Bar, __proto__: Object.prototype}</code>，不过现在换人了；就像第<em>5行</em>那里一样，<code>Foo.prototype</code>的值也换人了。</li>
-</ul>
-<img src="/2018/07/17/JavaScript-prototype/globalEC2.png" title="globalEC2">
-<ul>
-<li>接着执行第<em>12行</em>代码。</li>
-</ul>
-<img src="/2018/07/17/JavaScript-prototype/globalEC3.png" title="globalEC3">
-<ul>
-<li>接着执行第<em>14行</em>代码。</li>
-</ul>
-<img src="/2018/07/17/JavaScript-prototype/globalEC4.png" title="globalEC4">
-<ul>
-<li>最后执行第<em>16行</em>代码。就像第<em>11行</em>，我们还是不考虑<code>new</code>，不考虑这个新的<strong>EC</strong>。现在<code>test</code>就不是<code>undefined</code>了。</li>
-</ul>
-<img src="/2018/07/17/JavaScript-prototype/globalEC5.png" title="globalEC5">
-<p>此时，<code>test.foo, test.value, test.constructor, test.method, test.hasOwnProperty</code>通过原型链都可以使用了。</p>
-<p>上篇文章<a href="/2018/07/13/abstract-of-JavaScript/" title="abstract">abstract</a>中，那时候我说 <strong>this</strong> 不重要。<strong>this</strong>是一个<em>keyword</em>，在<code>new Foo()</code>中的<code>this</code>和那时候的<strong>this</strong>用法完全不一样，这里的<code>this</code>和<code>Function.prototype.call, Function.prototype.apply</code>中一样，都是特别提供的。</p>
-<p>我们上面的图片，简化，只画出了<strong>global-EC</strong>，其他<strong>EC</strong>没画出来。不过可以看出来，如果我在其他<strong>EC</strong>中定义一个函数，返回此函数。然后我用一个变量接受，那么，虽然此时那个<strong>EC</strong>已经不存在，但是由于我用变量引用了此函数值，那么内存中还是存在这个函数对象，通过它的[[Scopes]]，也能访问消失的<strong>EC</strong>中定义的名字（比如变量名字，函数名字）。很多时候我们用的<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">shit</span>(<span class="params">shit</span>)</span>&#123;...&#125;(<span class="built_in">window</span>))</span><br></pre></td></tr></table></figure></p>
-<p>它运行产生一个<strong>EC</strong>，完了退出，但是我们如果在外环境引用了返回值（比如传window进去，把新属性挂在上面），那么虽然此<strong>EC</strong>已退出，但是其中涉及的对象还是存在于内存中。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjr03i5f20000s8v9vg08z9ee" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjr1i10b4000rfov9e4vzummr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -843,7 +816,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 10px;">events</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 13.33px;">events</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -865,6 +838,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/18/event-fired/">event fired?</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/17/checkbox-notes/">checkbox notes</a>
           </li>
         
@@ -878,10 +855,6 @@
         
           <li>
             <a href="/2018/12/28/nginx-proxy/">nginx proxy</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
           </li>
         
       </ul>

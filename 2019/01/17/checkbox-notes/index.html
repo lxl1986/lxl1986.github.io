@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Just Blog">
 <meta property="og:description" content="偷窥MouseEvent的时候，就把栗子抄了过来 1.1234567891011&amp;lt;p&amp;gt;&amp;lt;label id=&quot;label&quot;&amp;gt;&amp;lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot;&amp;gt; Checked&amp;lt;/label&amp;gt;&amp;lt;script&amp;gt;	var evt = new MouseEvent(&quot;click&quot;, &amp;#123;		bubbl">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2019-01-17T04:08:37.407Z">
+<meta property="og:updated_time" content="2019-01-17T04:22:57.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="checkbox notes">
 <meta name="twitter:description" content="偷窥MouseEvent的时候，就把栗子抄了过来 1.1234567891011&amp;lt;p&amp;gt;&amp;lt;label id=&quot;label&quot;&amp;gt;&amp;lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot;&amp;gt; Checked&amp;lt;/label&amp;gt;&amp;lt;script&amp;gt;	var evt = new MouseEvent(&quot;click&quot;, &amp;#123;		bubbl">
@@ -105,12 +105,15 @@
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;body style=&quot;height:1000cm; width:250cm;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>这两种情况下，document.documentElement.clientHeight, document.documentElement.clientWidth 值是不一样的。我只是想拿到 viewport 的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype htmlxxoo&gt;</span><br><span class="line">&lt;body style=&quot;height:1000cm; width:250cm;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>这几种情况下，document.documentElement.clientHeight 值是不一样的, document.documentElement.clientWidth 却是一样的。我只是想拿到 viewport 的值。我自己的感觉不知道说啥了。这都啥和啥啊？</p>
+<p>备忘：<br>screen.width 在 FF 和 Chrome 指的就不一样；缩放一下页面，就看出来了。</p>
+<p>不要提物理像素点了。 操作系统的 <strong>分辨率</strong> 也是一层抽象，应用程序就当是 OS 给你提供的 <em>物理像素</em>数据 吧。 还有css单位啥的。将这些东西都放在不同的坐标空间中，关系一目了然。莫再被 devicePixelRatio 等概念糊弄了。莫再提，莫再讲。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjr03i5g40002s8v9vsydv8fa" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjr1i10990003fov92ofc2h0e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -120,6 +123,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/01/18/event-fired/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          event fired?
+        
+      </div>
+    </a>
   
   
     <a href="/2019/01/07/funargs/" id="article-nav-older" class="article-nav-link-wrap">
@@ -160,7 +172,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 10px;">events</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 13.33px;">events</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -182,6 +194,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/18/event-fired/">event fired?</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/17/checkbox-notes/">checkbox notes</a>
           </li>
         
@@ -195,10 +211,6 @@
         
           <li>
             <a href="/2018/12/28/nginx-proxy/">nginx proxy</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/24/notes-on-async-await/">notes on async/await</a>
           </li>
         
       </ul>
