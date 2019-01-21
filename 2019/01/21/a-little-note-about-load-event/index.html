@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/garbage.png">
 <meta property="og:image" content="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/load.png">
-<meta property="og:updated_time" content="2019-01-21T02:56:36.531Z">
+<meta property="og:updated_time" content="2019-01-21T02:58:11.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="a little note about load event">
 <meta name="twitter:description" content="废话不说，上码。12345678910111213141516171819202122232425262728293031323334353637383940414243444546&amp;lt;!doctype html&amp;gt;&amp;lt;script id=&quot;s1&quot;&amp;gt;	console.log(&apos;window: &apos;, window, &apos;document: &apos;, document);&amp;lt;/scri">
@@ -109,7 +109,7 @@
 <p>可以发现， event.target === document，event.currentTarget === window。</p>
 <p>用 Chrome 打出来看看：</p>
 <img src="/2019/01/21/a-little-note-about-load-event/load.png" title="load">
-<p>这个 load事件，它的 target 是 document；但是它的 <strong>propagation path</strong> 只有 window！！！ 也就是说这个 load事件 传播到 window，没有然后了。可能由于历史原因，body上的 load处理，实际是放到了 window 上面；而在其他元素上挂 onload 是没啥用了。</p>
+<p>这个 load事件，它的 target 是 document；但是它的 <strong>propagation path</strong> 只有 window！！！ 也就是说这个 load事件 传播到 window，没有然后了。可能由于历史原因，body上的 onload处理，实际是放到了 window 上面；而在其他元素上挂 onload 是没啥用了。</p>
 <p>按理来说，你好歹，这个 load事件，从 window-&gt;document-&gt;window，经历三阶段；实际只有 eventPhase===2，这个阶段。</p>
 <h2 id="load实验"><a href="#load实验" class="headerlink" title="load实验"></a>load实验</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> e1 = <span class="keyword">new</span> Event(<span class="string">'load'</span>, &#123;</span><br><span class="line">	bubbles: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'window: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'d: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.documentElement.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'d-html: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'d-body: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.dispatchEvent(e1);</span><br></pre></td></tr></table></figure>
 <p>我这个 e1 是没有传播到 window。还得搞一搞。</p>
@@ -117,7 +117,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjr5qovzp0002h4v9f75ktvu9" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjr5qqvar00020wv9bnsezb83" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events-load/">events load</a></li></ul>

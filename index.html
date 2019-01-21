@@ -107,7 +107,7 @@
 <p>可以发现， event.target === document，event.currentTarget === window。</p>
 <p>用 Chrome 打出来看看：</p>
 <img src="/2019/01/21/a-little-note-about-load-event/load.png" title="load">
-<p>这个 load事件，它的 target 是 document；但是它的 <strong>propagation path</strong> 只有 window！！！ 也就是说这个 load事件 传播到 window，没有然后了。可能由于历史原因，body上的 load处理，实际是放到了 window 上面；而在其他元素上挂 onload 是没啥用了。</p>
+<p>这个 load事件，它的 target 是 document；但是它的 <strong>propagation path</strong> 只有 window！！！ 也就是说这个 load事件 传播到 window，没有然后了。可能由于历史原因，body上的 onload处理，实际是放到了 window 上面；而在其他元素上挂 onload 是没啥用了。</p>
 <p>按理来说，你好歹，这个 load事件，从 window-&gt;document-&gt;window，经历三阶段；实际只有 eventPhase===2，这个阶段。</p>
 <h2 id="load实验"><a href="#load实验" class="headerlink" title="load实验"></a>load实验</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> e1 = <span class="keyword">new</span> Event(<span class="string">'load'</span>, &#123;</span><br><span class="line">	bubbles: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'window: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'d: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.documentElement.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'d-html: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'load'</span>, e=&gt;&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'d-body: '</span>, e);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.dispatchEvent(e1);</span><br></pre></td></tr></table></figure>
 <p>我这个 e1 是没有传播到 window。还得搞一搞。</p>
@@ -115,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjr5qovzp0002h4v9f75ktvu9" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjr5qqvar00020wv9bnsezb83" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events-load/">events load</a></li></ul>
@@ -197,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjr5qow060007h4v9vhrjci3r" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjr5qqvb800070wv9twjibcdi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -251,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjr5qovzw0004h4v9d7dlbihy" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjr5qqvaw00040wv9z9kqu2ub" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -345,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjr5qow37001nh4v9niqndzfs" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjr5qqvdd00100wv93f8262pk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -415,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjr5qow23000vh4v9iostz4o8" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjr5qqvbu000e0wv9m5521unz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -461,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjr5qow22000uh4v90ni6vtnx" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjr5qqvd7000v0wv9qi4eoipn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -553,7 +553,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjr5qow38001oh4v9b01wwcxa" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjr5qqve9001p0wv9vs2xk75b" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -624,7 +624,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjr5qow2e0015h4v9mfpzb2a9" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjr5qqvdl001b0wv97703hatr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -706,7 +706,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjr5qow280011h4v9hps4z27v" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjr5qqvdi00180wv9ssr08b41" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
@@ -751,7 +751,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjr5qow2g0018h4v94apxur7h" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjr5qqvdn001e0wv90qs9lws3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
