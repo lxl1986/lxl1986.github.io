@@ -131,7 +131,7 @@
 <li><p>deltaX上限多少？就是每次加上去都不会过头。</p>
 </li>
 </ul>
-<p>也就是每次 goLeft 都满足表达式 x + deltaX &lt;= 2L-W。<br>我们先简化一下 跳转条件，还是用原来的，<code>demo.scrollLeft &gt;= listA.offsetWidth</code>，即 x 大于等于 L 时，就需要减去 L，然后再计算上面的表达式。</p>
+<p>也就是每次 goLeft 都满足表达式 <em>x + deltaX &lt;= 2L-W</em>。<br>如果用 <code>demo.scrollLeft &gt;= BOUNDARY</code>，会很复杂。我们就简化一下，还是用原来的，<code>demo.scrollLeft &gt;= listA.offsetWidth</code>，即 x 大于等于 L 时，就需要减去 L，然后再计算上面的表达式。</p>
 <p>假设：<br>x<sub>m-1</sub> &lt; L,<br>x<sub>m</sub> &gt;= L,<br>其中 x<sub>0</sub>=0，x<sub>n</sub> = x<sub>n-1</sub> + deltaX，</p>
 <p>由于 x<sub>m</sub> 满足跳转条件，此时 x=x<sub>m</sub> - L，</p>
 <p>(x<sub>m</sub> - L) + deltaX &lt;= 2L-W, 令 x<sub>m</sub>=2L-W，得 deltaX &lt;= L;<br>(x<sub>m-1</sub> + delataX - L) + deltaX &lt;= 2L-W, 令 x<sub>m-1</sub>=L-1，得 deltaX &lt;= L - 0.5W + 0.5</p>
@@ -146,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/24/scrollLeft/" data-id="cjrble1j4000p58v9ohdl27dl" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/24/scrollLeft/" data-id="cjrbs3fjl001bycv9yyxi6bd4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scroll/">scroll</a></li></ul>
@@ -209,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjrble1hu000458v92fcqfwzh" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjrbs3fhc0001ycv94jxwuxb7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events-load/">events load</a></li></ul>
@@ -291,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjrble1ih000958v9e1bzgz6k" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjrbs3fi60009ycv9im4c7h6t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -345,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjrble1i3000658v9szowuemz" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjrbs3fhz0006ycv93cmh4ex6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -439,7 +439,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjrble1kb001n58v9ai3j3hcj" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjrbs3fjf0015ycv9gebbp5ht" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -509,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjrble1iz000g58v90bh6eetd" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjrbs3fij000fycv9ry0ks3vo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -555,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjrble1j0000i58v97i5v5kcz" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjrbs3fil000hycv9p3zgesan" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -647,7 +647,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjrble1kd001p58v9znxliawh" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjrbs3fji0018ycv9173ayal3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -718,7 +718,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjrble1ja000w58v9ce3bqvyr" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjrbs3fjr001gycv95eq5eg1j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -800,7 +800,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjrble1j6000s58v94rgiibr3" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjrbs3fjn001dycv9n6aj66t6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>

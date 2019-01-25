@@ -17,7 +17,7 @@
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://lxl1986.github.io/2019/01/24/scrollLeft/d1.svg">
 <meta property="og:image" content="https://lxl1986.github.io/2019/01/24/scrollLeft/d2.svg">
-<meta property="og:updated_time" content="2019-01-25T05:47:43.592Z">
+<meta property="og:updated_time" content="2019-01-25T08:23:12.105Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="scrollLeft">
 <meta name="twitter:description" content="闲来无事。发现自己没有……没有……没有亲手写过 无缝滚动 ！！！ ZZ 一样的混等。 scrollLeft123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778">
@@ -133,7 +133,7 @@
 <li><p>deltaX上限多少？就是每次加上去都不会过头。</p>
 </li>
 </ul>
-<p>也就是每次 goLeft 都满足表达式 x + deltaX &lt;= 2L-W。<br>我们先简化一下 跳转条件，还是用原来的，<code>demo.scrollLeft &gt;= listA.offsetWidth</code>，即 x 大于等于 L 时，就需要减去 L，然后再计算上面的表达式。</p>
+<p>也就是每次 goLeft 都满足表达式 <em>x + deltaX &lt;= 2L-W</em>。<br>如果用 <code>demo.scrollLeft &gt;= BOUNDARY</code>，会很复杂。我们就简化一下，还是用原来的，<code>demo.scrollLeft &gt;= listA.offsetWidth</code>，即 x 大于等于 L 时，就需要减去 L，然后再计算上面的表达式。</p>
 <p>假设：<br>x<sub>m-1</sub> &lt; L,<br>x<sub>m</sub> &gt;= L,<br>其中 x<sub>0</sub>=0，x<sub>n</sub> = x<sub>n-1</sub> + deltaX，</p>
 <p>由于 x<sub>m</sub> 满足跳转条件，此时 x=x<sub>m</sub> - L，</p>
 <p>(x<sub>m</sub> - L) + deltaX &lt;= 2L-W, 令 x<sub>m</sub>=2L-W，得 deltaX &lt;= L;<br>(x<sub>m-1</sub> + delataX - L) + deltaX &lt;= 2L-W, 令 x<sub>m-1</sub>=L-1，得 deltaX &lt;= L - 0.5W + 0.5</p>
@@ -148,7 +148,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/24/scrollLeft/" data-id="cjrble1j4000p58v9ohdl27dl" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/24/scrollLeft/" data-id="cjrbs3fjl001bycv9yyxi6bd4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scroll/">scroll</a></li></ul>
