@@ -99,18 +99,18 @@
 <h2 id="分析一下"><a href="#分析一下" class="headerlink" title="分析一下"></a>分析一下</h2><p>我们这里用 scrollLeft 来实现。分析清楚以后，offsetLeft细节虽然不同，但道理是一样。</p>
 <img src="/2019/01/24/scrollLeft/d1.svg" class="示意1">
 <ol>
-<li>假设容器宽度为 W，内容宽度为 L。（满足 L &gt; W，我觉得 L &lt;= W 没必要无缝滚动，你非要滚动请自行设计。)<br>假设容器的scrollLeft值为 x，开始，x = 0；然后 x 不停增加，一直移动到右边 x = L - W（滚不动了，x大于 L-W，也会被设置为 L-W）。<br>x ∈ [0, L-W] ⊂ N。</li>
-</ol>
+<li><p>假设容器宽度为 <span style="background-color:deeppink;color:white;">&emsp;W&emsp;</span>，内容宽度为 <span style="background-color:red;color:white;">&emsp;L&emsp;</span>。（满足 L &gt; W，我觉得 L &lt;= W 没必要无缝滚动，你非要滚动请自行设计。)<br>假设容器的scrollLeft值为 x，开始，x = 0；然后 x 不停增加，一直移动到右边 x = L - W（滚不动了，x大于 L-W，也会被设置为 L-W）。<br>x ∈ [0, L-W] ⊂ N。</p>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft" target="_blank" rel="noopener">Element.scrollLeft</a>，那个rtl我在 Chrome 71.0.3578.98 测试，和描述不符。不兼容吧。我们这里不要理会 rtl。 </li>
 </ul>
-<ol start="2">
-<li>我们要的效果</li>
+</li>
+<li><p>我们要的效果</p>
+</li>
 </ol>
 <img src="/2019/01/24/scrollLeft/d2.svg" class="示意2">
 <p>为了能让红色块滚出去，我们把它复制一份，蓝色的。 此时 x ∈ [0, 2L-W]。</p>
 <p>显然，开始x=0，不断增加 x，内容就向左滚动了，当 x&gt;=L 时，红色块滚了出去，显示的是蓝色块部分内容。关键是，蓝色块和红色块的长相是一样的。如果我们滚出了红色块，进入了蓝色块，我们只要马上跳转到相应的红色块位置即可。</p>
-<p><strong>当 x ∈ [L, 2L-W]，显示的是蓝色块。 显示范围对应于 [x, x+W-1]，由于周期性，它与 [x-L, (x+W-1)-L] 显示完全一样。</strong></p>
+<p><strong>当 x ∈ [L, 2L-W]，显示的是蓝色块。 显示范围对应于 [x, x+W-1]，由于周期性，它与 [x-L, (x+W-1)-L] 显示完全一样。</strong> 这就是无缝而动的本质。</p>
 <p>那么这一句跳回去，<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(demo.scrollLeft &gt;= listA.offsetWidth) &#123;</span><br><span class="line">		demo.scrollLeft -= listA.offsetWidth;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以改为<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> L = listA.offsetWidth;</span><br><span class="line"><span class="keyword">const</span> W = demo.clientWidth;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MIN = L;</span><br><span class="line"><span class="keyword">const</span> MAX = <span class="number">2</span>*L - W;</span><br><span class="line"><span class="keyword">const</span> RANGE = MAX - MIN;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 跳转条件</span></span><br><span class="line"><span class="keyword">const</span> BOUNDARY = MIN + <span class="built_in">Math</span>.round(RANGE * <span class="built_in">Math</span>.random());</span><br><span class="line"><span class="keyword">if</span>(demo.scrollLeft &gt;= BOUNDARY) &#123;</span><br><span class="line">		demo.scrollLeft -= listA.offsetWidth;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="动起来？"><a href="#动起来？" class="headerlink" title="动起来？"></a>动起来？</h2><ol start="3">
@@ -133,19 +133,20 @@
 </ul>
 <p>也就是每次 goLeft 都满足表达式 x + deltaX &lt;= 2L-W。<br>我们先简化一下 跳转条件，还是用原来的，<code>demo.scrollLeft &gt;= listA.offsetWidth</code>，即 x 大于等于 L 时，就需要减去 L，然后再计算上面的表达式。</p>
 <p>假设：<br>x<sub>m-1</sub> &lt; L,<br>x<sub>m</sub> &gt;= L,<br>其中 x<sub>0</sub>=0，x<sub>n</sub> = x<sub>n-1</sub> + deltaX，</p>
-<p>由于 x<sub>m</sub> 满足跳转条件，x=x<sub>m</sub> - L，<br>此时计算</p>
+<p>由于 x<sub>m</sub> 满足跳转条件，此时 x=x<sub>m</sub> - L，</p>
 <p>(x<sub>m</sub> - L) + deltaX &lt;= 2L-W, 令 x<sub>m</sub>=2L-W，得 deltaX &lt;= L;<br>(x<sub>m-1</sub> + delataX - L) + deltaX &lt;= 2L-W, 令 x<sub>m-1</sub>=L-1，得 deltaX &lt;= L - 0.5W + 0.5</p>
-<p>此时 deltaX = x<sub>m</sub> - x<sub>m-1</sub> = L - W + 1</p>
-<p>所以 当 deltaX &lt;= L-W+1 时，是有效的；而当 deltaX &lt;= 2L-W是合理的，因为 scrollLeft 有自己的上限。</p>
+<p>同时 deltaX = x<sub>m</sub> - x<sub>m-1</sub> = (2L-W) - (L-1) = L - W + 1</p>
+<p>所以 当 deltaX 小于 L-W+1 时，是有效的；而当 deltaX 小于 2L-W 时，是合理的。因为 scrollLeft 有自己的上限。</p>
 <ol start="4">
-<li>我们取 deltaX 为个位数就行了。频率取值大于24，小于60即可。 即16ms &lt; deltaT &lt; 42ms。</li>
+<li>怎么动起来？我们取 deltaX 为个位数就行了，一般 L 都要比 W 大。频率取值大于24（人眼？），小于60（显示器刷新？）即可。 即16ms &lt; deltaT &lt; 42ms。若 deltaT=25，deltaX=4，大概每秒能移动160距离。当 deltaT不变时，deltaX变化就能调整速度，比如 <code>deltaX=10</code> 或者 <code>deltaX=Math.round((L-W+1)*Math.random())</code>;</li>
 </ol>
+<p>然后， setInterval(goLeft, deltaT) 就完事了。</p>
 <p>向右，向上，向下，斜着滚动，都可以做同样的分析。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/24/scrollLeft/" data-id="cjra1t9g5000lrsv9ce83pfqf" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/24/scrollLeft/" data-id="cjrble1j4000p58v9ohdl27dl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scroll/">scroll</a></li></ul>
@@ -208,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjra1t9f30002rsv95q2nqigo" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/21/a-little-note-about-load-event/" data-id="cjrble1hu000458v92fcqfwzh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events-load/">events load</a></li></ul>
@@ -290,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjra1t9fj0008rsv9d8izd8h2" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/18/event-fired/" data-id="cjrble1ih000958v9e1bzgz6k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -344,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjra1t9fa0005rsv9sstnkyge" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/17/checkbox-notes/" data-id="cjrble1i3000658v9szowuemz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/events/">events</a></li></ul>
@@ -438,7 +439,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjra1t9hr001nrsv9qd71lz0v" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/07/funargs/" data-id="cjrble1kb001n58v9ai3j3hcj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -508,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjra1t9g1000hrsv9d9sm8z01" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2019/01/03/key-key/" data-id="cjrble1iz000g58v90bh6eetd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cryptography/">cryptography</a></li></ul>
@@ -554,7 +555,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjra1t9fx000frsv9nlzmi05e" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/28/nginx-proxy/" data-id="cjrble1j0000i58v97i5v5kcz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/server/">server</a></li></ul>
@@ -646,7 +647,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjra1t9ht001prsv9fpbzbsef" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/24/notes-on-async-await/" data-id="cjrble1kd001p58v9znxliawh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -717,7 +718,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjra1t9g9000rrsv9arst0gxt" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/sync-and-async/" data-id="cjrble1ja000w58v9ce3bqvyr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -799,7 +800,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjra1t9go000xrsv9mg59ni9g" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjrble1j6000s58v94rgiibr3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
