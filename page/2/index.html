@@ -72,6 +72,88 @@
       <div class="outer">
         <section id="main">
   
+    <article id="usage-ssh" class="article article-type-usage" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/21/ssh/" class="article-date">
+  <time datetime="2018-12-21T01:17:37.000Z" itemprop="datePublished">2018-12-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/21/ssh/">ssh</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ssh-的一点使用记录"><a href="#ssh-的一点使用记录" class="headerlink" title="ssh 的一点使用记录"></a>ssh 的一点使用记录</h1><p>最近一直玩手游，看小说。估计快<strong>修仙</strong>了。废了。不过也抽空买了个 阿里云ecs，补习JS，准备捣鼓一下。</p>
+<h2 id="操作，遂记录如下。"><a href="#操作，遂记录如下。" class="headerlink" title="操作，遂记录如下。"></a>操作，遂记录如下。</h2><ol>
+<li>配置不提，系统选的是<em>CentOS</em>。拿到公网IP，（是否通过企业级NAT，管不了那么多了。）能连接就行了。</li>
+<li>我怎么弄得root初始密码，也记不清了。哎，拖到今天，不能复现当时情况了。应该是 阿里云的控制台 重置的吧。</li>
+</ol>
+<ul>
+<li>网页也可以登录，从控制台那里找到实例，远程连接。需要输入六位的网页密码，第一次登录会给你。也可以重置，手机验证。然后是网页中的黑屏，输入用户名，密码即可。（似乎在console看到了WebSocket。）</li>
+<li>windows下可以用 putty，ssh登录，端口22是默认开启的。如果你当时选系统Windows，可以用远程桌面连接，端口3389默认开启的。</li>
+</ul>
+<ol start="3">
+<li>ssh的密码登录不提，我这里想使用的是 Public Key登录。</li>
+</ol>
+<ul>
+<li>生成秘钥。 安不安全不提，无所谓在哪里生成 秘钥，关键是要拿到自己手里。你可以在自己的机器上生成。我是在密码登录了远程机，然后生成的。<ul>
+<li>直接 <code>ssh-keygen</code>，连 -t rsa 都不用。</li>
+<li>一路回车，如果你需要给 Private Key 设置密码，你就设置一个记住就行。</li>
+<li>完事后就得到 Key Pair（Public Key 和 Private Key），默认就是 .ssh/id_rsa.pub，.ssh/id_rsa 两个文件。 我是在远程机上操作的（不推荐），我把这两文件赶紧弄到我本地机子上藏了起来。</li>
+</ul>
+</li>
+<li>把公钥弄到远程机上。我本来就在远程机上生成的，这一步倒是免了。win7可以用putty带的psftp传。<ul>
+<li>在远程机器上，把 id_rsa.pub 放到你的 /home/你的用户名/.ssh文件夹。难道你想放到别人的 .ssh目录中？</li>
+<li>然后 把 id_rsa.pub 的内容追加到 authorized_keys 文件中。如果不存在就建立。 <code>touch authorized_keys</code>。操作都在你的 .ssh目录。</li>
+<li>可以说就完了。就这么简单。 我然后把id_rsa.pub删除了，这都随你。我也没啥经验。</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>远程机的管理员需要设置。</li>
+</ol>
+<ul>
+<li>在<strong>/etc/ssh/sshd_config</strong>，设置PubkeyAuthentication yes。</li>
+<li>service sshd reload。 重载ssh服务配置。</li>
+</ul>
+<blockquote>
+<p>普通用户就是上面第3步。没其他多余操作。需要注意的是 .ssh目录的权限要设置为700，authorized_keys文件， u权限rw, g和o权限最多r，设置为600即可。具体man sshd（我没看过）。</p>
+</blockquote>
+<h2 id="该连接了，我是用的手机"><a href="#该连接了，我是用的手机" class="headerlink" title="该连接了，我是用的手机"></a>该连接了，我是用的手机</h2><ol>
+<li>方法一，我就打开了 阿里云app，进入控制台，选择ssh工具，添加主机，设置秘钥对连接，但是死活登录不上去。</li>
+<li>方法二，后来，我进入app，控制台，在我的云产品中选择云服务器ECS，右侧的三个小点点，点击有ssh连接，用秘钥对连接，然后就连上了。</li>
+<li>从此以后用方法一也可以连上了。</li>
+</ol>
+<blockquote>
+<p>这是什么骚操作，我也理解不了。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2018/12/21/ssh/" data-id="cjrh62ebp000wrkv9ejvvgbqx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-the-coming-plan" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/02/the-coming-plan/" class="article-date">
@@ -105,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjrbs3fjs001hycv9nd4k67vh" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/08/02/the-coming-plan/" data-id="cjrh62ebw0012rkv9rkln3voz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -184,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjrbs3fin000lycv9mlk1h6fq" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/19/runtime-JavaScript/" data-id="cjrh62ebg000jrkv90msyztix" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -290,7 +372,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjrbs3fh70000ycv93xzgj7g9" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/17/JavaScript-prototype/" data-id="cjrh62e9b0000rkv9ekfb8a0c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -400,7 +482,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjrbs3fjc0013ycv9err8ydtj" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/13/abstract-of-JavaScript/" data-id="cjrh62ecy001prkv9qq8gfkra" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -441,7 +523,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjrbs3fim000iycv9kmi7lr1a" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/10/register/" data-id="cjrh62ebe000hrkv9r16e1qs8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
@@ -523,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjrbs3fho0005ycv9cgsuk0wm" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/css-selector-thing/" data-id="cjrh62eao0008rkv98uu62dnk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/selector/">selector</a></li></ul>
@@ -580,7 +662,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjrbs3fjv001lycv99wg348y9" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/07/04/var/" data-id="cjrh62ebx0014rkv9nio4w0ln" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
@@ -619,7 +701,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjrbs3fif000bycv9tbku3y1w" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/27/height-thing/" data-id="cjrh62eb0000brkv91hz5tf7q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/height/">height</a></li></ul>
@@ -739,7 +821,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjrbs3fjp001fycv9cn7pbev0" class="article-share-link">Share</a>
+      <a data-url="https://lxl1986.github.io/2018/06/26/sth-about-css-vp/" data-id="cjrh62ebr000xrkv921kb3per" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/viewport/">viewport</a></li></ul>
@@ -751,56 +833,11 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/25/hello-world/" class="article-date">
-  <time datetime="2018-06-25T10:38:32.902Z" itemprop="datePublished">2018-06-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lxl1986.github.io/2018/06/25/hello-world/" data-id="cjrbs3fii000dycv9amlnb6vf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -821,7 +858,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cryptography/">cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events/">events</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events-load/">events load</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scroll/">scroll</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/animation/">animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cryptography/">cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events/">events</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events-load/">events load</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scroll/">scroll</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
     </div>
   </div>
 
@@ -831,7 +868,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 13.33px;">events</a> <a href="/tags/events-load/" style="font-size: 10px;">events load</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/scroll/" style="font-size: 10px;">scroll</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/animation/" style="font-size: 10px;">animation</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 13.33px;">events</a> <a href="/tags/events-load/" style="font-size: 10px;">events load</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/scroll/" style="font-size: 10px;">scroll</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
     </div>
   </div>
 
@@ -853,6 +890,10 @@
       <ul>
         
           <li>
+            <a href="/2019/01/29/tween-haha/">tween, haha</a>
+          </li>
+        
+          <li>
             <a href="/2019/01/24/scrollLeft/">scrollLeft</a>
           </li>
         
@@ -866,10 +907,6 @@
         
           <li>
             <a href="/2019/01/17/checkbox-notes/">checkbox notes</a>
-          </li>
-        
-          <li>
-            <a href="/2019/01/07/funargs/">funargs</a>
           </li>
         
       </ul>

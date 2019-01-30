@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>tween, haha | Just Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="小说爽文看完了，索然无味。学习一下JS动画吧。 抬头一看，还挺麻烦。（因为怕麻烦，在家好几天没吃顿正经饭，吃的干粮。） 123456789101112131415161718192021222324252627282930/** 提取几个函数来看看* b为初始值，c为变化量。（比如可以变化高度，b初始为100，需要动画到50，c就是-50变化总量。）* t，d是时间，但按帧数比较容易理解。假设d表">
+<meta name="keywords" content="animation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tween, haha">
+<meta property="og:url" content="https://lxl1986.github.io/2019/01/29/tween-haha/index.html">
+<meta property="og:site_name" content="Just Blog">
+<meta property="og:description" content="小说爽文看完了，索然无味。学习一下JS动画吧。 抬头一看，还挺麻烦。（因为怕麻烦，在家好几天没吃顿正经饭，吃的干粮。） 123456789101112131415161718192021222324252627282930/** 提取几个函数来看看* b为初始值，c为变化量。（比如可以变化高度，b初始为100，需要动画到50，c就是-50变化总量。）* t，d是时间，但按帧数比较容易理解。假设d表">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://lxl1986.github.io/2019/01/29/tween-haha/func1.png">
+<meta property="og:updated_time" content="2019-01-30T02:23:21.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tween, haha">
+<meta name="twitter:description" content="小说爽文看完了，索然无味。学习一下JS动画吧。 抬头一看，还挺麻烦。（因为怕麻烦，在家好几天没吃顿正经饭，吃的干粮。） 123456789101112131415161718192021222324252627282930/** 提取几个函数来看看* b为初始值，c为变化量。（比如可以变化高度，b初始为100，需要动画到50，c就是-50变化总量。）* t，d是时间，但按帧数比较容易理解。假设d表">
+<meta name="twitter:image" content="https://lxl1986.github.io/2019/01/29/tween-haha/func1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Just Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Just Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">None</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lxl1986.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tween-haha" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/29/tween-haha/" class="article-date">
+  <time datetime="2019-01-29T02:34:37.000Z" itemprop="datePublished">2019-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      tween, haha
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小说爽文看完了，索然无味。学习一下JS动画吧。</p>
+<p>抬头一看，还挺麻烦。（因为怕麻烦，在家好几天没吃顿正经饭，吃的干粮。）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 提取几个函数来看看</span></span><br><span class="line"><span class="comment">* b为初始值，c为变化量。（比如可以变化高度，b初始为100，需要动画到50，c就是-50变化总量。）</span></span><br><span class="line"><span class="comment">* t，d是时间，但按帧数比较容易理解。假设d表示动画总帧数，t就是第t帧。每一帧所用的时间加起来就是动画总时间。哈哈，还是扯蛋到时间上了。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Linear</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> c*t/d + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadIn</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> c*(t/=d)*t + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadOut</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> -c*(t/=d)*(t<span class="number">-2</span>) + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 此处省略多行</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">BackIn</span>(<span class="params">t, b, c, d, s</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(s == <span class="literal">undefined</span>) s = <span class="number">1.70158</span>;</span><br><span class="line">	<span class="keyword">return</span> c*(t/=d)*t( (s+<span class="number">1</span>)*t - s ) + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 此处省略几行</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>废话不多说，直接上图。图呢？还没画好。稍等我去下载一个 <a href="http://www.gnuplot.info/download.html" target="_blank" rel="noopener">gnuplot</a>。啥也不会。</p>
+<img src="/2019/01/29/tween-haha/func1.png" title="func1">
+<p>（图片暂时只能凑合。和我想画出来的还有些出入。要想写MathML好像还不行，没用过。麻烦，先不折腾了。）</p>
+<!-- <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <interval closure="closed"><cn>0</cn><cn>1</cn></interval>
+</math> -->
+<p>我们需要构造一个函数 <strong>t &#x21a6; s</strong>，<em>t ∈ [0, d]，s ∈ R</em>，并且还得满足 <em>0 &#x21a6; b</em> 和 <em>d &#x21a6; b+c</em>。也就是初始（t=0）值为 b，结束（t=d) 值为 b+c。</p>
+<p>当然，我们用的时候还需要离散化。t取值 0， 1， 2， …， d。</p>
+<p>验证上面 <code>Linear(0, b, c, d) = b, Linear(d, b, c, d) = b+c; BackIn(0, b, c, d, s) = b, BackIn(d, b, c, d, s) = b+c</code>。</p>
+<p>不过上面的写法看起来有点猥琐。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadIn</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> c*(t/=d)*t + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实就是<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadIn</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> c*(t/d)*(t/d) + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>动画前，b，c，d都应该确定好。所以上面的函数其实只有一个“真参数” t。（不排除，途中，修改了其他参数，不过这就产生另一个新的函数了。）</p>
+<p>设 k = t/d，则 t = kd。这个函数就是 <strong>k &#x21a6; t</strong>，<em>k ∈ [0, 1]，t ∈ [0, d]</em>，而且 t=kd。 这和上面的函数 <strong>t &#x21a6; s</strong> 复合一下，就产生新函数 <strong>k &#x21a6; s</strong>，<em>k ∈ [0, 1]，s ∈ R</em>，并且还得满足 <em>0 &#x21a6; b</em> 和 <em>1 &#x21a6; b+c</em>。好像也没什么卵用。</p>
+<p>我瞅了一眼<em>tween.js</em>中这一部分，它应该是这么弄得。（意思一下，源码不是这样）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadIn_k</span>(<span class="params">k</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> k*k;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*大概意思*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadIn</span>(<span class="params">t，b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> c * QuadIn_k(t/d) + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修正量 b，c和 k 隔离开了。</p>
+<p>说了这么多，我也不知道在讲什么。关键其实是如何构造一个函数？</p>
+<p>那我就随便构造一个吧。弄个抛物线吧，取 d/3为对称轴，过 (0, b) (d, b+c)。经过艰苦计算得出（老了，一个抛物线算了一个小时）</p>
+<p><strong>t &#x21a6; 3*c/d/d*(t-d/3)^2 + b - c/3</strong></p>
+<p><strong>t &#x21a6; -3*c/d/d*(t-d/3)^2 + b + c/3</strong></p>
+<p>我们随便娶一个<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">QuadFun_1_3</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">3</span>*c/d/d*(t-d/<span class="number">3</span>)*(t-d/<span class="number">3</span>) + b - c/<span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>谈不上构造，你只要想办法把弄条曲线，通过 (0, b) (d, b+c) 就行了。</p>
+<ul>
+<li>比如 Linear 就是条直线。</li>
+<li>比如 QuadIn 就是对称轴为s轴的抛物线。</li>
+<li>……</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>tween<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined">	    </span></span><br><span class="line"><span class="undefined">	    #test &#123;</span></span><br><span class="line"><span class="undefined">	        width: 500px;</span></span><br><span class="line"><span class="undefined">	        height: 500px;</span></span><br><span class="line"><span class="undefined">	        background-color: lightgreen;</span></span><br><span class="line"><span class="undefined">	        position: absolute;</span></span><br><span class="line"><span class="undefined">	        left: 500px;</span></span><br><span class="line"><span class="undefined">	        top: 200px;</span></span><br><span class="line"><span class="undefined">	    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">	    #test &gt; div &#123;</span></span><br><span class="line"><span class="undefined">	        position: absolute;</span></span><br><span class="line"><span class="undefined">	        background-color: red;</span></span><br><span class="line"><span class="undefined">	        width: 3px;</span></span><br><span class="line"><span class="undefined">	        height: 3px;</span></span><br><span class="line"><span class="undefined">	    &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"go"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"test"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>	</span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">	    <span class="function"><span class="keyword">function</span> <span class="title">ElasticEaseIn</span>(<span class="params">t,b,c,d,a,p</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">if</span> (t==<span class="number">0</span>) <span class="keyword">return</span> b;  </span></span><br><span class="line"><span class="javascript">	        <span class="keyword">if</span> ((t/=d)==<span class="number">1</span>) <span class="keyword">return</span> b+c;  </span></span><br><span class="line"><span class="javascript">	        <span class="keyword">if</span> (!p) p=d*<span class="number">.3</span>;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">if</span> (!a || a &lt; <span class="built_in">Math</span>.abs(c)) &#123; a=c; <span class="keyword">var</span> s=p/<span class="number">4</span>; &#125;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">else</span> <span class="keyword">var</span> s = p/(<span class="number">2</span>*<span class="built_in">Math</span>.PI) * <span class="built_in">Math</span>.asin (c/a);</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">return</span> -(a*<span class="built_in">Math</span>.pow(<span class="number">2</span>,<span class="number">10</span>*(t-=<span class="number">1</span>)) * <span class="built_in">Math</span>.sin( (t*d-s)*(<span class="number">2</span>*<span class="built_in">Math</span>.PI)/p )) + b;	    </span></span><br><span class="line"><span class="undefined">	    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">	    <span class="function"><span class="keyword">function</span> <span class="title">backIn</span>(<span class="params">t, b, c, d, s</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">if</span>(s===<span class="literal">undefined</span>) s=<span class="number">1.70158</span>;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">return</span> c*(t/d)*(t/d)*((s+<span class="number">1</span>)*(t/d)-s) + b;</span></span><br><span class="line"><span class="undefined">	    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">		<span class="comment">// 随便搞一个函数</span></span></span><br><span class="line"><span class="javascript">	    <span class="function"><span class="keyword">function</span> <span class="title">QuadFun_1_3</span>(<span class="params">t, b, c, d</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">return</span> <span class="number">3</span>*c/d/d*(t-d/<span class="number">3</span>)*(t-d/<span class="number">3</span>) + b - c/<span class="number">3</span>;</span></span><br><span class="line"><span class="undefined">	    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> t = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> b = <span class="number">0</span>;</span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> c = <span class="number">400</span>;</span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> d = <span class="number">60</span>;</span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> result = [];</span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> raf;</span></span><br><span class="line"><span class="javascript">	    <span class="keyword">var</span> raf = requestAnimationFrame(<span class="function"><span class="keyword">function</span> <span class="title">chuizi</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">	        <span class="keyword">var</span> div;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">	        <span class="keyword">if</span>(t &lt;= d) &#123;</span></span><br><span class="line"><span class="undefined">	            p = QuadFun_1_3(t, b, c, d);</span></span><br><span class="line"><span class="javascript">	            result.push(&#123;<span class="attr">t</span>: t, <span class="attr">T</span>: <span class="built_in">Date</span>.now(), <span class="attr">p</span>: p&#125;);</span></span><br><span class="line"><span class="javascript">	            div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span></span><br><span class="line"><span class="javascript">	            div.style.left = <span class="number">6</span>*t + <span class="string">"px"</span>;</span></span><br><span class="line"><span class="javascript">	            div.style.top = p + <span class="string">"px"</span>;</span></span><br><span class="line"><span class="undefined">	            test.appendChild(div);            </span></span><br><span class="line"><span class="undefined">	            </span></span><br><span class="line"><span class="undefined">	            t++;</span></span><br><span class="line"><span class="undefined">	            requestAnimationFrame(chuizi);</span></span><br><span class="line"><span class="undefined">	        &#125;          </span></span><br><span class="line"><span class="undefined">	    &#125;);</span></span><br><span class="line"><span class="undefined">	</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>用js库的时候，就可以自己选个合适的 <em>动画函数</em> 塞进去。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lxl1986.github.io/2019/01/29/tween-haha/" data-id="cjrh62ebn000urkv9338dy3gx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/animation/">animation</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/24/scrollLeft/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">scrollLeft</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/execution-context/">execution context</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/prototype/">prototype</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/animation/">animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cryptography/">cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events/">events</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/events-load/">events load</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/height/">height</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scroll/">scroll</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/selector/">selector</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/viewport/">viewport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不知所云/">不知所云</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/animation/" style="font-size: 10px;">animation</a> <a href="/tags/cryptography/" style="font-size: 10px;">cryptography</a> <a href="/tags/css/" style="font-size: 16.67px;">css</a> <a href="/tags/events/" style="font-size: 13.33px;">events</a> <a href="/tags/events-load/" style="font-size: 10px;">events load</a> <a href="/tags/height/" style="font-size: 10px;">height</a> <a href="/tags/scroll/" style="font-size: 10px;">scroll</a> <a href="/tags/selector/" style="font-size: 10px;">selector</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/viewport/" style="font-size: 10px;">viewport</a> <a href="/tags/不知所云/" style="font-size: 13.33px;">不知所云</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/01/29/tween-haha/">tween, haha</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/24/scrollLeft/">scrollLeft</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/21/a-little-note-about-load-event/">a little note about load event</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/18/event-fired/">event fired?</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/17/checkbox-notes/">checkbox notes</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 李小利<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
